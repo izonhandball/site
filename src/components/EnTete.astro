@@ -1,0 +1,221 @@
+---
+import Icone from "./Icone.astro";
+import Logo from "./Logo.astro";
+import { getClub } from "../lib/site";
+
+interface Props {
+  actif: "accueil" | "histoire";
+}
+const { actif } = Astro.props;
+const club = await getClub();
+const base = actif === "accueil" ? "" : "/";
+const liens = [
+  { href: `${base}#une`, label: "À la une", courant: false },
+  { href: `${base}#annonces`, label: "Annonces", courant: false },
+  { href: `${base}#vie`, label: "Vie du club", courant: false },
+  { href: `${base}#equipes`, label: "Équipes", courant: false },
+  { href: "/histoire/", label: "Histoire", courant: actif === "histoire" },
+];
+---
+
+<header class="entete">
+  <a href="/" class="entete__marque">
+    <Logo taille={64} />
+    <span class="entete__nom">
+      Handball Club
+      <br />
+      <span>Izonnais</span>
+    </span>
+  </a>
+  <nav id="menu-principal" class="entete__nav" aria-label="Navigation principale">
+    {liens.map((l) => (
+      <a href={l.href} aria-current={l.courant ? "page" : undefined}>
+        {l.label}
+      </a>
+    ))}
+    <a href={club.liens.adhesion} class="btn btn--jaune entete__rejoindre-mobile">
+      Nous rejoindre
+    </a>
+  </nav>
+  <a href={club.liens.instagram} class="entete__insta" aria-label="Instagram du HBC Izon">
+    <Icone nom="instagram" taille={22} />
+  </a>
+  <a href={club.liens.adhesion} class="btn btn--jaune entete__rejoindre">
+    Nous rejoindre
+  </a>
+  <button
+    type="button"
+    class="entete__burger"
+    data-menu-bouton
+    aria-controls="menu-principal"
+    aria-expanded="false"
+    aria-label="Menu"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</header>
+
+<style>
+  .entete {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    height: 68px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--noir);
+    border-bottom: 1px solid #242424;
+  }
+  .entete__marque {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    color: var(--texte);
+  }
+  .entete__marque:hover {
+    text-decoration: none;
+    color: var(--texte);
+  }
+  .entete__marque :global(.logo) {
+    width: 48px;
+    height: 48px;
+  }
+  .entete__nom {
+    font-family: var(--f-titre);
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .entete__nom span {
+    color: var(--jaune);
+  }
+  .entete__insta {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--texte);
+  }
+  .entete__rejoindre {
+    display: none;
+  }
+
+  /* Mobile : menu déroulant */
+  .entete__nav {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    padding: 10px 20px 24px;
+    background: var(--noir);
+    border-bottom: 4px solid var(--jaune);
+  }
+  .entete__nav[data-ouvert] {
+    display: block;
+  }
+  .entete__nav a:not(.btn) {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--bordure);
+    color: var(--texte);
+    font-family: var(--f-affiche);
+    font-size: 30px;
+    text-transform: uppercase;
+  }
+  .entete__nav a[aria-current="page"] {
+    color: var(--jaune);
+  }
+  .entete__rejoindre-mobile {
+    margin-top: 18px;
+    width: 100%;
+    justify-content: center;
+  }
+  .entete__burger {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .entete__burger span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    background: var(--texte);
+  }
+  .entete__burger span:first-child {
+    background: var(--jaune);
+  }
+  .entete__burger span:last-child {
+    width: 18px;
+  }
+
+  @media (min-width: 900px) {
+    .entete {
+      height: 92px;
+      padding: 0 var(--gouttiere);
+      gap: 30px;
+    }
+    .entete__marque {
+      flex-grow: 0;
+      gap: 14px;
+    }
+    .entete__marque :global(.logo) {
+      width: 64px;
+      height: 64px;
+    }
+    .entete__nom {
+      font-size: 20px;
+    }
+    .entete__nav {
+      display: flex;
+      position: static;
+      flex-grow: 1;
+      justify-content: center;
+      gap: 26px;
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+    .entete__nav a:not(.btn) {
+      padding: 6px 0;
+      border-bottom: 3px solid transparent;
+      font-family: var(--f-titre);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 1.2px;
+    }
+    .entete__nav a:not(.btn):hover,
+    .entete__nav a[aria-current="page"] {
+      color: var(--jaune);
+      border-bottom-color: var(--jaune);
+      text-decoration: none;
+    }
+    .entete__insta {
+      border: 2px solid var(--bordure-forte);
+    }
+    .entete__rejoindre {
+      display: inline-flex;
+      padding: 13px 20px;
+    }
+    .entete__rejoindre-mobile,
+    .entete__burger {
+      display: none;
+    }
+  }
+</style>

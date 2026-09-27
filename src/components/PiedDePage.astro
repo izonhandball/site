@@ -1,0 +1,113 @@
+---
+import Icone from "./Icone.astro";
+import Logo from "./Logo.astro";
+import { getClub } from "../lib/site";
+
+const club = await getClub();
+---
+
+<footer class="pied" id="contact">
+  <div class="pied__inner">
+    <div class="pied__marque">
+      <Logo taille={72} />
+      <p class="script">{club.devise}</p>
+    </div>
+    <div class="pied__colonnes">
+      <div>
+        <h2>La salle</h2>
+        <p>
+          {club.salle.nom}
+          <br />
+          {club.salle.adresse}
+        </p>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <p>
+          <a href={`mailto:${club.email}`}>{club.email}</a>
+        </p>
+        <p>
+          <a href={club.liens.ffhandball}>Fiche FFHandball</a>
+        </p>
+      </div>
+      <div>
+        <h2>Suivre</h2>
+        <p>
+          <a href={club.liens.instagram} class="pied__insta">
+            <Icone nom="instagram" taille={16} /> Instagram
+          </a>
+        </p>
+        <p>
+          <a href={club.liens.facebook}>Facebook</a>
+        </p>
+        <p>
+          <a href={club.liens.scorenco}>Résultats &amp; classements</a>
+        </p>
+        <p>
+          <a href={club.liens.boutique}>Boutique</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .pied {
+    padding: 26px var(--gouttiere) 30px;
+    background: var(--noir-profond);
+    border-top: 4px solid var(--jaune);
+  }
+  .pied__inner {
+    max-width: var(--largeur-max);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .pied__marque p {
+    margin: 14px 0 0;
+    font-size: 19px;
+    line-height: 1.5;
+  }
+  .pied__colonnes {
+    display: grid;
+    gap: 24px;
+  }
+  h2 {
+    margin: 0 0 8px;
+    font-family: var(--f-titre);
+    font-weight: 900;
+    font-size: 19px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+  p {
+    margin: 0 0 6px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--texte-discret);
+  }
+  .pied__insta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  @media (min-width: 900px) {
+    .pied {
+      padding-block: 44px 38px;
+    }
+    .pied__inner {
+      flex-direction: row;
+      gap: 46px;
+    }
+    .pied__marque {
+      width: 330px;
+      flex-shrink: 0;
+    }
+    .pied__colonnes {
+      flex-grow: 1;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 30px;
+    }
+  }
+</style>

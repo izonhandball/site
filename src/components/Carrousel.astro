@@ -1,0 +1,68 @@
+---
+import Icone from "./Icone.astro";
+
+// Carrousel horizontal à défilement natif (glisser au doigt, flèches, compteur).
+// Chaque enfant direct est une diapositive ; sa largeur vient de la variable CSS
+// --largeur-diapo (100 % par défaut), à définir sur un parent selon la taille d'écran.
+interface Props {
+  libelle: string;
+  class?: string;
+}
+const { libelle, class: classe } = Astro.props;
+---
+
+<div
+  class:list={["carrousel", classe]}
+  data-carrousel
+  role="region"
+  aria-roledescription="carrousel"
+  aria-label={libelle}
+>
+  <div class="carrousel__piste" data-piste tabindex="0">
+    <slot />
+  </div>
+  <div class="carrousel__nav">
+    <button type="button" class="btn-carre" data-precedent aria-label="Précédent">
+      <Icone nom="precedent" />
+    </button>
+    <button type="button" class="btn-carre btn-carre--jaune" data-suivant aria-label="Suivant">
+      <Icone nom="suivant" />
+    </button>
+    <span class="carrousel__compteur" data-compteur aria-live="polite"></span>
+    <slot name="nav" />
+  </div>
+</div>
+
+<style>
+  .carrousel__piste {
+    display: flex;
+    gap: var(--ecart-diapo, 20px);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .carrousel__piste::-webkit-scrollbar {
+    display: none;
+  }
+  .carrousel__piste > :global(*) {
+    flex: 0 0 var(--largeur-diapo, 100%);
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  .carrousel__nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .carrousel__compteur {
+    font-family: var(--f-titre);
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: 1.4px;
+  }
+  .carrousel[data-seul] .carrousel__nav {
+    display: none;
+  }
+</style>

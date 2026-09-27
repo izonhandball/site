@@ -1,0 +1,117 @@
+---
+import Carrousel from "./Carrousel.astro";
+import Icone from "./Icone.astro";
+import Visuel from "./Visuel.astro";
+import { legende, type InstaPost } from "../lib/instagram";
+import { formatDate } from "../lib/site";
+
+// Fiche détaillée d'un post (annonce ou album de la vie du club), dans une <dialog>.
+interface Props {
+  id: string;
+  post: InstaPost;
+  precedent: string;
+  suivant: string;
+  position: string;
+}
+const { id, post, precedent, suivant, position } = Astro.props;
+const date = formatDate(post.timestamp);
+---
+
+<dialog id={id} class="fenetre fiche" aria-label={`Post du ${date}`}>
+  <div class="fiche__corps">
+    <div class="fiche__visuels">
+      {post.media.length > 1 ? (
+        <Carrousel libelle="Photos du post">
+          {post.media.map((m, j) => (
+            <Visuel
+              src={m.src}
+              alt={`Photo ${j + 1} sur ${post.media.length} du post du ${date}`}
+            />
+          ))}
+        </Carrousel>
+      ) : (
+        <Visuel src={post.media[0]?.src} alt={`Affiche publiée par @hbcizon le ${date}`} />
+      )}
+    </div>
+    <div class="fiche__texte">
+      <div class="fiche__barre">
+        <button type="button" class="btn-carre" data-ouvrir={precedent} aria-label="Post précédent">
+          <Icone nom="precedent" />
+        </button>
+        <button
+          type="button"
+          class="btn-carre btn-carre--jaune"
+          data-ouvrir={suivant}
+          aria-label="Post suivant"
+        >
+          <Icone nom="suivant" />
+        </button>
+        <span class="fiche__position">{position}</span>
+        <button type="button" class="btn fiche__fermer" data-fermer>
+          <Icone nom="fermer" /> Fermer
+        </button>
+      </div>
+      <p class="script fiche__date">Publié le {date}</p>
+      <p class="legende-post">{legende(post.caption)}</p>
+      <a href={post.permalink} class="btn btn--jaune fiche__insta">
+        <Icone nom="instagram" /> Voir sur Instagram
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .fiche {
+    --largeur-diapo: 100%;
+    --ecart-diapo: 16px;
+  }
+  .fiche__corps {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 18px;
+  }
+  .fiche__barre {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .fiche__position {
+    font-family: var(--f-titre);
+    font-weight: 900;
+    font-size: 18px;
+  }
+  .fiche__fermer {
+    margin-left: auto;
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+  .fiche__date {
+    margin: 0 0 14px;
+    font-size: 18px;
+  }
+  .fiche__insta {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+  .fiche__visuels {
+    order: 2;
+  }
+  @media (min-width: 900px) {
+    .fiche__corps {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 40px;
+      padding: 40px;
+    }
+    .fiche__visuels {
+      order: 0;
+      flex: 0 0 460px;
+    }
+    .fiche__texte {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+</style>

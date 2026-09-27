@@ -1,0 +1,155 @@
+# Decap CMS : formulaires d'édition du contenu fixe (dossier content/).
+# Chaque « Publier » crée un commit sur le dépôt, puis le site est reconstruit.
+locale: fr
+
+backend:
+  name: github
+  repo: izonhandball/site
+  branch: main
+  # Service d'authentification GitHub (Cloudflare Worker), à déployer avant la mise en ligne.
+  # base_url: https://hbcizon-oauth.<compte>.workers.dev
+  commit_messages:
+    create: "contenu : ajoute {{collection}} « {{slug}} »"
+    update: "contenu : modifie {{collection}} « {{slug}} »"
+    delete: "contenu : supprime {{collection}} « {{slug}} »"
+    uploadMedia: "contenu : ajoute l'image {{path}}"
+    deleteMedia: "contenu : supprime l'image {{path}}"
+
+# En local : `pnpm cms` dans un terminal, `pnpm dev` dans un autre, puis http://localhost:4321/admin/
+local_backend: true
+
+# Chaque modification passe en « à relire » avant publication.
+publish_mode: editorial_workflow
+
+# Noms de fichiers sans accents ni espaces (ex. « Séniors filles » → seniors-filles.yml).
+slug:
+  encoding: ascii
+  clean_accents: true
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: equipes
+    label: Équipes
+    label_singular: Équipe
+    folder: content/equipes
+    extension: yml
+    format: yml
+    create: true
+    slug: "{{nom}}"
+    identifier_field: nom
+    summary: "{{nom}}"
+    sortable_fields: [ordre, nom]
+    fields:
+      - { name: nom, label: Nom, widget: string }
+      - name: groupe
+        label: Groupe
+        widget: select
+        options:
+          - { label: "Séniors & loisir", value: adultes }
+          - { label: "Jeunes", value: jeunes }
+      - { name: ordre, label: "Ordre d'affichage", widget: number, value_type: int, hint: "Les plus petits nombres en premier." }
+      - { name: niveau, label: Niveau, widget: string, required: false, hint: "Ex. Départemental Honneur" }
+      - name: equipes
+        label: "Équipes de la fiche"
+        label_singular: équipe
+        widget: list
+        required: false
+        hint: "Seulement si la fiche regroupe plusieurs équipes (ex. séniors garçons 1 et 2)."
+        fields:
+          - { name: nom, label: Nom, widget: string }
+          - { name: niveau, label: Niveau, widget: string }
+      - { name: naissance, label: "Années de naissance", widget: string, required: false, hint: "Ex. Nés en 2012 ou 2013" }
+      - name: horaires
+        label: Entraînements
+        label_singular: créneau
+        widget: list
+        required: false
+        summary: "{{jour}} {{debut}} – {{fin}}"
+        fields:
+          - { name: jour, label: Jour, widget: select, options: [Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche] }
+          - { name: debut, label: Début, widget: string, pattern: ["^\\d{2}:\\d{2}$", "Format HH:MM, ex. 18:45"] }
+          - { name: fin, label: Fin, widget: string, pattern: ["^\\d{2}:\\d{2}$", "Format HH:MM, ex. 20:15"] }
+      - { name: entraineurs, label: "Entraîneur(s)", widget: string, required: false }
+      - { name: mention, label: "Mention en rouge", widget: string, required: false, hint: "Ex. 2 essais gratuits" }
+      - { name: photo, label: "Photo d'équipe", widget: image, required: false }
+      - { name: photoLegende, label: "Légende de la photo", widget: string, required: false }
+
+  - name: histoire
+    label: Histoire — périodes
+    label_singular: Période
+    folder: content/histoire/periodes
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{ordre}}-{{titre}}"
+    identifier_field: titre
+    summary: "{{periode}} · {{titre}}"
+    sortable_fields: [ordre]
+    fields:
+      - { name: ordre, label: "Position dans la frise", widget: number, value_type: int }
+      - { name: periode, label: "Période", widget: string, hint: "Ex. 1987 – 1995" }
+      - { name: titre, label: Titre, widget: string }
+      - { name: presidents, label: "Présidence", label_singular: président, widget: list, required: false, hint: "Ex. 1992 – 1995 · Thierry Masson" }
+      - name: archives
+        label: Archives
+        label_singular: archive
+        widget: list
+        required: false
+        fields:
+          - { name: image, label: Image, widget: image }
+          - { name: legende, label: "Légende", widget: string }
+      - { name: body, label: "Faits marquants", widget: markdown, buttons: [bold, italic, link, bulleted-list], editor_components: [], hint: "Un fait par puce." }
+
+  - name: reglages
+    label: Réglages
+    files:
+      - name: club
+        label: Le club
+        file: content/club.yml
+        fields:
+          - { name: nom, label: "Nom complet", widget: string }
+          - { name: nomCourt, label: "Nom court", widget: string }
+          - { name: fondation, label: "Année de fondation", widget: number, value_type: int }
+          - { name: devise, label: Devise, widget: string }
+          - { name: email, label: "Adresse e-mail", widget: string }
+          - name: salle
+            label: Salle
+            widget: object
+            fields:
+              - { name: nom, label: Nom, widget: string }
+              - { name: adresse, label: Adresse, widget: string }
+          - name: liens
+            label: Liens
+            widget: object
+            fields:
+              - { name: instagram, label: Instagram, widget: string }
+              - { name: facebook, label: Facebook, widget: string }
+              - { name: ffhandball, label: "Fiche FFHandball", widget: string }
+              - { name: scorenco, label: "Score'n'co", widget: string }
+              - { name: adhesion, label: "Adhésion (HelloAsso)", widget: string }
+              - { name: boutique, label: Boutique, widget: string }
+          - { name: accrocheHistoire, label: "Accroche Histoire (accueil)", widget: text }
+      - name: histoire
+        label: "Histoire — chiffres et maillots"
+        file: content/histoire/histoire.yml
+        fields:
+          - { name: intro, label: Introduction, widget: text }
+          - name: licencies
+            label: "Licenciés par saison"
+            label_singular: saison
+            widget: list
+            summary: "{{saison}} : {{nombre}}"
+            fields:
+              - { name: saison, label: Saison, widget: string, hint: "Ex. 91-92" }
+              - { name: nombre, label: "Nombre de licenciés", widget: number, value_type: int }
+              - { name: periode, label: "Période de la frise (position)", widget: number, value_type: int }
+          - name: maillots
+            label: Maillots
+            label_singular: maillot
+            widget: list
+            fields:
+              - { name: nom, label: Nom, widget: string }
+              - { name: couleurs, label: "Couleurs", widget: list, field: { name: couleur, label: Couleur, widget: color } }
+          - { name: citationMaillots, label: "Citation", widget: text, required: false }

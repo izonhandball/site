@@ -1,0 +1,7 @@
+# Le bundle de prérendu d'Astro importe `cookie` : on le hisse à la racine du projet
+# pour qu'un node_modules situé dans un dossier parent ne soit jamais utilisé à sa place.
+publicHoistPattern:
+  - cookie
+onlyBuiltDependencies:
+  - esbuild
+  - sharp

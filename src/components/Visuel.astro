@@ -1,0 +1,51 @@
+---
+import { imagePublique } from "../lib/site";
+
+// Image publique, ou emplacement réservé tant que le fichier n'existe pas
+// (images Instagram pas encore synchronisées, photo d'équipe à fournir…).
+interface Props {
+  src?: string;
+  alt: string;
+  ratio?: string;
+  vide?: string;
+  class?: string;
+  loading?: "lazy" | "eager";
+}
+const {
+  src,
+  alt,
+  ratio = "4 / 5",
+  vide = "Image à venir",
+  class: classe,
+  loading = "lazy",
+} = Astro.props;
+const chemin = imagePublique(src);
+---
+
+{chemin ? (
+  <img src={chemin} alt={alt} class={classe} loading={loading} decoding="async" />
+) : (
+  <div
+    class:list={["visuel-vide", classe]}
+    style={`aspect-ratio: ${ratio}`}
+    role="img"
+    aria-label={alt}
+  >
+    <span>{vide}</span>
+  </div>
+)}
+
+<style>
+  .visuel-vide {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    border: 2px dashed var(--bordure-forte);
+    background: repeating-linear-gradient(135deg, #151515 0 14px, #191919 14px 28px);
+    color: var(--texte-absent);
+    font-size: 15px;
+  }
+</style>

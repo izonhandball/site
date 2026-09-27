@@ -1,0 +1,276 @@
+---
+import { getCollection } from "astro:content";
+import Icone from "./Icone.astro";
+import Visuel from "./Visuel.astro";
+import { formatHeure, getClub } from "../lib/site";
+
+// Fiches équipes (content/equipes/*.yml). Une information absente s'affiche « À compléter ».
+const club = await getClub();
+const equipes = (await getCollection("equipes")).sort((a, b) => a.data.ordre - b.data.ordre);
+const groupes = [
+  { id: "adultes", label: "Séniors & loisir" },
+  { id: "jeunes", label: "Jeunes · entente Grand Libournais Handball" },
+] as const;
+const parDefaut = equipes[0]?.id;
+
+const A_COMPLETER = "À compléter";
+const lignes = (e: (typeof equipes)[number]["data"]) => {
+  const l: { label: string; valeur?: string }[] = [];
+  if (e.equipes?.length) {
+    l.push({ label: "Équipes", valeur: e.equipes.map((x) => `${x.nom} · ${x.niveau}`).join("\n") });
+  } else {
+    l.push({ label: "Niveau", valeur: e.niveau });
+  }
+  if (e.groupe === "jeunes") l.push({ label: "Années de naissance", valeur: e.naissance });
+  l.push({
+    label: "Entraînements",
+    valeur: e.horaires
+      ?.map((h) => `${h.jour} ${formatHeure(h.debut)} – ${formatHeure(h.fin)}`)
+      .join("\n"),
+  });
+  l.push({ label: "Entraîneur", valeur: e.entraineurs });
+  return l;
+};
+---
+
+<section id="equipes" class="section section--alt equipes">
+  <div class="section__inner">
+    <h2 class="titre-affiche titre-affiche--jaune">Équipes &amp; entraînements</h2>
+    <div class="equipes__infos">
+      <span>
+        <Icone nom="lieu" taille={20} />
+        Tous les entraînements ont lieu à la {club.salle.nom}, {club.salle.adresse}
+      </span>
+      <a href={`mailto:${club.email}`}>
+        <Icone nom="mail" taille={20} />
+        {club.email}
+      </a>
+    </div>
+    <div class="equipes__corps">
+      <div class="equipes__choix" role="tablist" aria-label="Équipes" data-onglets>
+        {groupes.map((g) => (
+          <div>
+            <p class="etiquette">{g.label}</p>
+            <div class="equipes__boutons">
+              {equipes
+                .filter((e) => e.data.groupe === g.id)
+                .map((e) => (
+                  <button
+                    type="button"
+                    role="tab"
+                    class="choix"
+                    id={`onglet-equipe-${e.id}`}
+                    aria-controls={`equipe-${e.id}`}
+                    aria-selected={e.id === parDefaut ? "true" : "false"}
+                    tabindex={e.id === parDefaut ? 0 : -1}
+                  >
+                    {e.data.nom}
+                  </button>
+                ))}
+            </div>
+          </div>
+        ))}
+        <p class="equipes__liens">
+          Toutes les équipes sur la <a href={club.liens.ffhandball}>fiche FFHandball</a> et les
+          classements sur <a href={club.liens.scorenco}>Score'n'co</a>.
+        </p>
+      </div>
+      {equipes.map((e) => (
+        <div
+          class="fiche-equipe"
+          role="tabpanel"
+          id={`equipe-${e.id}`}
+          aria-labelledby={`onglet-equipe-${e.id}`}
+          hidden={e.id !== parDefaut}
+        >
+          <figure class="fiche-equipe__photo">
+            <Visuel
+              src={e.data.photo}
+              alt={`Photo de l'équipe ${e.data.nom}`}
+              ratio="3 / 4"
+              vide="Photo d'équipe à fournir"
+            />
+            {e.data.photo && e.data.photoLegende && (
+              <figcaption class="script">{e.data.photoLegende}</figcaption>
+            )}
+          </figure>
+          <div class="fiche-equipe__texte">
+            <p class="fiche-equipe__groupe">
+              {e.data.groupe === "jeunes" ? "Catégorie jeunes" : "Adultes"}
+            </p>
+            <h3 class="fiche-equipe__nom">{e.data.nom}</h3>
+            <dl>
+              {lignes(e.data).map((l) => (
+                <div>
+                  <dt>{l.label}</dt>
+                  <dd class:list={{ "a-completer": !l.valeur }}>{l.valeur ?? A_COMPLETER}</dd>
+                </div>
+              ))}
+            </dl>
+            {e.data.mention && <p class="fiche-equipe__mention">{e.data.mention}</p>}
+            <p class="fiche-equipe__contact">
+              <Icone nom="mail" taille={20} />
+              Renseignements : <a href={`mailto:${club.email}`}>{club.email}</a>
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .equipes__infos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 14px 0 24px;
+    font-size: 16px;
+  }
+  .equipes__infos > * {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .equipes__infos :global(svg) {
+    color: var(--jaune);
+    flex-shrink: 0;
+  }
+  .equipes__corps {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .equipes__choix {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .equipes__choix .etiquette {
+    margin-bottom: 10px;
+  }
+  .equipes__boutons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .equipes__liens {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--texte-discret);
+  }
+  .fiche-equipe {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 18px;
+    background: var(--noir);
+    border: 1px solid var(--bordure);
+  }
+  .fiche-equipe[hidden] {
+    display: none;
+  }
+  .fiche-equipe__photo {
+    margin: 0;
+  }
+  .fiche-equipe__photo figcaption {
+    margin-top: 8px;
+    font-size: 15px;
+  }
+  .fiche-equipe__groupe {
+    margin: 0;
+    font-family: var(--f-titre);
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: var(--corail);
+  }
+  .fiche-equipe__nom {
+    margin: 6px 0 20px;
+    font-family: var(--f-affiche);
+    font-weight: 400;
+    font-size: clamp(38px, 5vw, 52px);
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+  dl {
+    margin: 0;
+  }
+  dl > div {
+    padding: 11px 0;
+    border-top: 1px solid var(--bordure);
+  }
+  dt {
+    font-family: var(--f-titre);
+    font-weight: 900;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--jaune);
+  }
+  dd {
+    margin: 3px 0 0;
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: pre-line;
+  }
+  .fiche-equipe__mention {
+    display: inline-block;
+    margin: 14px 0 0;
+    padding: 7px 12px;
+    background: var(--rouge);
+    font-family: var(--f-titre);
+    font-weight: 900;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+  .fiche-equipe__contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 22px 0 0;
+    color: var(--texte-doux);
+  }
+  .fiche-equipe__contact :global(svg) {
+    color: var(--jaune);
+  }
+  .fiche-equipe__contact a {
+    font-weight: 700;
+  }
+  @media (min-width: 900px) {
+    .equipes__infos {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 36px;
+      margin: 20px 0 30px;
+      font-size: 17px;
+    }
+    .equipes__corps {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 40px;
+    }
+    .equipes__choix {
+      flex: 0 0 330px;
+    }
+    .fiche-equipe {
+      flex: 1 1 0;
+      min-width: 0;
+      flex-direction: row;
+      gap: 30px;
+      padding: 28px;
+      min-height: 580px;
+    }
+    .fiche-equipe__photo {
+      flex: 0 0 300px;
+    }
+    .fiche-equipe__texte {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+</style>

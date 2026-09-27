@@ -1,0 +1,45 @@
+---
+import { imagePublique } from "../lib/site";
+
+// Logo du club : public/logo.png (photo de profil Instagram @hbcizon).
+// Tant que le fichier n'est pas ajouté, on affiche une pastille jaune « HBCI ».
+interface Props {
+  taille: number;
+}
+const { taille } = Astro.props;
+const src = imagePublique("/logo.png");
+---
+
+{src ? (
+  <img class="logo" src={src} alt="Logo du HBC Izon" width={taille} height={taille} />
+) : (
+  <span
+    class="logo logo--provisoire"
+    style={`width:${taille}px;height:${taille}px`}
+    role="img"
+    aria-label="Logo du HBC Izon"
+  >
+    HBC
+    <br />
+    IZON
+  </span>
+)}
+
+<style>
+  .logo {
+    border-radius: 50%;
+    background: var(--texte);
+    flex-shrink: 0;
+  }
+  .logo--provisoire {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--jaune);
+    color: var(--rouge);
+    font-family: var(--f-affiche);
+    font-size: 14px;
+    line-height: 1;
+  }
+</style>

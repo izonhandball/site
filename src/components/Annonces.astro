@@ -1,0 +1,106 @@
+---
+import Carrousel from "./Carrousel.astro";
+import FenetrePost from "./FenetrePost.astro";
+import Visuel from "./Visuel.astro";
+import { LIBELLES, categorie, titre, type InstaPost } from "../lib/instagram";
+import { formatDate } from "../lib/site";
+
+// Les 4 derniers posts #hbcirecrutement / #hbcievent.
+interface Props {
+  posts: InstaPost[];
+}
+const { posts } = Astro.props;
+const idFiche = (i: number) => `annonce-${(i + posts.length) % posts.length}`;
+---
+
+{posts.length > 0 && (
+  <section id="annonces" class="section section--alt annonces">
+    <div class="section__inner">
+      <h2 class="titre-affiche titre-affiche--jaune annonces__titre">Annonces</h2>
+      <Carrousel libelle="Annonces">
+        {posts.map((p, i) => (
+          <button type="button" class="carte" data-ouvrir={idFiche(i)}>
+            <Visuel
+              src={p.media[0]?.src}
+              alt={`Affiche publiée par @hbcizon le ${formatDate(p.timestamp)}`}
+            />
+            <span class="carte__meta">
+              {LIBELLES[categorie(p.caption)]} · {formatDate(p.timestamp)}
+            </span>
+            <span class="carte__titre">{titre(p.caption)}</span>
+            <span class="carte__lire">Lire l'annonce</span>
+          </button>
+        ))}
+      </Carrousel>
+    </div>
+    {posts.map((p, i) => (
+      <FenetrePost
+        id={idFiche(i)}
+        post={p}
+        precedent={idFiche(i - 1)}
+        suivant={idFiche(i + 1)}
+        position={`${i + 1} / ${posts.length}`}
+      />
+    ))}
+  </section>
+)}
+
+<style>
+  .annonces {
+    --largeur-diapo: 82%;
+    --ecart-diapo: 14px;
+  }
+  .annonces__titre {
+    margin-bottom: 18px;
+  }
+  .carte {
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--texte);
+  }
+  .carte__meta {
+    display: block;
+    margin-top: 12px;
+    font-family: var(--f-titre);
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--corail);
+  }
+  .carte__titre {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--f-titre);
+    font-weight: 900;
+    font-size: 21px;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+  .carte__lire {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: var(--f-titre);
+    font-weight: 900;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--jaune);
+    border-bottom: 2px solid var(--jaune);
+  }
+  .carte:hover .carte__lire {
+    color: var(--jaune-clair);
+  }
+  @media (min-width: 900px) {
+    .annonces {
+      --largeur-diapo: calc((100% - 40px) / 3);
+      --ecart-diapo: 20px;
+    }
+    .annonces__titre {
+      margin-bottom: 26px;
+    }
+  }
+</style>

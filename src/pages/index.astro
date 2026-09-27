@@ -1,0 +1,28 @@
+---
+import Base from "../layouts/Base.astro";
+import ALaUne from "../components/ALaUne.astro";
+import Annonces from "../components/Annonces.astro";
+import VieDuClub from "../components/VieDuClub.astro";
+import Equipes from "../components/Equipes.astro";
+import AccrocheHistoire from "../components/AccrocheHistoire.astro";
+import feed from "../../data/instagram/posts.json";
+import { selectionAccueil, type InstaFeed } from "../lib/instagram";
+import { getClub } from "../lib/site";
+
+const club = await getClub();
+// Le site est reconstruit à chaque synchro Instagram : « maintenant » = l'heure du build.
+const { aLaUne, annonces, vieDuClub } = selectionAccueil((feed as InstaFeed).posts, new Date());
+---
+
+<Base
+  titre={`${club.nomCourt} · ${club.nom}`}
+  description={`Site du ${club.nom} : actualités, résultats, équipes et entraînements à la ${club.salle.nom}, Izon (Gironde). Depuis ${club.fondation}.`}
+  page="accueil"
+>
+  <h1 class="sr-only">{club.nom}</h1>
+  <ALaUne items={aLaUne} />
+  <Annonces posts={annonces} />
+  <VieDuClub posts={vieDuClub} instagram={club.liens.instagram} />
+  <Equipes />
+  <AccrocheHistoire />
+</Base>

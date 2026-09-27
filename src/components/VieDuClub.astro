@@ -1,0 +1,125 @@
+---
+import FenetrePost from "./FenetrePost.astro";
+import Visuel from "./Visuel.astro";
+import { titre, type InstaPost } from "../lib/instagram";
+import { formatDate } from "../lib/site";
+
+// Les 6 derniers posts sans hashtag de pilotage.
+interface Props {
+  posts: InstaPost[];
+  instagram: string;
+}
+const { posts, instagram } = Astro.props;
+const idAlbum = (i: number) => `album-${(i + posts.length) % posts.length}`;
+---
+
+{posts.length > 0 && (
+  <section id="vie" class="section vie">
+    <div class="section__inner">
+      <div class="vie__entete">
+        <h2 class="titre-affiche">La vie du club</h2>
+        <a href={instagram} class="vie__compte">
+          @hbcizon
+        </a>
+      </div>
+      <div class="vie__grille">
+        {posts.map((p, i) => (
+          <button type="button" class="vignette" data-ouvrir={idAlbum(i)}>
+            <span class="vignette__image">
+              <Visuel
+                src={p.media[0]?.src}
+                alt={`Première photo du post du ${formatDate(p.timestamp)}`}
+              />
+              {p.media.length > 1 && <span class="vignette__nombre">{p.media.length} photos</span>}
+            </span>
+            <span class="script vignette__date">{formatDate(p.timestamp)}</span>
+            <span class="vignette__titre">{titre(p.caption)}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+    {posts.map((p, i) => (
+      <FenetrePost
+        id={idAlbum(i)}
+        post={p}
+        precedent={idAlbum(i - 1)}
+        suivant={idAlbum(i + 1)}
+        position={`Post ${i + 1} sur ${posts.length}`}
+      />
+    ))}
+  </section>
+)}
+
+<style>
+  .vie__entete {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 16px;
+  }
+  .vie__compte {
+    font-family: var(--f-titre);
+    font-weight: 900;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+  .vie__grille {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-items: start;
+  }
+  .vignette {
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--texte);
+  }
+  .vignette__image {
+    position: relative;
+    display: block;
+  }
+  .vignette__nombre {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    background: rgb(0 0 0 / 0.75);
+    font-family: var(--f-titre);
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .vignette__date {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  .vignette__titre {
+    display: block;
+    margin-top: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  @media (min-width: 900px) {
+    .vie__entete {
+      margin-bottom: 26px;
+    }
+    .vie__grille {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .vignette__date {
+      font-size: 15px;
+    }
+    .vignette__titre {
+      font-size: 16px;
+    }
+  }
+</style>

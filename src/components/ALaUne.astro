@@ -1,0 +1,184 @@
+---
+import Carrousel from "./Carrousel.astro";
+import Icone from "./Icone.astro";
+import Visuel from "./Visuel.astro";
+import { LIBELLES, legende, type ALaUne } from "../lib/instagram";
+import { formatDate, formatJourMois } from "../lib/site";
+
+// Dernier post de chaque bloc piloté (Match day, Programme, Résultats), le plus récent d'abord.
+interface Props {
+  items: ALaUne[];
+}
+const { items } = Astro.props;
+---
+
+<section id="une" class="section une">
+  <div class="section__inner">
+    {items.length === 0 ? (
+      <p class="legende-post">Pas d'actualité pour le moment : retrouvez-nous sur Instagram.</p>
+    ) : (
+      <>
+        <div class="une__onglets" role="tablist" aria-label="À la une" data-onglets>
+          {items.map((u, i) => (
+            <button
+              type="button"
+              role="tab"
+              class="choix une__onglet"
+              id={`onglet-${u.categorie}`}
+              aria-controls={`une-${u.categorie}`}
+              aria-selected={i === 0 ? "true" : "false"}
+              tabindex={i === 0 ? 0 : -1}
+            >
+              <span class="une__onglet-titre">{LIBELLES[u.categorie]}</span>
+              <span class="une__onglet-date">{formatJourMois(u.post.timestamp)}</span>
+            </button>
+          ))}
+        </div>
+        {items.map((u, i) => (
+          <div
+            class="une__panneau"
+            role="tabpanel"
+            id={`une-${u.categorie}`}
+            aria-labelledby={`onglet-${u.categorie}`}
+            hidden={i !== 0}
+          >
+            <div class="une__texte">
+              <h2 class="une__titre">{LIBELLES[u.categorie]}</h2>
+              <p class="script une__date">Publié le {formatDate(u.post.timestamp)}</p>
+              <p class="legende-post">{legende(u.post.caption)}</p>
+              <a href={u.post.permalink} class="btn une__insta">
+                <Icone nom="instagram" /> Voir sur Instagram
+              </a>
+            </div>
+            <div class="une__visuels">
+              <Carrousel libelle={`Visuels : ${LIBELLES[u.categorie]}`}>
+                {u.post.media.map((m, j) => (
+                  <Visuel
+                    src={m.src}
+                    alt={`Visuel ${j + 1} sur ${u.post.media.length} du post du ${formatDate(u.post.timestamp)}`}
+                    loading={i === 0 && j === 0 ? "eager" : "lazy"}
+                  />
+                ))}
+                <span slot="nav" class="une__vignettes">
+                  {u.post.media.map((m, j) => (
+                    <button type="button" data-aller={j} aria-label={`Afficher le visuel ${j + 1}`}>
+                      <Visuel src={m.src} alt="" vide="" />
+                    </button>
+                  ))}
+                </span>
+              </Carrousel>
+            </div>
+          </div>
+        ))}
+      </>
+    )}
+  </div>
+</section>
+
+<style>
+  .une__onglets {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 22px;
+  }
+  .une__onglet {
+    flex: 1 1 0;
+    padding: 9px 8px;
+  }
+  .une__onglet-titre {
+    display: block;
+    font-size: 15px;
+    line-height: 1;
+  }
+  .une__onglet-date {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--f-texte);
+    font-weight: 400;
+    font-size: 11px;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 0.75;
+  }
+  .une__panneau {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .une__panneau[hidden] {
+    display: none;
+  }
+  .une__titre {
+    margin: 0;
+    font-family: var(--f-affiche);
+    font-weight: 400;
+    font-size: clamp(52px, 8vw, 100px);
+    line-height: 0.88;
+    text-transform: uppercase;
+  }
+  .une__date {
+    margin: 10px 0 16px;
+    font-size: 18px;
+  }
+  .une__insta {
+    margin-top: 24px;
+  }
+  .une__vignettes {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .une__onglets {
+      gap: 10px;
+      margin-bottom: 34px;
+    }
+    .une__onglet {
+      flex: 0 0 auto;
+      padding: 12px 20px;
+    }
+    .une__onglet-titre {
+      font-size: 20px;
+    }
+    .une__onglet-date {
+      font-size: 12px;
+    }
+    .une__panneau {
+      flex-direction: row;
+      gap: 48px;
+      align-items: flex-start;
+    }
+    .une__texte {
+      flex: 0 0 min(520px, 45%);
+    }
+    .une__visuels {
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: 600px;
+      --largeur-diapo: 81%;
+    }
+    .une__date {
+      font-size: 20px;
+    }
+    .une__vignettes {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+    .une__vignettes button {
+      width: 64px;
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+      opacity: 0.45;
+    }
+    .une__vignettes button[aria-current="true"] {
+      opacity: 1;
+      outline: 3px solid var(--jaune);
+      outline-offset: 2px;
+    }
+    .une__vignettes :global(.visuel-vide) {
+      padding: 0;
+      border-width: 1px;
+    }
+  }
+</style>

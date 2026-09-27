@@ -1,0 +1,15 @@
+nom: Séniors garçons
+groupe: adultes
+ordre: 2
+equipes:
+  - nom: Garçons 1
+    niveau: Région Honneur
+  - nom: Garçons 2
+    niveau: Départemental Honneur
+horaires:
+  - jour: Mardi
+    debut: "20:00"
+    fin: "21:30"
+  - jour: Vendredi
+    debut: "19:45"
+    fin: "21:15"

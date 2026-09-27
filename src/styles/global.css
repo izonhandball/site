@@ -1,0 +1,218 @@
+@import "@fontsource/anton/400.css";
+@import "@fontsource/barlow/400.css";
+@import "@fontsource/barlow/600.css";
+@import "@fontsource/barlow/700.css";
+@import "@fontsource/barlow-condensed/700.css";
+@import "@fontsource/barlow-condensed/900.css";
+@import "@fontsource/playfair-display/500-italic.css";
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 76px;
+}
+@media (min-width: 900px) {
+  html {
+    scroll-padding-top: 100px;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--f-texte);
+  background: var(--noir);
+  color: var(--texte);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--jaune);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--jaune-clair);
+  text-decoration: underline;
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--jaune);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---- Structure des sections ---- */
+.section {
+  padding: 28px var(--gouttiere) 32px;
+}
+.section--alt {
+  background: var(--gris-section);
+}
+.section__inner {
+  max-width: var(--largeur-max);
+  margin: 0 auto;
+}
+@media (min-width: 900px) {
+  .section {
+    padding-block: 52px 56px;
+  }
+}
+
+/* ---- Typographie ---- */
+.titre-affiche {
+  margin: 0;
+  font-family: var(--f-affiche);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.9;
+  font-size: clamp(40px, 7vw, 72px);
+}
+.titre-affiche--jaune {
+  color: var(--jaune);
+}
+.script {
+  font-family: var(--f-script);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--jaune);
+}
+.etiquette {
+  margin: 0;
+  font-family: var(--f-titre);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: var(--texte-discret);
+}
+.legende-post {
+  margin: 0;
+  white-space: pre-line;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--texte-doux);
+  overflow-wrap: anywhere;
+}
+.a-completer {
+  color: var(--texte-absent);
+  font-style: italic;
+}
+
+/* ---- Boutons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border: 2px solid var(--texte);
+  background: transparent;
+  color: var(--texte);
+  font-family: var(--f-titre);
+  font-weight: 900;
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  cursor: pointer;
+}
+.btn:hover {
+  color: var(--noir);
+  background: var(--texte);
+  text-decoration: none;
+}
+.btn--jaune {
+  background: var(--jaune);
+  border-color: var(--jaune);
+  color: var(--noir);
+}
+.btn--jaune:hover {
+  background: var(--jaune-clair);
+  border-color: var(--jaune-clair);
+}
+
+.btn-carre {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 2px solid var(--texte);
+  background: transparent;
+  cursor: pointer;
+}
+.btn-carre--jaune {
+  background: var(--jaune);
+  border-color: var(--jaune);
+  color: var(--noir);
+}
+.btn-carre:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Bouton d'onglet (À la une, équipes, périodes) */
+.choix {
+  border: 2px solid var(--bordure-forte);
+  background: transparent;
+  color: var(--texte);
+  padding: 10px 14px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--f-titre);
+  font-weight: 900;
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.choix[aria-selected="true"],
+.choix[aria-pressed="true"] {
+  background: var(--jaune);
+  border-color: var(--jaune);
+  color: var(--noir);
+}
+
+/* ---- Fenêtres (fiche annonce, album) ---- */
+.fenetre {
+  width: min(1100px, 100vw);
+  max-width: 100vw;
+  max-height: 100dvh;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: var(--gris-fonce);
+  color: var(--texte);
+}
+.fenetre::backdrop {
+  background: rgb(0 0 0 / 0.8);
+}
+@media (max-width: 899px) {
+  .fenetre {
+    width: 100vw;
+    height: 100dvh;
+  }
+}

@@ -1,0 +1,27 @@
+# Données chiffrées de la page Histoire (source : Historique Club.xlsx).
+# « periode » renvoie au champ « ordre » d'une période de la frise.
+intro: >-
+  Un ballon, une passion, une famille. De la première saison sur un terrain en herbe à la
+  Salle des Costauds, cinq périodes racontées avec les archives du club.
+licencies:
+  - { saison: 73-74, nombre: 23, periode: 1 }
+  - { saison: 91-92, nombre: 36, periode: 2 }
+  - { saison: 92-93, nombre: 34, periode: 2 }
+  - { saison: 93-94, nombre: 38, periode: 2 }
+  - { saison: 94-95, nombre: 39, periode: 2 }
+  - { saison: 01-02, nombre: 122, periode: 4 }
+  - { saison: 02-03, nombre: 106, periode: 4 }
+  - { saison: 05-06, nombre: 146, periode: 4 }
+  - { saison: 07-08, nombre: 146, periode: 4 }
+  - { saison: 08-09, nombre: 141, periode: 4 }
+  - { saison: 09-10, nombre: 120, periode: 4 }
+  - { saison: 10-11, nombre: 141, periode: 4 }
+  - { saison: 11-12, nombre: 168, periode: 4 }
+maillots:
+  - { nom: "Jaune, en coton", couleurs: ["#f2d23c"] }
+  - { nom: Vert, couleurs: ["#1f7a3a"] }
+  - { nom: Noir, couleurs: ["#111111"] }
+  - { nom: Noir et blanc, couleurs: ["#111111", "#ffffff"] }
+  - { nom: Jaune et rouge, couleurs: ["#ffd52e", "#e0161b"] }
+citationMaillots: >-
+  « D'abord jaunes, en coton, payés par Patrick et Marcel, puis verts, noirs, noir et blanc, jaune et rouge. »

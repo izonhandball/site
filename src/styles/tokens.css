@@ -1,0 +1,33 @@
+/* Direction artistique : affiches du club (noir dominant, jaune, rouge). */
+:root {
+  --noir: #0d0d0d;
+  --noir-profond: #060606;
+  --gris-fonce: #141414;
+  --gris-section: #1a1a1a;
+  --bordure: #2a2a2a;
+  --bordure-forte: #3a3a3a;
+  --texte: #ffffff;
+  --texte-doux: #d4d4d4;
+  --texte-discret: #9a9a9a;
+  --texte-absent: #7a7a7a;
+  --jaune: #ffd52e;
+  --jaune-clair: #ffe47a;
+  --rouge: #e0161b;
+  --corail: #ff6b6e;
+  --degrade-histoire: linear-gradient(170deg, #e8b62e, #cf9616);
+  --encre-histoire: #14120c;
+
+  --f-affiche: "Anton", "Barlow Condensed", sans-serif;
+  --f-titre: "Barlow Condensed", sans-serif;
+  --f-script: "Playfair Display", serif;
+  --f-texte: "Barlow", system-ui, sans-serif;
+
+  --gouttiere: 18px;
+  --largeur-max: 1280px;
+}
+
+@media (min-width: 900px) {
+  :root {
+    --gouttiere: 56px;
+  }
+}

@@ -1,0 +1,44 @@
+---
+import "../styles/global.css";
+import EnTete from "../components/EnTete.astro";
+import PiedDePage from "../components/PiedDePage.astro";
+
+interface Props {
+  titre: string;
+  description: string;
+  page: "accueil" | "histoire" | "autre";
+}
+const { titre, description, page } = Astro.props;
+const canonique = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titre}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonique} />
+    <meta name="theme-color" content="#0d0d0d" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content={titre} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonique} />
+  </head>
+  <body>
+    <a href="#contenu" class="sr-only">
+      Aller au contenu
+    </a>
+    <EnTete actif={page === "histoire" ? "histoire" : "accueil"} />
+    <main id="contenu">
+      <slot />
+    </main>
+    <PiedDePage />
+    <script>
+      import "../scripts/ui.ts";
+    </script>
+  </body>
+</html>
