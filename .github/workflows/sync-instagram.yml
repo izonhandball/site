@@ -1,8 +1,8 @@
 name: Synchro Instagram
 
 # Chaque nuit : récupère les derniers posts de @hbcizon, commite les changements
-# (posts.json + images), puis relance le déploiement. Ce déploiement quotidien retire aussi
-# les Match Day expirés, même sans nouveau post.
+# (posts.json + images), puis enchaîne sur le workflow Site (vérification et déploiement).
+# Ce déploiement quotidien retire aussi les Match Day expirés, même sans nouveau post.
 # Tant que data/instagram/token.enc n'existe pas (pnpm ig:init), le job ne fait rien.
 
 on:
@@ -14,7 +14,6 @@ on:
 
 permissions:
   contents: write
-  actions: write # pour déclencher le déploiement
 
 concurrency:
   group: instagram
@@ -56,11 +55,11 @@ jobs:
           git commit -m "instagram : synchro des posts"
           git pull --rebase
           git push
-      # Un push fait avec GITHUB_TOKEN ne déclenche pas les autres workflows : on lance le
-      # déploiement explicitement, même si la synchro a échoué (le site est reconstruit
-      # avec les derniers posts connus).
-      - if: always()
-        name: Déploiement quotidien
-        run: gh workflow run deploy.yml --ref main -R "$GITHUB_REPOSITORY"
-        env:
-          GH_TOKEN: ${{ github.token }}
+
+  # Un push fait avec GITHUB_TOKEN ne déclenche pas les autres workflows : le site est
+  # vérifié et déployé ici, même si la synchro a échoué (avec les derniers posts connus).
+  site:
+    needs: sync
+    if: ${{ !cancelled() }}
+    uses: ./.github/workflows/site.yml
+    secrets: inherit

@@ -2,7 +2,7 @@
 // JPEG/PNG → WebP redimensionné, WebP trop lourd → réencodé, puis mise à jour des
 // références dans content/. Les images Instagram (public/instagram/) sont déjà optimisées
 // par la synchro et ne sont pas concernées.
-// Usage : pnpm images (lancé automatiquement par le workflow optimise-images.yml).
+// Usage : pnpm images (lancé automatiquement par la première étape du workflow site.yml).
 
 import { readdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";

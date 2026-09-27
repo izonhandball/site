@@ -1,0 +1,135 @@
+name: Site
+
+# Chaîne unique : images → vérification → déploiement sur Cloudflare Workers.
+# - push sur main (code ou publication Decap) : les trois étapes ;
+# - pull request (relecture Decap, branche de travail) : vérification seulement ;
+# - appelé chaque nuit par sync-instagram.yml après la synchro, ce qui retire aussi les
+#   Match Day expirés.
+#
+# L'étape images peut pousser un commit (photos converties en WebP, fiches mises à jour).
+# Ce commit, fait avec GITHUB_TOKEN, ne relance pas le workflow : la vérification et le
+# déploiement travaillent donc sur le SHA qu'elle publie, pas sur celui du déclenchement.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  images:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    # Jamais annulé : un commit d'images ne doit pas être interrompu en plein push.
+    concurrency:
+      group: images-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
+      cancel-in-progress: false
+    outputs:
+      sha: ${{ steps.fin.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Hors pull request : dernier état de main, qui contient un éventuel commit
+          # d'images poussé par une exécution précédente.
+          ref: ${{ github.event_name == 'pull_request' && github.sha || 'main' }}
+      # Repérage sans installation : JPEG/PNG à convertir ou WebP de plus de 400 Kio.
+      # (pnpm images traite aussi les WebP légers mais trop larges, à lancer à la main.)
+      - name: Images à optimiser ?
+        id: repere
+        if: github.event_name != 'pull_request' && github.repository == 'izonhandball/site'
+        run: |
+          if [ -n "$(find public/images -type f \( -iname '*.jpg' -o -iname '*.jpeg' \
+               -o -iname '*.png' -o \( -iname '*.webp' -size +400k \) \))" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Images déjà optimisées."
+          fi
+      - if: steps.repere.outputs.ok == 'true'
+        uses: pnpm/action-setup@v6
+      - if: steps.repere.outputs.ok == 'true'
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - if: steps.repere.outputs.ok == 'true'
+        run: pnpm install --frozen-lockfile
+      - if: steps.repere.outputs.ok == 'true'
+        run: pnpm images
+      - if: steps.repere.outputs.ok == 'true'
+        name: Commit des images
+        run: |
+          git add -A public/images content
+          if git diff --cached --quiet; then
+            echo "Aucun changement."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "images : conversion en WebP optimisé"
+          git pull --rebase
+          git push
+      - name: Commit à vérifier et déployer
+        id: fin
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  verif:
+    needs: images
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: verif-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.images.outputs.sha }}
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm test
+      # astro check (types + schémas du contenu), puis build statique
+      - run: pnpm build
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: site
+          path: dist
+          retention-days: 1
+
+  deploiement:
+    needs: [images, verif]
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'izonhandball/site'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: deploiement
+      cancel-in-progress: true
+    steps:
+      # Le Worker et wrangler.jsonc viennent du même commit que le site vérifié.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.images.outputs.sha }}
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8
+        with:
+          name: site
+          path: dist
+      - run: pnpm exec wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

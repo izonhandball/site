@@ -13,6 +13,7 @@
     "check": "astro check",
     "test": "vitest run",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "cms": "pnpm dlx decap-server",
     "ig:sync": "node --env-file-if-exists=.env scripts/instagram/sync.ts",
     "ig:cle": "node --env-file-if-exists=.env scripts/instagram/jeton-cli.ts cle",

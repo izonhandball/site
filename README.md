@@ -4,13 +4,13 @@ Site du Handball Club Izonnais : [hbc-izon.fr](https://hbc-izon.fr).
 
 - **L'accueil se met à jour tout seul depuis Instagram** (@hbcizon). Il suffit d'ajouter un hashtag dans la légende du post :
 
-  | Hashtag | Où le post apparaît |
-  |---|---|
-  | `#hbcimatchday` | À la une · Match day |
-  | `#hbciprogramme` | À la une · Le programme |
-  | `#hbciresultats` | À la une · Les résultats |
-  | `#hbcirecrutement`, `#hbcievent` | Annonces (les 4 dernières) |
-  | aucun | La vie du club (les 6 derniers) |
+  | Hashtag                          | Où le post apparaît             |
+  | -------------------------------- | ------------------------------- |
+  | `#hbcimatchday`                  | À la une · Match day            |
+  | `#hbciprogramme`                 | À la une · Le programme         |
+  | `#hbciresultats`                 | À la une · Les résultats        |
+  | `#hbcirecrutement`, `#hbcievent` | Annonces (les 4 dernières)      |
+  | aucun                            | La vie du club (les 6 derniers) |
 
 - **Le contenu fixe** (équipes, horaires, histoire, coordonnées) se modifie depuis `/admin`, sans toucher au code. Les photos peuvent être déposées telles quelles (même prises au téléphone) : elles sont redimensionnées et converties automatiquement après publication.
 
@@ -21,8 +21,9 @@ Prérequis : Node 24 et pnpm.
 ```bash
 pnpm install
 pnpm dev      # http://localhost:4321
-pnpm test     # règles de classement des posts Instagram
+pnpm test     # tests unitaires (Instagram, images, Worker…)
 pnpm build    # vérification des types et du contenu, puis build statique dans dist/
+pnpm format   # mise en forme (Prettier) ; la CI vérifie avec pnpm format:check
 ```
 
 Pour essayer l'administration en local, lancer `pnpm cms` dans un second terminal, puis ouvrir http://localhost:4321/admin/index.html.
@@ -33,7 +34,7 @@ Une GitHub Action lit les posts chaque nuit vers 4h, commite les changements et 
 
 Mise en route, à faire une seule fois :
 
-1. Sur [developers.facebook.com](https://developers.facebook.com/apps), créer une app de type **Business**, ajouter le produit **Instagram**, puis dans *API setup with Instagram business login*, connecter @hbcizon et cliquer sur **Generate token**.
+1. Sur [developers.facebook.com](https://developers.facebook.com/apps), créer une app de type **Business**, ajouter le produit **Instagram**, puis dans _API setup with Instagram business login_, connecter @hbcizon et cliquer sur **Generate token**.
 2. Générer la clé de chiffrement et la déclarer à GitHub :
    ```bash
    pnpm ig:cle            # copier la ligne IG_KEY=… dans .env
@@ -49,11 +50,11 @@ Pour vérifier le jeton : `pnpm ig:etat`. Si le renouvellement échoue (mot de p
 
 ## Où est quoi
 
-| Dossier | Contenu |
-|---|---|
-| `content/` | Contenu fixe (YAML / Markdown), édité via Decap CMS. Schémas : `src/content.config.ts` |
-| `data/instagram/` | Posts Instagram, écrits par la synchro automatique |
-| `public/` | Images (Instagram, équipes, archives) et Decap CMS (`admin/`) |
-| `src/` | Pages, composants, styles et règles de l'accueil |
+| Dossier           | Contenu                                                                                |
+| ----------------- | -------------------------------------------------------------------------------------- |
+| `content/`        | Contenu fixe (YAML / Markdown), édité via Decap CMS. Schémas : `src/content.config.ts` |
+| `data/instagram/` | Posts Instagram, écrits par la synchro automatique                                     |
+| `public/`         | Images (Instagram, équipes, archives) et Decap CMS (`admin/`)                          |
+| `src/`            | Pages, composants, styles et règles de l'accueil                                       |
 
 Le contexte complet du projet (décisions, direction artistique, prochaines étapes) est dans [`CLAUDE.md`](CLAUDE.md).

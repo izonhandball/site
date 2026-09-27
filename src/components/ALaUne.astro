@@ -21,7 +21,9 @@ const { items, instagram, resultats } = Astro.props;
       <div class="une__attente">
         <p class="etiquette une__attente-etiquette">À la une</p>
         <h2 class="une__attente-titre">
-          Rendez-vous<br />sur <span class="une__attente-surligne">Instagram</span>
+          Rendez-vous
+          <br />
+          sur <span class="une__attente-surligne">Instagram</span>
         </h2>
         <p class="script une__attente-script">Pas d'affiche cette semaine…</p>
         <p class="une__attente-texte">
@@ -32,7 +34,9 @@ const { items, instagram, resultats } = Astro.props;
           <a href={instagram} class="btn btn--jaune une__attente-btn">
             <Icone nom="instagram" taille={22} /> Voir sur Instagram
           </a>
-          <a href={resultats} class="btn">Résultats &amp; classements</a>
+          <a href={resultats} class="btn">
+            Résultats &amp; classements
+          </a>
         </div>
       </div>
     ) : (
@@ -101,8 +105,7 @@ const { items, instagram, resultats } = Astro.props;
     border: 2px solid var(--bordure-forte);
     background:
       radial-gradient(circle at 88% 12%, rgb(255 213 46 / 0.16), transparent 42%),
-      radial-gradient(circle at 8% 100%, rgb(224 22 27 / 0.14), transparent 38%),
-      var(--gris-fonce);
+      radial-gradient(circle at 8% 100%, rgb(224 22 27 / 0.14), transparent 38%), var(--gris-fonce);
     overflow: hidden;
   }
   /* Griffures rouges dans les coins, comme sur les affiches du club. */
