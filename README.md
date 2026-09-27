@@ -29,7 +29,7 @@ Pour essayer l'administration en local, lancer `pnpm cms` dans un second termina
 
 ## Synchro Instagram
 
-Une GitHub Action lit les posts toutes les heures et commite les changements. Le jeton Meta est chiffré dans le dépôt (`data/instagram/token.enc`) et renouvelé automatiquement chaque lundi.
+Une GitHub Action lit les posts chaque nuit vers 4h, commite les changements et redéploie le site. On peut aussi la lancer à la main depuis l’onglet Actions de GitHub (« Synchro Instagram » → « Run workflow »). Le jeton Meta est chiffré dans le dépôt (`data/instagram/token.enc`) et renouvelé automatiquement chaque lundi.
 
 Mise en route, à faire une seule fois :
 
