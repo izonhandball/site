@@ -30,6 +30,17 @@ describe("lignesEquipe", () => {
       ["Entraîneur", undefined],
     ]);
   });
+
+  it("tolère un créneau ou une équipe en cours de saisie dans l'admin", () => {
+    // Decap ajoute une entrée vide à la liste avant que les champs soient remplis.
+    const l = lignesEquipe({
+      nom: "Babyhand",
+      groupe: "adultes",
+      equipes: [{ nom: "Garçons 1" } as { nom: string; niveau: string }],
+      horaires: [{} as { jour: string; debut: string; fin: string }],
+    });
+    expect(l.map((x) => x.valeur)).toEqual(["Garçons 1", "… … – …", undefined]);
+  });
 });
 
 describe("histoire", () => {

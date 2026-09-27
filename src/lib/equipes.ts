@@ -16,7 +16,10 @@ export interface Equipe {
   photoLegende?: string;
 }
 
-export const formatHeure = (h: string) => h.replace(":", "h");
+// Les valeurs peuvent manquer dans l'aperçu de l'admin (créneau ou équipe en cours de saisie).
+export const formatHeure = (h?: string) => (h ? h.replace(":", "h") : "…");
+
+const joindre = (...parts: (string | undefined)[]) => parts.filter(Boolean).join(" · ");
 
 export const libelleGroupe = (e: Pick<Equipe, "groupe">) =>
   e.groupe === "jeunes" ? "Catégorie jeunes" : "Adultes";
@@ -25,7 +28,7 @@ export const libelleGroupe = (e: Pick<Equipe, "groupe">) =>
 export function lignesEquipe(e: Equipe): { label: string; valeur?: string }[] {
   const l: { label: string; valeur?: string }[] = [];
   if (e.equipes?.length) {
-    l.push({ label: "Équipes", valeur: e.equipes.map((x) => `${x.nom} · ${x.niveau}`).join("\n") });
+    l.push({ label: "Équipes", valeur: e.equipes.map((x) => joindre(x.nom, x.niveau)).join("\n") });
   } else {
     l.push({ label: "Niveau", valeur: e.niveau || undefined });
   }
@@ -35,7 +38,7 @@ export function lignesEquipe(e: Equipe): { label: string; valeur?: string }[] {
     label: "Entraînements",
     valeur: e.horaires?.length
       ? e.horaires
-          .map((h) => `${h.jour} ${formatHeure(h.debut)} – ${formatHeure(h.fin)}`)
+          .map((h) => `${h.jour ?? "…"} ${formatHeure(h.debut)} – ${formatHeure(h.fin)}`)
           .join("\n")
       : undefined,
   });
