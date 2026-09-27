@@ -216,3 +216,35 @@ button {
     height: 100dvh;
   }
 }
+
+/* ---- Emplacement d'image pas encore fournie (Visuel.astro, aperçus de l'admin) ---- */
+.visuel-vide {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  border: 2px dashed var(--bordure-forte);
+  background: repeating-linear-gradient(135deg, #151515 0 14px, #191919 14px 28px);
+  color: var(--texte-absent);
+  font-size: 15px;
+}
+
+/* ---- Logo du club (Logo.astro, aperçus de l'admin) ---- */
+.logo {
+  border-radius: 50%;
+  background: var(--texte);
+  flex-shrink: 0;
+}
+.logo--provisoire {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--jaune);
+  color: var(--rouge);
+  font-family: var(--f-affiche);
+  font-size: 14px;
+  line-height: 1;
+}

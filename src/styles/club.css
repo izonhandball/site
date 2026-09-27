@@ -1,0 +1,114 @@
+/* Accroche Histoire et pied de page : partagés par le site et l'aperçu de l'administration. */
+
+.accroche {
+  padding: 28px var(--gouttiere);
+  background: var(--degrade-histoire);
+  color: var(--encre-histoire);
+}
+.accroche__inner {
+  max-width: var(--largeur-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.accroche .accroche__photo {
+  border: 4px solid var(--encre-histoire);
+}
+.accroche__depuis {
+  margin: 0;
+  font-family: var(--f-script);
+  font-style: italic;
+  font-size: 22px;
+}
+.accroche h2 {
+  margin: 4px 0 14px;
+}
+.accroche__texte {
+  margin: 0 0 22px;
+  max-width: 560px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: #3d3218;
+}
+.accroche__lien {
+  background: var(--noir);
+  border-color: var(--noir);
+  color: var(--texte);
+}
+@media (min-width: 900px) {
+  .accroche {
+    padding-block: 52px;
+  }
+  .accroche__inner {
+    flex-direction: row;
+    align-items: center;
+    gap: 44px;
+  }
+  .accroche .accroche__photo {
+    flex: 0 0 520px;
+    width: 520px;
+  }
+  .accroche__depuis {
+    font-size: 26px;
+  }
+}
+
+.pied {
+  padding: 26px var(--gouttiere) 30px;
+  background: var(--noir-profond);
+  border-top: 4px solid var(--jaune);
+}
+.pied__inner {
+  max-width: var(--largeur-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.pied__marque p {
+  margin: 14px 0 0;
+  font-size: 19px;
+  line-height: 1.5;
+}
+.pied__colonnes {
+  display: grid;
+  gap: 24px;
+}
+.pied h2 {
+  margin: 0 0 8px;
+  font-family: var(--f-titre);
+  font-weight: 900;
+  font-size: 19px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+.pied p {
+  margin: 0 0 6px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--texte-discret);
+}
+.pied__insta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+@media (min-width: 900px) {
+  .pied {
+    padding-block: 44px 38px;
+  }
+  .pied__inner {
+    flex-direction: row;
+    gap: 46px;
+  }
+  .pied__marque {
+    width: 330px;
+    flex-shrink: 0;
+  }
+  .pied__colonnes {
+    flex-grow: 1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px;
+  }
+}

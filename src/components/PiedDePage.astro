@@ -2,6 +2,7 @@
 import Icone from "./Icone.astro";
 import Logo from "./Logo.astro";
 import { getClub } from "../lib/site";
+import "../styles/club.css";
 
 const club = await getClub();
 ---
@@ -50,64 +51,3 @@ const club = await getClub();
     </div>
   </div>
 </footer>
-
-<style>
-  .pied {
-    padding: 26px var(--gouttiere) 30px;
-    background: var(--noir-profond);
-    border-top: 4px solid var(--jaune);
-  }
-  .pied__inner {
-    max-width: var(--largeur-max);
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
-  .pied__marque p {
-    margin: 14px 0 0;
-    font-size: 19px;
-    line-height: 1.5;
-  }
-  .pied__colonnes {
-    display: grid;
-    gap: 24px;
-  }
-  h2 {
-    margin: 0 0 8px;
-    font-family: var(--f-titre);
-    font-weight: 900;
-    font-size: 19px;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-  }
-  p {
-    margin: 0 0 6px;
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--texte-discret);
-  }
-  .pied__insta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  @media (min-width: 900px) {
-    .pied {
-      padding-block: 44px 38px;
-    }
-    .pied__inner {
-      flex-direction: row;
-      gap: 46px;
-    }
-    .pied__marque {
-      width: 330px;
-      flex-shrink: 0;
-    }
-    .pied__colonnes {
-      flex-grow: 1;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 30px;
-    }
-  }
-</style>

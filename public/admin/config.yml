@@ -76,7 +76,7 @@ collections:
       - { name: photo, label: "Photo d'équipe", widget: image, required: false }
       - { name: photoLegende, label: "Légende de la photo", widget: string, required: false }
 
-  - name: histoire
+  - name: periodes
     label: Histoire — périodes
     label_singular: Période
     folder: content/histoire/periodes

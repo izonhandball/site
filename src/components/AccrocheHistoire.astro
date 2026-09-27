@@ -1,6 +1,7 @@
 ---
 import Visuel from "./Visuel.astro";
 import { getClub } from "../lib/site";
+import "../styles/club.css";
 
 const club = await getClub();
 const ans = new Date().getFullYear() - club.fondation;
@@ -25,59 +26,3 @@ const ans = new Date().getFullYear() - club.fondation;
     </div>
   </div>
 </section>
-
-<style>
-  .accroche {
-    padding: 28px var(--gouttiere);
-    background: var(--degrade-histoire);
-    color: var(--encre-histoire);
-  }
-  .accroche__inner {
-    max-width: var(--largeur-max);
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-  }
-  .accroche :global(.accroche__photo) {
-    border: 4px solid var(--encre-histoire);
-  }
-  .accroche__depuis {
-    margin: 0;
-    font-family: var(--f-script);
-    font-style: italic;
-    font-size: 22px;
-  }
-  .accroche h2 {
-    margin: 4px 0 14px;
-  }
-  .accroche__texte {
-    margin: 0 0 22px;
-    max-width: 560px;
-    font-size: 17px;
-    line-height: 1.55;
-    color: #3d3218;
-  }
-  .accroche__lien {
-    background: var(--noir);
-    border-color: var(--noir);
-    color: var(--texte);
-  }
-  @media (min-width: 900px) {
-    .accroche {
-      padding-block: 52px;
-    }
-    .accroche__inner {
-      flex-direction: row;
-      align-items: center;
-      gap: 44px;
-    }
-    .accroche :global(.accroche__photo) {
-      flex: 0 0 520px;
-      width: 520px;
-    }
-    .accroche__depuis {
-      font-size: 26px;
-    }
-  }
-</style>

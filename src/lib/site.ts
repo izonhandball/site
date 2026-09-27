@@ -31,4 +31,3 @@ const jourMoisFr = new Intl.DateTimeFormat("fr-FR", {
 
 export const formatDate = (iso: string) => dateFr.format(new Date(iso));
 export const formatJourMois = (iso: string) => jourMoisFr.format(new Date(iso));
-export const formatHeure = (h: string) => h.replace(":", "h");

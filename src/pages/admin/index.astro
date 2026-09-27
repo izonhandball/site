@@ -1,0 +1,39 @@
+---
+// Administration (Decap CMS). Page générée par Astro, et non plus fichier statique, pour
+// connaître l'URL finale de la feuille d'aperçu (styles du site) et l'e-mail du club.
+// Configuration des collections : public/admin/config.yml ; gabarits : src/admin/apercus.ts.
+import apercuCss from "../../styles/apercu.css?url";
+import { getClub } from "../../lib/site";
+
+const club = await getClub();
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Administration · HBC Izon</title>
+  </head>
+  <body>
+    <div id="config-admin" hidden data-feuille={apercuCss} data-email={club.email}></div>
+    <script is:inline>
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/decap-cms@3/dist/decap-cms.js"></script>
+    <script>
+      import { enregistrerApercus } from "../../admin/apercus";
+
+      const config = document.getElementById("config-admin")!.dataset;
+      enregistrerApercus(config.feuille!, config.email!);
+      // L'authentification GitHub est servie par le Worker du site (/api/auth), sur le même
+      // domaine : cela fonctionne aussi bien sur *.workers.dev que sur hbc-izon.fr.
+      window.CMS.init({
+        config: {
+          backend: { base_url: window.location.origin, auth_endpoint: "api/auth" },
+        },
+      });
+    </script>
+  </body>
+</html>

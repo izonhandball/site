@@ -1,0 +1,32 @@
+/* Feuille chargée dans le panneau d'aperçu de Decap CMS (src/pages/admin/index.astro) :
+   les mêmes styles que le site, pour que l'aperçu corresponde au rendu réel. */
+@import "./global.css";
+@import "./fiche-equipe.css";
+@import "./histoire.css";
+@import "./club.css";
+
+.apercu {
+  padding: 24px var(--gouttiere);
+}
+.apercu__note {
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: var(--texte-discret);
+}
+.apercu__archives {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+.apercu__archives figure {
+  margin: 0;
+}
+
+/* Le panneau d'aperçu est étroit (mise en page mobile) : on réduit les photos
+   pour garder la fiche lisible sans défiler. */
+@media (max-width: 899px) {
+  .apercu .fiche-equipe__photo,
+  .apercu .periode__archives {
+    max-width: 260px;
+  }
+}

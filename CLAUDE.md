@@ -30,14 +30,21 @@ content/                 contenu éditable (Decap) — schémas Zod dans src/con
 data/instagram/posts.json  posts Instagram (écrit par le script de synchro, jamais à la main)
 public/instagram/        images des posts (<id>-<n>.webp)
 public/images/           equipes/, archives/, uploads/ (Decap)
-public/admin/            Decap CMS (index.html + config.yml) ; base_url = origine du site, auth_endpoint api/auth
+public/admin/config.yml  Decap CMS : collections equipes, periodes, reglages (fichiers club et histoire)
+src/pages/admin/         page de l'admin (générée par Astro : URL de la feuille d'aperçu, e-mail du club) ;
+                         base_url = origine du site, auth_endpoint api/auth
+src/admin/apercus.ts     gabarits d'aperçu instantané de Decap (fiche équipe, période, réglages)
 worker/                  Worker Cloudflare : assets + OAuth GitHub pour Decap (testé)
 src/lib/instagram.ts     classement par hashtag + sélection des blocs de l'accueil (testé)
+src/lib/equipes.ts, histoire.ts, icones.ts   mise en forme partagée par le site et les aperçus
+src/styles/fiche-equipe.css, histoire.css, club.css   styles partagés par le site et les aperçus
+src/styles/apercu.css    feuille chargée dans l'aperçu de Decap (= styles du site)
 src/components/          sections de l'accueil, carrousel, fenêtres
 src/pages/               index, histoire, 404
 ```
 
 - Le script de synchro **récupère** seulement. Le **classement et la sélection** se font au build (`selectionAccueil`), ce qui permet de changer les règles sans resynchroniser.
+- **Aperçus de l'admin** : seule la structure HTML est dupliquée entre les composants du site et `src/admin/apercus.ts` ; données (`src/lib/`) et styles (`src/styles/*.css`) sont communs. Toute modification de structure d'une fiche équipe, d'une période, de l'accroche Histoire, du pied de page ou des graphiques de la page Histoire doit être reportée dans `apercus.ts`.
 - Une image absente de `public/` s'affiche comme un emplacement réservé (`Visuel.astro`, `imagePublique`). Les chemins peuvent donc être déclarés avant que les fichiers existent.
 - `data/instagram/posts.json` contient pour l'instant des **données de dev** (`"source": "fixture"`) tirées de la maquette : vraies légendes, hashtags ajoutés, images pas encore récupérées.
 - Commandes : `pnpm dev`, `pnpm test`, `pnpm build` (= `astro check` + build), `pnpm cms` (backend local de Decap, puis http://localhost:4321/admin/index.html).

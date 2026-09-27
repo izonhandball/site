@@ -4,6 +4,8 @@ import Base from "../layouts/Base.astro";
 import Carrousel from "../components/Carrousel.astro";
 import Visuel from "../components/Visuel.astro";
 import { getClub } from "../lib/site";
+import { fondMaillot, hauteursLicencies } from "../lib/histoire";
+import "../styles/histoire.css";
 
 const club = await getClub();
 const histoire = (await getEntry("histoire", "histoire"))!.data;
@@ -12,12 +14,8 @@ const periodes = await Promise.all(
     .sort((a, b) => a.data.ordre - b.data.ordre)
     .map(async (p) => ({ ...p, Contenu: (await render(p)).Content })),
 );
-const max = Math.max(...histoire.licencies.map((l) => l.nombre));
+const hauteurs = hauteursLicencies(histoire.licencies.map((l) => l.nombre));
 const idPeriode = (ordre: number) => `periode-${ordre}`;
-const fond = (couleurs: string[]) =>
-  couleurs.length === 1
-    ? couleurs[0]
-    : `linear-gradient(90deg, ${couleurs.map((c, i) => `${c} ${(i * 100) / couleurs.length}% ${((i + 1) * 100) / couleurs.length}%`).join(", ")})`;
 ---
 
 <Base
@@ -114,7 +112,7 @@ const fond = (couleurs: string[]) =>
       <h2 class="titre-affiche">Licenciés par saison</h2>
       <p class="sous-titre">Saisons connues. Choisir une saison ouvre la période correspondante.</p>
       <div class="barres">
-        {histoire.licencies.map((l) => (
+        {histoire.licencies.map((l, i) => (
           <a
             href={`#${idPeriode(l.periode)}`}
             class="barre"
@@ -122,7 +120,7 @@ const fond = (couleurs: string[]) =>
             aria-label={`Saison ${l.saison} : ${l.nombre} licenciés`}
           >
             <span class="barre__nombre">{l.nombre}</span>
-            <span class="barre__trait" style={`height: ${(l.nombre / max) * 100}%`} />
+            <span class="barre__trait" style={`height: ${hauteurs[i]}%`} />
             <span class="barre__saison">{l.saison}</span>
           </a>
         ))}
@@ -136,7 +134,7 @@ const fond = (couleurs: string[]) =>
       <div class="maillots">
         {histoire.maillots.map((m) => (
           <div>
-            <div class="maillots__couleur" style={`background: ${fond(m.couleurs)}`} />
+            <div class="maillots__couleur" style={`background: ${fondMaillot(m.couleurs)}`} />
             <p>{m.nom}</p>
           </div>
         ))}
@@ -145,284 +143,3 @@ const fond = (couleurs: string[]) =>
     </div>
   </section>
 </Base>
-
-<style>
-  .intro {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-  .intro__depuis {
-    margin: 0;
-    font-size: 22px;
-  }
-  .intro__titre {
-    margin: 6px 0 18px;
-    font-family: var(--f-affiche);
-    font-weight: 400;
-    font-size: clamp(56px, 9vw, 110px);
-    line-height: 0.86;
-    text-transform: uppercase;
-  }
-  .intro__texte {
-    margin: 0;
-    max-width: 620px;
-    font-size: 18px;
-    line-height: 1.55;
-    color: var(--texte-doux);
-  }
-
-  .frise {
-    position: relative;
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    margin-bottom: 30px;
-    padding-bottom: 4px;
-  }
-  .frise::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 11px;
-    height: 3px;
-    background: var(--bordure-forte);
-  }
-  .frise__etape {
-    position: relative;
-    flex: 0 0 150px;
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    text-align: left;
-    color: var(--texte);
-  }
-  .frise__point {
-    display: block;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 3px solid var(--noir);
-    background: #5a5a5a;
-    transition: transform 0.2s;
-  }
-  .frise__carte {
-    display: block;
-    margin-top: 14px;
-    padding: 12px 14px;
-    border: 2px solid var(--bordure-forte);
-    background: var(--noir);
-  }
-  .frise__dates {
-    display: block;
-    font-family: var(--f-affiche);
-    font-size: 20px;
-    line-height: 1;
-  }
-  .frise__titre {
-    display: block;
-    margin-top: 4px;
-    font-family: var(--f-titre);
-    font-weight: 700;
-    font-size: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.8;
-  }
-  .frise__etape[aria-selected="true"] .frise__point {
-    background: var(--jaune);
-    transform: scale(1.3);
-  }
-  .frise__etape[aria-selected="true"] .frise__carte {
-    background: var(--jaune);
-    border-color: var(--jaune);
-    color: var(--noir);
-  }
-
-  .periode {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  .periode[hidden] {
-    display: none;
-  }
-  .periode__dates {
-    margin: 0;
-    font-size: 22px;
-  }
-  .periode__titre {
-    margin: 6px 0 20px;
-    font-family: var(--f-affiche);
-    font-weight: 400;
-    font-size: clamp(42px, 6vw, 64px);
-    line-height: 0.9;
-    text-transform: uppercase;
-  }
-  .periode__faits :global(ul) {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .periode__faits :global(li),
-  .periode__faits :global(p) {
-    margin: 0 0 14px;
-    padding-left: 18px;
-    border-left: 3px solid var(--jaune);
-    font-size: 17px;
-    line-height: 1.55;
-    color: var(--texte-doux);
-  }
-  .periode__sous-titre {
-    margin: 26px 0 10px;
-    font-family: var(--f-titre);
-    font-weight: 900;
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 1.4px;
-    color: var(--jaune);
-  }
-  .periode__president {
-    margin: 0;
-    padding: 8px 0;
-    border-top: 1px solid var(--bordure);
-  }
-  .periode__archives figure {
-    margin: 0;
-  }
-  .periode__archives figcaption {
-    margin-top: 10px;
-    font-size: 14px;
-    font-style: italic;
-    color: var(--texte-discret);
-  }
-  .periode__vide {
-    min-height: 260px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
-    text-align: center;
-    border: 2px dashed var(--bordure-forte);
-    color: var(--texte-absent);
-  }
-
-  .sous-titre {
-    margin: 10px 0 24px;
-    font-size: 15px;
-    color: var(--texte-discret);
-  }
-  .barres {
-    display: flex;
-    align-items: stretch;
-    gap: 6px;
-    height: 260px;
-    overflow-x: auto;
-  }
-  .barre {
-    flex: 1 0 34px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    color: var(--texte);
-  }
-  .barre:hover {
-    text-decoration: none;
-    color: var(--texte);
-  }
-  .barre__nombre {
-    margin-bottom: 6px;
-    font-family: var(--f-titre);
-    font-weight: 900;
-    font-size: 15px;
-  }
-  .barre__trait {
-    display: block;
-    width: 100%;
-    max-height: 180px;
-    background: #4a4a4a;
-    transition: background 0.2s;
-  }
-  .barre:hover .barre__trait {
-    background: var(--jaune);
-  }
-  .barre__saison {
-    margin-top: 8px;
-    padding-top: 6px;
-    width: 100%;
-    text-align: center;
-    border-top: 2px solid var(--bordure-forte);
-    font-family: var(--f-titre);
-    font-weight: 700;
-    font-size: 13px;
-    color: var(--texte-discret);
-  }
-
-  .maillots {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 14px;
-    margin-top: 24px;
-  }
-  .maillots__couleur {
-    height: 90px;
-    border: 1px solid var(--bordure-forte);
-  }
-  .maillots p {
-    margin: 10px 0 0;
-    font-family: var(--f-titre);
-    font-weight: 900;
-    font-size: 17px;
-    text-transform: uppercase;
-  }
-
-  @media (min-width: 900px) {
-    .intro {
-      flex-direction: row;
-      align-items: center;
-      gap: 44px;
-    }
-    .intro > div {
-      flex: 1 1 0;
-    }
-    .intro :global(.intro__photo) {
-      flex: 0 0 520px;
-      width: 520px;
-    }
-    .intro__depuis {
-      font-size: 26px;
-    }
-    .frise {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 12px;
-      overflow: visible;
-    }
-    .frise__dates {
-      font-size: 22px;
-    }
-    .periode {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 44px;
-    }
-    .periode__texte {
-      flex: 0 0 520px;
-    }
-    .periode__archives {
-      flex: 1 1 0;
-      min-width: 0;
-    }
-    .barres {
-      gap: 14px;
-      height: 290px;
-    }
-    .barre__trait {
-      max-height: 220px;
-    }
-  }
-</style>

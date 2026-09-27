@@ -1,0 +1,101 @@
+/* Fiche équipe : partagée par le site (Equipes.astro) et l'aperçu de l'administration. */
+
+.fiche-equipe {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 18px;
+  background: var(--noir);
+  border: 1px solid var(--bordure);
+}
+.fiche-equipe[hidden] {
+  display: none;
+}
+.fiche-equipe__photo {
+  margin: 0;
+}
+.fiche-equipe__photo figcaption {
+  margin-top: 8px;
+  font-size: 15px;
+}
+.fiche-equipe__groupe {
+  margin: 0;
+  font-family: var(--f-titre);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: var(--corail);
+}
+.fiche-equipe__nom {
+  margin: 6px 0 20px;
+  font-family: var(--f-affiche);
+  font-weight: 400;
+  font-size: clamp(38px, 5vw, 52px);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+.fiche-equipe dl {
+  margin: 0;
+}
+.fiche-equipe dl > div {
+  padding: 11px 0;
+  border-top: 1px solid var(--bordure);
+}
+.fiche-equipe dt {
+  font-family: var(--f-titre);
+  font-weight: 900;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--jaune);
+}
+.fiche-equipe dd {
+  margin: 3px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+.fiche-equipe__mention {
+  display: inline-block;
+  margin: 14px 0 0;
+  padding: 7px 12px;
+  background: var(--rouge);
+  font-family: var(--f-titre);
+  font-weight: 900;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+.fiche-equipe__contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 0;
+  color: var(--texte-doux);
+}
+.fiche-equipe__contact svg {
+  color: var(--jaune);
+}
+.fiche-equipe__contact a {
+  font-weight: 700;
+}
+
+@media (min-width: 900px) {
+  .fiche-equipe {
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: row;
+    gap: 30px;
+    padding: 28px;
+    min-height: 580px;
+  }
+  .fiche-equipe__photo {
+    flex: 0 0 300px;
+  }
+  .fiche-equipe__texte {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
