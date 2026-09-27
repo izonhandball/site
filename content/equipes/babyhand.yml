@@ -2,5 +2,9 @@ nom: Baby-hand
 groupe: jeunes
 ordre: 16
 niveau: Sans compétition
+horaires:
+  - jour: Samedi
+    debut: 09:30
+    fin: 10:30
 mention: 2 essais gratuits
 photo: ""
