@@ -13,4 +13,8 @@
     "run_worker_first": ["/api/*"],
   },
   "observability": { "enabled": true },
+  // OAuth App GitHub « Site HBC Izon — administration » (compte izonhandball).
+  // L'identifiant est public ; le secret GITHUB_CLIENT_SECRET est posé sur le Worker
+  // depuis le tableau de bord Cloudflare (Settings → Variables and Secrets), jamais ici.
+  "vars": { "GITHUB_CLIENT_ID": "Ov23liwK3aU0M7hWOwFp" },
 }
