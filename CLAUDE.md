@@ -140,7 +140,7 @@ Affiche recrutement de référence : https://www.instagram.com/p/DbnkHCmMJuI/
 
 ## Prochaines étapes
 
-1. Créer l'app Meta (type Business), générer le jeton, `pnpm ig:cle` + `gh secret set IG_KEY`, `pnpm ig:init`, commiter `token.enc`. La première synchro remplacera les données de dev par les vrais posts et leurs images.
+1. ~~Synchro Instagram en service~~ (27/09/2026) : app Meta « site » (ID 1401697685421396 côté Instagram), @hbcizon testeur Instagram, permission `instagram_business_basic` seule, secret `IG_KEY` posé, jeton chiffré commité. Les posts existants n'ont pas encore de hashtags de pilotage : il faut les ajouter aux légendes (modifier un post suffit, la synchro suivante le reclasse).
 2. Ajouter le logo, les photos d'équipe et les archives.
 3. Compte Cloudflare : Worker OAuth pour Decap, hébergement (Pages, build quotidien) et domaine `hbcizon.fr`.
 5. Version mobile de la page Histoire à vérifier sur appareil réel.
