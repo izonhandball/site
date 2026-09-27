@@ -153,7 +153,7 @@ Affiche recrutement de référence : https://www.instagram.com/p/DbnkHCmMJuI/
 2. ~~Logo~~ (27/09/2026). Ajouter les photos d'équipe et les archives.
 3. ~~Cloudflare~~ (27/09/2026) : compte izonhandball@gmail.com (Account ID `26ec4139b67657414cedf5e02a44e857`, sous-domaine `izonhandball.workers.dev`), jeton d'API « github-actions-deploiement-site » (Edit Cloudflare Workers, sans expiration), secrets GitHub posés. Site en ligne sur https://hbcizon.izonhandball.workers.dev
 4. ~~OAuth App GitHub pour Decap~~ (27/09/2026) : admin en ligne fonctionnel sur /admin/.
-5. Domaine `hbc-izon.fr` : ajouter la zone dans Cloudflare (vérifier l'import des MX), remplacer les serveurs DNS OVH par ceux de Cloudflare dans l'espace client OVH, puis domaine personnalisé sur le Worker (`hbc-izon.fr` + `www`) et mise à jour du callback de l'OAuth App.
+5. Domaine `hbc-izon.fr` : zone ajoutée dans Cloudflare (plan Free, 27/09/2026 ; MX OVH et SPF gardés, anciens A/CNAME supprimés) et serveurs DNS OVH remplacés par `lara.ns.cloudflare.com` / `rick.ns.cloudflare.com` (en attente de publication par l'AFNIC). Reste : attendre que la zone soit « Active » dans Cloudflare, puis domaine personnalisé sur le Worker (`hbc-izon.fr` + `www`, depuis le tableau de bord : le jeton d'API n'a pas les droits de zone) et test de l'admin sur le nouveau domaine (callback OAuth déjà enregistré). La zone DNS OVH n'est pas visible depuis le compte du mainteneur : l'usage réel des boîtes `@hbc-izon.fr` reste inconnu.
 6. Version mobile de la page Histoire à vérifier sur appareil réel.
 
 ## Plus tard
