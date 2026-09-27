@@ -20,7 +20,8 @@
     "ig:renouveler": "node --env-file-if-exists=.env scripts/instagram/jeton-cli.ts renouveler",
     "ig:etat": "node --env-file-if-exists=.env scripts/instagram/jeton-cli.ts etat",
     "deploy": "wrangler deploy",
-    "preview:cf": "astro build && wrangler dev"
+    "preview:cf": "astro build && wrangler dev",
+    "images": "node scripts/images/optimiser.ts"
   },
   "dependencies": {
     "@fontsource/anton": "^5.3.0",

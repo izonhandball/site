@@ -45,6 +45,7 @@ src/pages/               index, histoire, 404
 
 - Le script de synchro **récupère** seulement. Le **classement et la sélection** se font au build (`selectionAccueil`), ce qui permet de changer les règles sans resynchroniser.
 - **Aperçus de l'admin** : seule la structure HTML est dupliquée entre les composants du site et `src/admin/apercus.ts` ; données (`src/lib/`) et styles (`src/styles/*.css`) sont communs. Toute modification de structure d'une fiche équipe, d'une période, de l'accroche Histoire, du pied de page ou des graphiques de la page Histoire doit être reportée dans `apercus.ts`.
+- **Images déposées** (`public/images/**`, via l'admin ou à la main) : le workflow `optimise-images.yml` lance `pnpm images` (`scripts/images/optimiser.ts`) à chaque push qui en ajoute. JPEG/PNG → WebP 1600 px max qualité 80, WebP > 400 Kio réencodé, références mises à jour dans `content/`, commit puis redéploiement. L'original reste dans l'historique Git (inévitable sans compression côté navigateur).
 - Une image absente de `public/` s'affiche comme un emplacement réservé (`Visuel.astro`, `imagePublique`). Les chemins peuvent donc être déclarés avant que les fichiers existent.
 - `data/instagram/posts.json` contient pour l'instant des **données de dev** (`"source": "fixture"`) tirées de la maquette : vraies légendes, hashtags ajoutés, images pas encore récupérées.
 - Commandes : `pnpm dev`, `pnpm test`, `pnpm build` (= `astro check` + build), `pnpm cms` (backend local de Decap, puis http://localhost:4321/admin/index.html).

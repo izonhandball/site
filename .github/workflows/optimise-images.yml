@@ -1,0 +1,49 @@
+name: Optimisation des images
+
+# Quand une image arrive dans public/images/ (admin Decap ou dépôt manuel) : conversion en
+# WebP redimensionné (1600 px max), mise à jour des fiches qui la référencent, commit, puis
+# redéploiement. Un push fait avec GITHUB_TOKEN ne relance pas ce workflow : pas de boucle.
+
+on:
+  push:
+    branches: [main]
+    paths: ["public/images/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write # pour déclencher le déploiement
+
+concurrency:
+  group: optimisation-images
+  cancel-in-progress: false
+
+jobs:
+  optimiser:
+    if: github.repository == 'izonhandball/site'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm images
+      - name: Commit et redéploiement
+        run: |
+          git add -A public/images content
+          if git diff --cached --quiet; then
+            echo "Images déjà optimisées."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "images : conversion en WebP optimisé"
+          git pull --rebase
+          git push
+          gh workflow run deploy.yml --ref main -R "$GITHUB_REPOSITORY"
+        env:
+          GH_TOKEN: ${{ github.token }}

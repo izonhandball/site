@@ -12,7 +12,7 @@ Site du Handball Club Izonnais : [hbc-izon.fr](https://hbc-izon.fr).
   | `#hbcirecrutement`, `#hbcievent` | Annonces (les 4 dernières) |
   | aucun | La vie du club (les 6 derniers) |
 
-- **Le contenu fixe** (équipes, horaires, histoire, coordonnées) se modifie depuis `/admin`, sans toucher au code.
+- **Le contenu fixe** (équipes, horaires, histoire, coordonnées) se modifie depuis `/admin`, sans toucher au code. Les photos peuvent être déposées telles quelles (même prises au téléphone) : elles sont redimensionnées et converties automatiquement après publication.
 
 ## Développement
 
