@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import feed from "../../data/instagram/posts.json";
+import feed from "./fixtures/posts-maquette.json";
 import {
   categorie,
   legende,

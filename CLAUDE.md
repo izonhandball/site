@@ -14,7 +14,7 @@ Site web du Handball Club Izonnais. Ce fichier résume le contexte établi en ph
 - **Framework** : Astro (sortie 100 % statique), TypeScript strict, CSS natif (tokens dans `src/styles/tokens.css`), JS natif sans framework (`src/scripts/ui.ts`).
 - **CMS** : Decap CMS dans `public/admin/` (backend GitHub, relecture avant publication). En prod, il faut un Worker OAuth sur Cloudflare (compte gratuit à créer).
 - **Dépôt** : `git@github.com:izonhandball/site.git` (public), CI GitHub Actions.
-- **Hébergement** : Cloudflare Pages envisagé (le compte Cloudflare sert déjà au Worker de Decap) ; GitHub Pages reste possible. À confirmer au moment de la mise en ligne.
+- **Hébergement** : **Cloudflare Workers avec static assets** (plutôt que Pages, que Cloudflare ne met plus en avant). Un seul Worker (`worker/index.ts`, `wrangler.jsonc`) sert `dist/` et l'OAuth GitHub de Decap sur `/api/auth` : même domaine, pas de service séparé. Déploiement par GitHub Actions (`deploy.yml`) avec `wrangler deploy` : à chaque push sur main, après une synchro Instagram qui a changé quelque chose (déclenché explicitement, car un push fait avec `GITHUB_TOKEN` ne déclenche rien), et chaque nuit (expiration des Match Day).
 - **Domaine** : `hbcizon.fr` (libre au 27/09/2026). `hbc-izon.fr` est déjà enregistré par quelqu'un.
 - **Jeton Instagram** : stocké chiffré dans le dépôt (`data/instagram/token.enc`), clé fixe dans le secret `IG_KEY`, rafraîchi chaque semaine par un workflow qui commite le nouveau jeton (pas de PAT, et le commit garde les crons actifs).
 - **Hashtags de pilotage** : dans la légende uniquement (permission `instagram_business_basic` seule).
@@ -30,7 +30,8 @@ content/                 contenu éditable (Decap) — schémas Zod dans src/con
 data/instagram/posts.json  posts Instagram (écrit par le script de synchro, jamais à la main)
 public/instagram/        images des posts (<id>-<n>.webp)
 public/images/           equipes/, archives/, uploads/ (Decap)
-public/admin/            Decap CMS (index.html + config.yml)
+public/admin/            Decap CMS (index.html + config.yml) ; base_url = origine du site, auth_endpoint api/auth
+worker/                  Worker Cloudflare : assets + OAuth GitHub pour Decap (testé)
 src/lib/instagram.ts     classement par hashtag + sélection des blocs de l'accueil (testé)
 src/components/          sections de l'accueil, carrousel, fenêtres
 src/pages/               index, histoire, 404
@@ -142,8 +143,10 @@ Affiche recrutement de référence : https://www.instagram.com/p/DbnkHCmMJuI/
 
 1. ~~Synchro Instagram en service~~ (27/09/2026) : app Meta « site » (ID 1401697685421396 côté Instagram), @hbcizon testeur Instagram, permission `instagram_business_basic` seule, secret `IG_KEY` posé, jeton chiffré commité. Les posts existants n'ont pas encore de hashtags de pilotage : il faut les ajouter aux légendes (modifier un post suffit, la synchro suivante le reclasse).
 2. Ajouter le logo, les photos d'équipe et les archives.
-3. Compte Cloudflare : Worker OAuth pour Decap, hébergement (Pages, build quotidien) et domaine `hbcizon.fr`.
-5. Version mobile de la page Histoire à vérifier sur appareil réel.
+3. Cloudflare : compte, jeton d'API (modèle « Edit Cloudflare Workers ») → secrets GitHub `CLOUDFLARE_API_TOKEN` et `CLOUDFLARE_ACCOUNT_ID`, premier déploiement sur `hbcizon.<compte>.workers.dev`.
+4. OAuth App GitHub dans l'organisation izonhandball (callback `https://<domaine>/api/auth/callback`) → `wrangler secret put GITHUB_CLIENT_ID` et `GITHUB_CLIENT_SECRET`. Chaque bénévole doit avoir un accès en écriture au dépôt.
+5. Domaine `hbcizon.fr` (.fr non vendu par Cloudflare Registrar : acheter chez un registrar français, puis déléguer les DNS à Cloudflare), domaine personnalisé sur le Worker, mise à jour du callback de l'OAuth App.
+6. Version mobile de la page Histoire à vérifier sur appareil réel.
 
 ## Plus tard
 

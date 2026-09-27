@@ -5,3 +5,4 @@ publicHoistPattern:
 onlyBuiltDependencies:
   - esbuild
   - sharp
+  - workerd

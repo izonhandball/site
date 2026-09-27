@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # pour déclencher le déploiement
 
 concurrency:
   group: instagram
@@ -51,3 +52,8 @@ jobs:
           git commit -m "instagram : synchro des posts"
           git pull --rebase
           git push
+          # Un push fait avec GITHUB_TOKEN ne déclenche pas les autres workflows :
+          # on lance le déploiement explicitement.
+          gh workflow run deploy.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}

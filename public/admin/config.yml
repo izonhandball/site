@@ -6,8 +6,8 @@ backend:
   name: github
   repo: izonhandball/site
   branch: main
-  # Service d'authentification GitHub (Cloudflare Worker), à déployer avant la mise en ligne.
-  # base_url: https://hbcizon-oauth.<compte>.workers.dev
+  # Authentification : Worker du site (/api/auth), base_url fixée dans admin/index.html.
+  auth_scope: public_repo
   commit_messages:
     create: "contenu : ajoute {{collection}} « {{slug}} »"
     update: "contenu : modifie {{collection}} « {{slug}} »"

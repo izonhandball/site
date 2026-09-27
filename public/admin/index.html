@@ -8,6 +8,18 @@
   </head>
   <body>
     <!-- Decap CMS : édition du dossier content/ du dépôt. Configuration : config.yml -->
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/decap-cms@3/dist/decap-cms.js"></script>
+    <script>
+      // L'authentification GitHub est servie par le Worker du site (/api/auth), sur le même
+      // domaine : cela fonctionne aussi bien sur *.workers.dev que sur hbcizon.fr.
+      CMS.init({
+        config: {
+          backend: { base_url: window.location.origin, auth_endpoint: "api/auth" },
+        },
+      });
+    </script>
   </body>
 </html>

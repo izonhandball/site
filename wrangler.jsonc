@@ -1,0 +1,16 @@
+// Déploiement Cloudflare Workers : site statique (dist/) + authentification de Decap (worker/).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hbcizon",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-26",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash",
+    // Seules les routes /api/* passent par le Worker ; le reste est servi directement.
+    "run_worker_first": ["/api/*"],
+  },
+  "observability": { "enabled": true },
+}
