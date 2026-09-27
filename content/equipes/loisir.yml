@@ -2,3 +2,8 @@ nom: Loisir
 groupe: adultes
 ordre: 3
 niveau: Sans compétition
+horaires:
+  - jour: Vendredi
+    debut: 21:15
+    fin: 23:00
+entraineurs: Stéphane & Bruno
