@@ -7,4 +7,7 @@ horaires:
   - jour: Mercredi
     debut: 19:30
     fin: 21:00
+  - jour: Vendredi
+    debut: 21:15
+    fin: 23:00
 entraineurs: Théo & Alain
