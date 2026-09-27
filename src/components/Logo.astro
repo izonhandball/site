@@ -1,13 +1,13 @@
 ---
 import { imagePublique } from "../lib/site";
 
-// Logo du club : public/logo.png (photo de profil Instagram @hbcizon).
-// Tant que le fichier n'est pas ajouté, on affiche une pastille jaune « HBCI ».
+// Logo du club : public/logo.webp (256 px, tiré de la photo de profil Facebook du club en 960 px).
+// Si le fichier manque, on affiche une pastille jaune « HBC IZON ».
 interface Props {
   taille: number;
 }
 const { taille } = Astro.props;
-const src = imagePublique("/logo.png");
+const src = imagePublique("/logo.webp");
 ---
 
 {src ? (

@@ -104,7 +104,7 @@ Issue des affiches publiées par le club sur Instagram (Match Day, Les Résultat
 - **Gabarit résultats** : photo d'équipe en tête, « LES RÉSULTATS » + script « Nos séniors » / « Nos jeunes », barres noires `CATÉGORIE (jaune) // ADVERSAIRE (blanc) SCORE (gros)` + « Victoire »/« Défaite » en script + pastille verte/rouge.
 - **Gabarit Match Day** : « MATCH DAY » blanc droit, catégorie en script jaune, deux logos séparés par un trait, « HBC IZON VS » jaune / adversaire blanc, date+heure en gras, lieu et « Restauration sur place », joueur détouré à droite.
 - **Signatures** : « Un ballon, une passion, une famille… Since 1973 » · « Ensemble, écrivons l'histoire ! » · « Plaisir, motivation et compétition » · « Viens essayer gratuitement ! ».
-- Logo : rond jaune, silhouette noire de joueur, lettres HBC / IZON rouges. À déposer en `public/logo.png` (photo de profil Instagram, 960 px) ; une pastille provisoire s'affiche en attendant.
+- Logo : rond jaune, silhouette noire de joueur, lettres HBC / IZON rouges. `public/logo.webp` (256 px), `favicon.png` (64 px) et `apple-touch-icon.png` (180 px), tirés de la photo de profil Facebook du club (seule source en 960 px : `https://graph.facebook.com/izonhandball/picture?width=960&height=960` ; Instagram ne donne que 206 px).
 - Mobile-first : les maquettes existent en 1280 px et 390 px.
 
 
@@ -150,7 +150,7 @@ Affiche recrutement de référence : https://www.instagram.com/p/DbnkHCmMJuI/
 ## Prochaines étapes
 
 1. ~~Synchro Instagram en service~~ (27/09/2026) : app Meta « site » (ID 1401697685421396 côté Instagram), @hbcizon testeur Instagram, permission `instagram_business_basic` seule, secret `IG_KEY` posé, jeton chiffré commité. Les posts existants n'ont pas encore de hashtags de pilotage : il faut les ajouter aux légendes (modifier un post suffit, la synchro suivante le reclasse).
-2. Ajouter le logo, les photos d'équipe et les archives.
+2. ~~Logo~~ (27/09/2026). Ajouter les photos d'équipe et les archives.
 3. ~~Cloudflare~~ (27/09/2026) : compte izonhandball@gmail.com (Account ID `26ec4139b67657414cedf5e02a44e857`, sous-domaine `izonhandball.workers.dev`), jeton d'API « github-actions-deploiement-site » (Edit Cloudflare Workers, sans expiration), secrets GitHub posés. Site en ligne sur https://hbcizon.izonhandball.workers.dev
 4. ~~OAuth App GitHub pour Decap~~ (27/09/2026) : admin en ligne fonctionnel sur /admin/.
 5. Domaine `hbc-izon.fr` : ajouter la zone dans Cloudflare (vérifier l'import des MX), remplacer les serveurs DNS OVH par ceux de Cloudflare dans l'espace client OVH, puis domaine personnalisé sur le Worker (`hbc-izon.fr` + `www`) et mise à jour du callback de l'OAuth App.
