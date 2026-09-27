@@ -1,3 +1,10 @@
 nom: Séniors filles
 groupe: adultes
 ordre: 1
+niveau: Département Promotion
+naissance: 2009 et après
+horaires:
+  - jour: Mercredi
+    debut: 19:30
+    fin: 21:00
+entraineurs: Théo & Alain
