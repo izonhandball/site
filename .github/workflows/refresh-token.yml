@@ -23,14 +23,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Jeton présent ?
         id: jeton
         run: test -f data/instagram/token.enc && echo "ok=true" >> "$GITHUB_OUTPUT" || echo "::notice::Pas encore de jeton Instagram (pnpm ig:init)."
       - if: steps.jeton.outputs.ok == 'true'
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
       - if: steps.jeton.outputs.ok == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
