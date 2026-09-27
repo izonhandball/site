@@ -1,6 +1,6 @@
 # Site du HBC Izon
 
-Site du Handball Club Izonnais : [hbcizon.fr](https://hbcizon.fr).
+Site du Handball Club Izonnais : [hbc-izon.fr](https://hbc-izon.fr).
 
 - **L'accueil se met à jour tout seul depuis Instagram** (@hbcizon). Il suffit d'ajouter un hashtag dans la légende du post :
 

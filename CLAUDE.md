@@ -1,4 +1,4 @@
-# Site du HBC Izon (hbcizon.fr)
+# Site du HBC Izon (hbc-izon.fr)
 
 Site web du Handball Club Izonnais. Ce fichier résume le contexte établi en phase de conception (maquettes faites sur claude.ai). À lire avant toute tâche.
 
@@ -15,7 +15,7 @@ Site web du Handball Club Izonnais. Ce fichier résume le contexte établi en ph
 - **CMS** : Decap CMS dans `public/admin/` (backend GitHub, relecture avant publication). En prod, il faut un Worker OAuth sur Cloudflare (compte gratuit à créer).
 - **Dépôt** : `git@github.com:izonhandball/site.git` (public), CI GitHub Actions.
 - **Hébergement** : **Cloudflare Workers avec static assets** (plutôt que Pages, que Cloudflare ne met plus en avant). Un seul Worker (`worker/index.ts`, `wrangler.jsonc`) sert `dist/` et l'OAuth GitHub de Decap sur `/api/auth` : même domaine, pas de service séparé. Déploiement par GitHub Actions (`deploy.yml`) avec `wrangler deploy` : à chaque push sur main, après une synchro Instagram qui a changé quelque chose (déclenché explicitement, car un push fait avec `GITHUB_TOKEN` ne déclenche rien), et chaque nuit (expiration des Match Day).
-- **Domaine** : `hbcizon.fr` (libre au 27/09/2026). `hbc-izon.fr` est déjà enregistré par quelqu'un.
+- **Domaine** : **`hbc-izon.fr`**, déjà détenu par le club (ancien site, plus utilisé). Registrar OVH, expiration le **05/01/2027** (à renouveler). DNS actuellement chez OVH, avec un A vers `195.154.112.157` (ancien site) et des **MX OVH** (messagerie `@hbc-izon.fr` peut-être encore en usage : à conserver lors du passage des DNS à Cloudflare).
 - **Jeton Instagram** : stocké chiffré dans le dépôt (`data/instagram/token.enc`), clé fixe dans le secret `IG_KEY`, rafraîchi chaque semaine par un workflow qui commite le nouveau jeton (pas de PAT, et le commit garde les crons actifs).
 - **Hashtags de pilotage** : dans la légende uniquement (permission `instagram_business_basic` seule).
 
@@ -145,7 +145,7 @@ Affiche recrutement de référence : https://www.instagram.com/p/DbnkHCmMJuI/
 2. Ajouter le logo, les photos d'équipe et les archives.
 3. Cloudflare : compte, jeton d'API (modèle « Edit Cloudflare Workers ») → secrets GitHub `CLOUDFLARE_API_TOKEN` et `CLOUDFLARE_ACCOUNT_ID`, premier déploiement sur `hbcizon.<compte>.workers.dev`.
 4. OAuth App GitHub dans l'organisation izonhandball (callback `https://<domaine>/api/auth/callback`) → `wrangler secret put GITHUB_CLIENT_ID` et `GITHUB_CLIENT_SECRET`. Chaque bénévole doit avoir un accès en écriture au dépôt.
-5. Domaine `hbcizon.fr` (.fr non vendu par Cloudflare Registrar : acheter chez un registrar français, puis déléguer les DNS à Cloudflare), domaine personnalisé sur le Worker, mise à jour du callback de l'OAuth App.
+5. Domaine `hbc-izon.fr` : ajouter la zone dans Cloudflare (vérifier l'import des MX), remplacer les serveurs DNS OVH par ceux de Cloudflare dans l'espace client OVH, puis domaine personnalisé sur le Worker (`hbc-izon.fr` + `www`) et mise à jour du callback de l'OAuth App.
 6. Version mobile de la page Histoire à vérifier sur appareil réel.
 
 ## Plus tard

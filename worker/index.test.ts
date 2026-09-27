@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import worker, { type Env } from "./index";
 
-const SITE = "https://hbcizon.fr";
+const SITE = "https://hbc-izon.fr";
 const env = (surcharge: Partial<Env> = {}): Env => ({
   ASSETS: { fetch: async () => new Response("asset") },
   GITHUB_CLIENT_ID: "id-client",
@@ -56,7 +56,7 @@ describe("worker", () => {
     );
     const html = await r.text();
     expect(html).toContain("authorization:github:success:");
-    expect(html).toContain('"https://hbcizon.fr"');
+    expect(html).toContain('"https://hbc-izon.fr"');
     expect(html).not.toContain('postMessage("authorizing:github", "*")');
     // Le jeton ne peut pas fermer la balise script.
     expect(html).not.toContain("gho_jeton</script>");
