@@ -20,7 +20,7 @@ const { aLaUne, annonces, vieDuClub } = selectionAccueil((feed as InstaFeed).pos
   page="accueil"
 >
   <h1 class="sr-only">{club.nom}</h1>
-  <ALaUne items={aLaUne} />
+  <ALaUne items={aLaUne} instagram={club.liens.instagram} resultats={club.liens.scorenco} />
   <Annonces posts={annonces} />
   <VieDuClub posts={vieDuClub} instagram={club.liens.instagram} />
   <Equipes />
