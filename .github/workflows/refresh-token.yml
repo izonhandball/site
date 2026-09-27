@@ -1,0 +1,51 @@
+name: Renouvellement du jeton Instagram
+
+# Chaque semaine, renouvelle le jeton (valable 60 jours) et commite la nouvelle version chiffrée.
+# Le commit hebdomadaire garde aussi le dépôt actif : GitHub désactive les crons
+# d'un dépôt public après 60 jours sans activité.
+# En cas d'échec répété, régénérer le jeton dans le tableau de bord Meta puis `pnpm ig:init`.
+
+on:
+  schedule:
+    - cron: "23 5 * * 1" # lundi, 5h23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instagram
+  cancel-in-progress: false
+
+jobs:
+  renouveler:
+    if: github.repository == 'izonhandball/site'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Jeton présent ?
+        id: jeton
+        run: test -f data/instagram/token.enc && echo "ok=true" >> "$GITHUB_OUTPUT" || echo "::notice::Pas encore de jeton Instagram (pnpm ig:init)."
+      - if: steps.jeton.outputs.ok == 'true'
+        uses: pnpm/action-setup@v4
+      - if: steps.jeton.outputs.ok == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - if: steps.jeton.outputs.ok == 'true'
+        run: pnpm install --frozen-lockfile
+      - if: steps.jeton.outputs.ok == 'true'
+        run: pnpm ig:renouveler
+        env:
+          IG_KEY: ${{ secrets.IG_KEY }}
+      - if: steps.jeton.outputs.ok == 'true'
+        name: Commit du jeton
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/instagram/token.enc
+          git commit -m "instagram : renouvellement du jeton"
+          git pull --rebase
+          git push

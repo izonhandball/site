@@ -4,7 +4,7 @@
   "type": "module",
   "packageManager": "pnpm@10.33.2",
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "scripts": {
     "dev": "astro dev",
@@ -13,7 +13,12 @@
     "check": "astro check",
     "test": "vitest run",
     "format": "prettier --write .",
-    "cms": "pnpm dlx decap-server"
+    "cms": "pnpm dlx decap-server",
+    "ig:sync": "node --env-file-if-exists=.env scripts/instagram/sync.ts",
+    "ig:cle": "node --env-file-if-exists=.env scripts/instagram/jeton-cli.ts cle",
+    "ig:init": "node --env-file-if-exists=.env scripts/instagram/jeton-cli.ts init",
+    "ig:renouveler": "node --env-file-if-exists=.env scripts/instagram/jeton-cli.ts renouveler",
+    "ig:etat": "node --env-file-if-exists=.env scripts/instagram/jeton-cli.ts etat"
   },
   "dependencies": {
     "@fontsource/anton": "^5.3.0",
@@ -27,6 +32,7 @@
     "@types/node": "^22.20.4",
     "prettier": "^3.9.9",
     "prettier-plugin-astro": "^1.1.0",
+    "sharp": "^0.35.5",
     "typescript": "^6.0.3",
     "vitest": "^5.0.2"
   }

@@ -50,6 +50,11 @@ src/pages/               index, histoire, 404
 - Tâche planifiée (toutes les heures) : récupère les derniers posts → **télécharge les images dans le dépôt** (les URL CDN Instagram expirent), en WebP ~1200 px → écrit `data/instagram/posts.json` → commit si changement → rebuild/déploiement.
 - Les Reels avec musique sous droits n'ont pas de `media_url` : prendre `thumbnail_url`.
 - Si le jeton expire, le site reste en ligne avec les derniers contenus.
+- **Implémentation** (`scripts/instagram/`, Node 24 exécute le TypeScript directement) :
+  - `sync.ts` (`pnpm ig:sync`) : lit les 50 derniers médias (API v25.0, `/me/media` avec `children`), ne garde que les posts affichables à l'instant T (`postsAGarder` = union des blocs de `selectionAccueil`), télécharge leurs images en WebP 1080 px dans `public/instagram/<id>-<n>.webp`, supprime les images devenues inutiles, et n'écrit `posts.json` que si les posts ont changé.
+  - `jeton.ts` / `jeton-cli.ts` : AES-256-GCM, clé `IG_KEY` (secret GitHub + `.env` local). Commandes `pnpm ig:cle`, `ig:init`, `ig:renouveler`, `ig:etat`. Le jeton est masqué dans les journaux Actions (`::add-mask::`), et un avertissement s'affiche à moins de 14 jours de l'expiration.
+  - Workflows `sync-instagram.yml` (horaire) et `refresh-token.yml` (lundi), sans effet tant que `token.enc` n'existe pas. Ils commitent avec `GITHUB_TOKEN` : ces commits **ne déclenchent pas** d'autres workflows. Le déploiement devra donc soit être déclenché par l'hébergeur (intégration Git de Cloudflare Pages), soit être fait dans le même workflow.
+  - Un build quotidien sera nécessaire au déploiement pour retirer un Match Day expiré quand aucun nouveau post n'arrive.
 - Pour des données de dev réelles sans API : `instaloader` avec login (l'accès anonyme est bloqué par Instagram).
 
 ### Hashtags de pilotage (dans la légende, insensibles à la casse et aux accents)
@@ -135,10 +140,9 @@ Affiche recrutement de référence : https://www.instagram.com/p/DbnkHCmMJuI/
 
 ## Prochaines étapes
 
-1. Récupérer les images réelles (instaloader avec login, ou premier passage du script de synchro) vers `public/instagram/`, ainsi que le logo, les photos d'équipe et les archives.
-2. Script de synchro Instagram (`scripts/instagram/`) + workflows `sync-instagram.yml` (horaire) et `refresh-token.yml` (hebdo, jeton chiffré).
-3. Créer l'app Meta (type Business), générer le jeton, le chiffrer dans le dépôt.
-4. Compte Cloudflare : Worker OAuth pour Decap, hébergement (Pages) et domaine `hbcizon.fr`.
+1. Créer l'app Meta (type Business), générer le jeton, `pnpm ig:cle` + `gh secret set IG_KEY`, `pnpm ig:init`, commiter `token.enc`. La première synchro remplacera les données de dev par les vrais posts et leurs images.
+2. Ajouter le logo, les photos d'équipe et les archives.
+3. Compte Cloudflare : Worker OAuth pour Decap, hébergement (Pages, build quotidien) et domaine `hbcizon.fr`.
 5. Version mobile de la page Histoire à vérifier sur appareil réel.
 
 ## Plus tard

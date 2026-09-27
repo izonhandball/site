@@ -16,7 +16,7 @@ Site du Handball Club Izonnais : [hbcizon.fr](https://hbcizon.fr).
 
 ## Développement
 
-Prérequis : Node 22 et pnpm.
+Prérequis : Node 24 et pnpm.
 
 ```bash
 pnpm install
@@ -26,6 +26,26 @@ pnpm build    # vérification des types et du contenu, puis build statique dans 
 ```
 
 Pour essayer l'administration en local, lancer `pnpm cms` dans un second terminal, puis ouvrir http://localhost:4321/admin/index.html.
+
+## Synchro Instagram
+
+Une GitHub Action lit les posts toutes les heures et commite les changements. Le jeton Meta est chiffré dans le dépôt (`data/instagram/token.enc`) et renouvelé automatiquement chaque lundi.
+
+Mise en route, à faire une seule fois :
+
+1. Sur [developers.facebook.com](https://developers.facebook.com/apps), créer une app de type **Business**, ajouter le produit **Instagram**, puis dans *API setup with Instagram business login*, connecter @hbcizon et cliquer sur **Generate token**.
+2. Générer la clé de chiffrement et la déclarer à GitHub :
+   ```bash
+   pnpm ig:cle            # copier la ligne IG_KEY=… dans .env
+   gh secret set IG_KEY -R izonhandball/site
+   ```
+3. Chiffrer le jeton, puis commiter `data/instagram/token.enc` :
+   ```bash
+   pnpm ig:init           # coller le jeton généré à l'étape 1
+   pnpm ig:sync           # facultatif : première synchro en local
+   ```
+
+Pour vérifier le jeton : `pnpm ig:etat`. Si le renouvellement échoue (mot de passe Instagram changé, accès révoqué…), le site reste en ligne avec les derniers posts. Il suffit de refaire les étapes 1 et 3.
 
 ## Où est quoi
 
