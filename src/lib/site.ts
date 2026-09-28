@@ -28,6 +28,13 @@ const jourMoisFr = new Intl.DateTimeFormat("fr-FR", {
   month: "long",
   timeZone: "Europe/Paris",
 });
+const dateCourteFr = new Intl.DateTimeFormat("fr-FR", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  timeZone: "Europe/Paris",
+});
 
 export const formatDate = (iso: string) => dateFr.format(new Date(iso));
 export const formatJourMois = (iso: string) => jourMoisFr.format(new Date(iso));
+export const formatDateCourte = (iso: string) => dateCourteFr.format(new Date(iso));

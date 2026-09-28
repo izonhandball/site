@@ -3,7 +3,7 @@ import Carrousel from "./Carrousel.astro";
 import FenetrePost from "./FenetrePost.astro";
 import Visuel from "./Visuel.astro";
 import { LIBELLES, categorie, titre, type InstaPost } from "../lib/instagram";
-import { formatDate } from "../lib/site";
+import { formatDate, formatDateCourte } from "../lib/site";
 
 // Les 4 derniers posts #hbcirecrutement / #hbcievent.
 interface Props {
@@ -24,11 +24,14 @@ const idFiche = (i: number) => `annonce-${(i + posts.length) % posts.length}`;
               src={p.media[0]?.src}
               alt={`Affiche publiée par @hbcizon le ${formatDate(p.timestamp)}`}
             />
-            <span class="carte__meta">
-              {LIBELLES[categorie(p.caption)]} · {formatDate(p.timestamp)}
-            </span>
+            <span class="carte__meta">{LIBELLES[categorie(p.caption)]}</span>
             <span class="carte__titre">{titre(p.caption)}</span>
-            <span class="carte__lire">Lire l'annonce</span>
+            <span class="carte__pied">
+              <span class="carte__lire">Lire l'annonce</span>
+              <span class="carte__publie">
+                Publié le <time datetime={p.timestamp}>{formatDateCourte(p.timestamp)}</time>
+              </span>
+            </span>
           </button>
         ))}
       </Carrousel>
@@ -40,6 +43,7 @@ const idFiche = (i: number) => `annonce-${(i + posts.length) % posts.length}`;
         precedent={idFiche(i - 1)}
         suivant={idFiche(i + 1)}
         position={`${i + 1} / ${posts.length}`}
+        dateDiscrete
       />
     ))}
   </section>
@@ -54,6 +58,8 @@ const idFiche = (i: number) => `annonce-${(i + posts.length) % posts.length}`;
     margin-bottom: 18px;
   }
   .carte {
+    display: flex;
+    flex-direction: column;
     padding: 0;
     border: 0;
     background: none;
@@ -73,16 +79,26 @@ const idFiche = (i: number) => `annonce-${(i + posts.length) % posts.length}`;
   }
   .carte__titre {
     display: block;
-    margin-top: 4px;
+    margin: 4px 0 14px;
     font-family: var(--f-titre);
     font-weight: 900;
     font-size: 21px;
     line-height: 1.05;
     text-transform: uppercase;
   }
+  /* Pied de carte : la date de publication reste discrète, à l'écart du titre,
+     pour ne pas passer pour la date de l'événement annoncé. */
+  .carte__pied {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px 12px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--bordure-forte);
+  }
   .carte__lire {
-    display: inline-block;
-    margin-top: 10px;
     font-family: var(--f-titre);
     font-weight: 900;
     font-size: 15px;
@@ -90,6 +106,15 @@ const idFiche = (i: number) => `annonce-${(i + posts.length) % posts.length}`;
     letter-spacing: 1.2px;
     color: var(--jaune);
     border-bottom: 2px solid var(--jaune);
+  }
+  .carte__publie {
+    font-family: var(--f-titre);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    white-space: nowrap;
+    color: var(--texte-discret);
   }
   .carte:hover .carte__lire {
     color: var(--jaune-clair);

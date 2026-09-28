@@ -13,8 +13,11 @@ interface Props {
   precedent: string;
   suivant: string;
   position: string;
+  // Annonces : la date de publication passe en petit, sous la légende, pour ne pas
+  // être confondue avec la date de l'événement annoncé.
+  dateDiscrete?: boolean;
 }
-const { id, post, precedent, suivant, position } = Astro.props;
+const { id, post, precedent, suivant, position, dateDiscrete = false } = Astro.props;
 const date = formatDate(post.timestamp);
 ---
 
@@ -52,8 +55,9 @@ const date = formatDate(post.timestamp);
           <Icone nom="fermer" /> Fermer
         </button>
       </div>
-      <p class="script fiche__date">Publié le {date}</p>
+      {!dateDiscrete && <p class="script fiche__date">Publié le {date}</p>}
       <Legende caption={post.caption} />
+      {dateDiscrete && <p class="fiche__publie">Publié le {date}</p>}
       <a href={post.permalink} class="btn btn--jaune fiche__insta">
         <Icone nom="instagram" /> Voir sur Instagram
       </a>
@@ -91,6 +95,17 @@ const date = formatDate(post.timestamp);
   .fiche__date {
     margin: 0 0 14px;
     font-size: 18px;
+  }
+  .fiche__publie {
+    margin: 18px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--bordure-forte);
+    font-family: var(--f-titre);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--texte-discret);
   }
   .fiche__insta {
     margin-top: 20px;
