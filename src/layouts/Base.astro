@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "../styles/propositions-sections.css";
 import EnTete from "../components/EnTete.astro";
 import PiedDePage from "../components/PiedDePage.astro";
 import FenetreContact from "../components/FenetreContact.astro";
@@ -20,6 +21,10 @@ const canonique = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titre}</title>
     <meta name="description" content={description} />
+    <script is:inline>
+      document.documentElement.dataset.sections =
+        new URLSearchParams(location.search).get("sections") ?? "";
+    </script>
     <link rel="canonical" href={canonique} />
     <meta name="theme-color" content="#0d0d0d" />
     <link rel="icon" href="/favicon.png" type="image/png" />
