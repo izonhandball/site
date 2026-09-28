@@ -1,4 +1,10 @@
 nom: U15 filles
 groupe: jeunes
 ordre: 11
+niveau: Départemental
 naissance: Nées en 2012 ou 2013
+horaires:
+  - jour: Mardi
+    debut: 18:45
+    fin: 20:15
+entraineurs: Anaïs & Natacha
