@@ -2,6 +2,8 @@
 // formulaire de contact.
 
 function onglets() {
+  // Même seuil que Equipes.astro et fiche-equipe.css (1099.98px).
+  const mobile = window.matchMedia("(max-width: 1099.98px)");
   const activer = (tab: HTMLElement) => {
     const groupe = tab.closest<HTMLElement>("[data-onglets]");
     if (!groupe) return;
@@ -25,8 +27,31 @@ function onglets() {
       : document.querySelector<HTMLElement>(
           `[role="tab"][aria-controls="${cible.dataset.versOnglet}"]`,
         );
-    if (tab) activer(tab);
+    if (!tab) return;
+    // Accordéon (mobile) : toucher la ligne ouverte la referme.
+    const accordeon = tab.closest("[data-accordeon-mobile]") && mobile.matches;
+    if (accordeon && tab.getAttribute("aria-selected") === "true") return replier(tab);
+    activer(tab);
+    // La fiche précédente, au-dessus, vient de se fermer : garder la ligne touchée à l'écran.
+    if (accordeon && tab.getBoundingClientRect().top < 84) tab.scrollIntoView({ block: "start" });
   });
+
+  // Sur mobile, la liste des équipes s'affiche repliée ; sur desktop, un onglet est toujours ouvert.
+  const replier = (tab: HTMLElement) => {
+    tab.setAttribute("aria-selected", "false");
+    const panneau = document.getElementById(tab.getAttribute("aria-controls") ?? "");
+    if (panneau) panneau.hidden = true;
+  };
+  const adapter = () => {
+    for (const groupe of document.querySelectorAll<HTMLElement>("[data-accordeon-mobile]")) {
+      const tabs = [...groupe.querySelectorAll<HTMLElement>('[role="tab"]')];
+      if (mobile.matches) tabs.forEach(replier);
+      else if (!tabs.some((t) => t.getAttribute("aria-selected") === "true") && tabs[0])
+        activer(tabs[0]);
+    }
+  };
+  adapter();
+  mobile.addEventListener("change", adapter);
 
   // Navigation au clavier entre onglets (flèches gauche / droite).
   document.addEventListener("keydown", (e) => {

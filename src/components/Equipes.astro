@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import Icone from "./Icone.astro";
 import Visuel from "./Visuel.astro";
 import { getClub } from "../lib/site";
-import { A_COMPLETER, libelleGroupe, lignesEquipe } from "../lib/equipes";
+import { A_COMPLETER, libelleGroupe, lignesEquipe, resumeHoraires } from "../lib/equipes";
 import "../styles/fiche-equipe.css";
 
 // Fiches équipes (content/equipes/*.yml). Une information absente s'affiche « À compléter ».
@@ -14,6 +14,20 @@ const groupes = [
   { id: "jeunes", label: "Jeunes · entente Grand Libournais Handball" },
 ] as const;
 const parDefaut = equipes[0]?.id;
+
+// Sur mobile, la liste devient un accordéon : chaque fiche vient juste sous sa ligne.
+// Les boutons et les fiches sont dans des conteneurs différents (onglets sur desktop) :
+// on les remet dans l'ordre de lecture avec la propriété CSS order (--o).
+let rang = 0;
+const ordre = new Map<string, number>();
+const ordreGroupe = new Map<string, number>();
+for (const g of groupes) {
+  ordreGroupe.set(g.id, rang++);
+  for (const e of equipes.filter((e) => e.data.groupe === g.id)) {
+    ordre.set(e.id, rang);
+    rang += 2;
+  }
+}
 ---
 
 <section id="equipes" class="section section--alt equipes">
@@ -30,10 +44,18 @@ const parDefaut = equipes[0]?.id;
       </a>
     </div>
     <div class="equipes__corps">
-      <div class="equipes__choix" role="tablist" aria-label="Équipes" data-onglets>
+      <div
+        class="equipes__choix"
+        role="tablist"
+        aria-label="Équipes"
+        data-onglets
+        data-accordeon-mobile
+      >
         {groupes.map((g) => (
           <div>
-            <p class="etiquette">{g.label}</p>
+            <p class="etiquette" style={`--o: ${ordreGroupe.get(g.id)}`}>
+              {g.label}
+            </p>
             <div class="equipes__boutons">
               {equipes
                 .filter((e) => e.data.groupe === g.id)
@@ -46,14 +68,16 @@ const parDefaut = equipes[0]?.id;
                     aria-controls={`equipe-${e.id}`}
                     aria-selected={e.id === parDefaut ? "true" : "false"}
                     tabindex={e.id === parDefaut ? 0 : -1}
+                    style={`--o: ${ordre.get(e.id)}`}
                   >
-                    {e.data.nom}
+                    <span class="choix__nom">{e.data.nom}</span>
+                    <span class="choix__horaires">{resumeHoraires(e.data)}</span>
                   </button>
                 ))}
             </div>
           </div>
         ))}
-        <p class="equipes__liens">
+        <p class="equipes__liens" style={`--o: ${rang}`}>
           Toutes les équipes sur la <a href={club.liens.ffhandball}>fiche FFHandball</a> et les
           classements sur <a href={club.liens.scorenco}>Score'n'co</a>.
         </p>
@@ -65,6 +89,7 @@ const parDefaut = equipes[0]?.id;
           id={`equipe-${e.id}`}
           aria-labelledby={`onglet-equipe-${e.id}`}
           hidden={e.id !== parDefaut}
+          style={`--o: ${(ordre.get(e.id) ?? 0) + 1}`}
         >
           <figure class="fiche-equipe__photo">
             <Visuel
@@ -141,7 +166,113 @@ const parDefaut = equipes[0]?.id;
     line-height: 1.5;
     color: var(--texte-discret);
   }
-  @media (min-width: 900px) {
+  .choix__horaires {
+    display: none;
+  }
+
+  /* Mobile : une ligne par équipe avec ses créneaux ; la toucher déplie la fiche dessous. */
+  @media (max-width: 1099.98px) {
+    .equipes__choix,
+    .equipes__choix > div,
+    .equipes__boutons {
+      display: contents;
+    }
+    .equipes__corps {
+      gap: 0;
+    }
+    .equipes__choix .etiquette,
+    .equipes__boutons .choix,
+    .equipes__liens,
+    .equipes__corps > :global(.fiche-equipe) {
+      order: var(--o, 0);
+    }
+    /* Intitulé de groupe (Séniors & loisir, Jeunes) : écart franc avant le groupe suivant. */
+    .equipes__choix .etiquette {
+      margin: 48px 0 0;
+      padding-bottom: 12px;
+      border-bottom: 3px solid var(--corail);
+      font-size: 15px;
+      color: var(--corail);
+    }
+    .equipes__choix > div:first-child .etiquette {
+      margin-top: 0;
+    }
+    .equipes__choix .etiquette + .equipes__boutons .choix:first-child {
+      border-top: 0;
+    }
+    .equipes__boutons .choix {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-height: 52px;
+      padding: 13px 2px;
+      border: 0;
+      border-top: 1px solid var(--bordure-forte);
+      background: none;
+      color: var(--texte);
+      scroll-margin-top: 84px;
+    }
+    .equipes__boutons .choix::after {
+      content: "";
+      flex: none;
+      align-self: center;
+      width: 8px;
+      height: 8px;
+      margin: 0 4px 0 2px;
+      border: solid var(--jaune);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) translateY(-3px);
+      transition: transform 0.2s;
+    }
+    .equipes__boutons .choix[aria-selected="true"] {
+      background: none;
+      color: var(--jaune);
+    }
+    .equipes__boutons .choix[aria-selected="true"]::after {
+      transform: rotate(-135deg) translateY(-3px);
+    }
+    .choix__horaires {
+      display: block;
+      margin-left: auto;
+      font-family: var(--f-texte);
+      font-weight: 400;
+      font-size: 15px;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--texte-doux);
+      text-align: right;
+    }
+    .equipes__corps :global(.fiche-equipe) {
+      margin-bottom: 14px;
+    }
+    /* La ligne nomme déjà l'équipe : la photo s'affiche seule, et pas d'emplacement vide. */
+    .equipes__corps :global(.fiche-equipe__groupe),
+    .equipes__corps :global(.fiche-equipe__nom),
+    .equipes__corps :global(.fiche-equipe__photo:has(> .visuel-vide)),
+    .equipes__corps :global(.fiche-equipe::before) {
+      display: none;
+    }
+    .equipes__corps :global(.fiche-equipe dl) {
+      margin-top: 0;
+    }
+    .equipes__corps :global(.fiche-equipe:has(.fiche-equipe__photo > img) dl) {
+      margin-top: 14px;
+    }
+    .equipes__liens {
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid var(--bordure-forte);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .equipes__boutons .choix::after {
+        transition: none;
+      }
+    }
+  }
+
+  @media (min-width: 1100px) {
     .equipes__infos {
       flex-direction: row;
       flex-wrap: wrap;

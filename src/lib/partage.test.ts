@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { lignesEquipe } from "./equipes";
+import { lignesEquipe, resumeHoraires } from "./equipes";
 import { fondMaillot, hauteursLicencies } from "./histoire";
 
 describe("lignesEquipe", () => {
@@ -54,5 +54,21 @@ describe("histoire", () => {
   it("met les barres de licenciés à l'échelle de la plus haute", () => {
     expect(hauteursLicencies([42, 168, 84])).toEqual([25, 100, 50]);
     expect(hauteursLicencies([])).toEqual([]);
+  });
+});
+
+describe("resumeHoraires", () => {
+  it("abrège le jour et garde l'heure de début", () => {
+    expect(
+      resumeHoraires({
+        horaires: [
+          { jour: "Mercredi", debut: "19:30", fin: "21:00" },
+          { jour: "Vendredi", debut: "21:15", fin: "23:00" },
+        ],
+      }),
+    ).toBe("Mer 19h30 · Ven 21h15");
+  });
+  it("signale l'absence de créneau", () => {
+    expect(resumeHoraires({})).toBe("Horaires à venir");
   });
 });

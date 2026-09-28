@@ -24,6 +24,14 @@ const joindre = (...parts: (string | undefined)[]) => parts.filter(Boolean).join
 export const libelleGroupe = (e: Pick<Equipe, "groupe">) =>
   e.groupe === "jeunes" ? "Catégorie jeunes" : "Adultes";
 
+/** Créneaux en abrégé pour la liste des équipes sur mobile : « Mer 19h30 · Ven 21h15 ». */
+export function resumeHoraires(e: Pick<Equipe, "horaires">): string {
+  if (!e.horaires?.length) return "Horaires à venir";
+  return joindre(
+    ...e.horaires.map((h) => `${(h.jour ?? "…").slice(0, 3)} ${formatHeure(h.debut)}`),
+  );
+}
+
 /** Lignes « libellé / valeur » de la fiche ; une valeur absente s'affiche « À compléter ». */
 export function lignesEquipe(e: Equipe): { label: string; valeur?: string }[] {
   const l: { label: string; valeur?: string }[] = [];

@@ -82,20 +82,100 @@
   font-weight: 700;
 }
 
-@media (min-width: 900px) {
+/* Téléphone : la photo devient un bandeau d'affiche, le nom posé dessus, pour que les
+   horaires arrivent dans le premier écran. Grille + display: contents plutôt qu'un
+   autre HTML : la structure reste celle de l'aperçu de l'admin (apercus.ts). */
+@media (max-width: 599.98px) {
+  .fiche-equipe:not([hidden]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 1fr auto auto;
+    row-gap: 0;
+  }
+  .fiche-equipe__photo,
+  .fiche-equipe__texte {
+    display: contents;
+  }
+  .fiche-equipe__photo > img,
+  .fiche-equipe__photo > .visuel-vide {
+    grid-area: 1 / 1 / 4 / 2;
+    width: 100%;
+    aspect-ratio: 3 / 2 !important;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .fiche-equipe__photo > .visuel-vide {
+    align-items: flex-start;
+  }
+  /* Dégradé sous le nom, pour qu'il reste lisible sur n'importe quelle photo. */
+  .fiche-equipe::before {
+    content: "";
+    grid-area: 1 / 1 / 4 / 2;
+    z-index: 1;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.88), rgb(0 0 0 / 0.35) 45%, transparent 70%);
+    pointer-events: none;
+  }
+  .fiche-equipe__groupe,
+  .fiche-equipe__nom {
+    z-index: 2;
+    padding-inline: 14px;
+    text-shadow: 0 1px 12px rgb(0 0 0 / 0.6);
+  }
+  .fiche-equipe__groupe {
+    grid-area: 2 / 1;
+  }
+  .fiche-equipe__nom {
+    grid-area: 3 / 1;
+    margin: 4px 0 0;
+    padding-bottom: 12px;
+  }
+  .fiche-equipe__photo figcaption {
+    margin: 8px 0 0;
+  }
+  .fiche-equipe dl {
+    margin-top: 10px;
+  }
+  .fiche-equipe__mention {
+    justify-self: start;
+  }
+}
+/* Tablette et téléphone en paysage : photo à gauche, infos à droite. La photo ne dépasse
+   pas la hauteur de l'écran (paysage : ~390 px de haut). */
+@media (min-width: 600px) {
+  .fiche-equipe {
+    flex-direction: row;
+    gap: 24px;
+  }
+  .fiche-equipe__photo {
+    flex: 0 0 38%;
+  }
+  .fiche-equipe__photo > img,
+  .fiche-equipe__photo > .visuel-vide {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .fiche-equipe__texte {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 1100px) {
   .fiche-equipe {
     flex: 1 1 0;
     min-width: 0;
     flex-direction: row;
     gap: 30px;
     padding: 28px;
-    min-height: 580px;
   }
   .fiche-equipe__photo {
     flex: 0 0 300px;
   }
-  .fiche-equipe__texte {
-    flex: 1 1 0;
-    min-width: 0;
+}
+@media (min-width: 1100px) and (min-height: 700px) {
+  .fiche-equipe {
+    min-height: 580px;
   }
 }
