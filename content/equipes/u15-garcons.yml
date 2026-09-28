@@ -1,9 +1,11 @@
 nom: U15 garçons
 groupe: jeunes
 ordre: 12
+niveau: Départemental
 naissance: Nés en 2012 ou 2013
 horaires:
   - jour: Mercredi
-    debut: "17:00"
-    fin: "18:30"
+    debut: 17:00
+    fin: 18:30
+entraineurs: Romain, Axel, Lucas & JP
 mention: 2 essais gratuits
