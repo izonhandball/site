@@ -128,7 +128,7 @@ collections:
               - { name: facebook, label: Facebook, widget: string }
               - { name: ffhandball, label: "Fiche FFHandball", widget: string }
               - { name: scorenco, label: "Score'n'co", widget: string }
-              - { name: adhesion, label: "Adhésion (HelloAsso)", widget: string }
+              - { name: gesthand, label: "Inscription au club (Gesthand, FFHandball)", widget: string }
               - { name: boutique, label: Boutique, widget: string }
           - { name: accrocheHistoire, label: "Accroche Histoire (accueil)", widget: text }
       - name: histoire

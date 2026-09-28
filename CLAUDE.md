@@ -93,7 +93,7 @@ Maquette : https://claude.ai/artifact/5MA6EF4E1Efuyikr9qbpMA (desktop 1280, mobi
 | Accueil `/`           | À la une (onglets Match day / Programme / Résultats) · Annonces (carrousel, fiche avec légende complète) · La vie du club (grille, album) · Équipes & entraînements (une fiche par équipe, lieu et mail donnés une fois) · accroche Histoire · pied de page contact | Instagram + `content/` |
 | Histoire `/histoire/` | frise en 5 périodes (faits, présidents, archives), licenciés par saison, maillots                                                                                                                                                                                   | `content/histoire/`    |
 
-Menu : À la une · Annonces · Vie du club · Équipes · Histoire (pas d'entrée Contact : il est en pied de page). Bouton « Nous contacter » → fenêtre de contact (`FenetreContact.astro`), qui donne aussi le lien d'adhésion HelloAsso.
+Menu : À la une · Annonces · Vie du club · Équipes · Histoire (pas d'entrée Contact : il est en pied de page). Bouton « Nous contacter » → fenêtre de contact (`FenetreContact.astro`), qui donne aussi le lien d'inscription Gesthand (FFHandball, `liens.gesthand` dans `content/club.yml`).
 
 ## Direction artistique
 
@@ -137,7 +137,7 @@ Résultats : https://www.instagram.com/p/Ddj4ZUbEVND/ (carrousel : couverture + 
 - Instagram : https://www.instagram.com/hbcizon/
 - Facebook : https://www.facebook.com/izonhandball/
 - FFHandball : https://monclub.ffhandball.fr/clubs/hbc-izonnais/
-- HelloAsso (adhésions) : https://www.helloasso.com/associations/handball-izonnais
+- Inscription au club (Gesthand, FFHandball) : https://gesthand.net/ihand-central/public/individu/inscription/1536?crtl=9b6dda1e580b6c0ae3f50a194f184e3cf775c724
 - Boutique : https://www.helloasso.com/associations/handball-izonnais/boutiques/boutique
 - Résultats & classements : https://scorenco.com/hand/clubs/hbc-izonnais-2pr8
 - Ancien site Clubeo : https://hbc-izon.clubeo.com/
