@@ -1,3 +1,14 @@
 nom: U18 garçons
 groupe: jeunes
 ordre: 10
+niveau: Départemental
+naissance: Nés en 2009, 2010 & 2011
+horaires:
+  - jour: Mercredi
+    debut: 18:30
+    fin: 20:00
+  - jour: Vendredi
+    debut: 18:15
+    fin: 19:45
+entraineurs: Steven & Nicolas
+mention: 2 essais gratuits
