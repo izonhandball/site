@@ -50,7 +50,7 @@ Pour vérifier le jeton : `pnpm ig:etat`. Si le renouvellement échoue (mot de p
 
 ## Formulaire de contact
 
-Le bouton « Nous contacter » envoie les messages à izonhandball@gmail.com, par Cloudflare Email Routing et le Worker du site (`/api/contact`), avec Turnstile contre les robots. `contact@hbc-izon.fr` est aussi renvoyé vers cette boîte. Configuration, tests et dépannage : [`docs/formulaire-de-contact.md`](docs/formulaire-de-contact.md). Pourquoi cette solution : [ADR 0001](docs/adr/0001-formulaire-de-contact.md).
+Le bouton « Nous contacter » envoie les messages à izonhandball@gmail.com, par Cloudflare Email Routing et le Worker du site (`/api/contact`), avec Turnstile contre les robots. `contact@hbc-izon.fr` est aussi renvoyé vers cette boîte. Configuration, tests et dépannage : [`docs/formulaire-de-contact.md`](docs/formulaire-de-contact.md). Pourquoi cette solution : [ADR 0013](docs/adr/0013-formulaire-de-contact.md).
 
 ## Où est quoi
 
@@ -63,4 +63,4 @@ Le bouton « Nous contacter » envoie les messages à izonhandball@gmail.com, pa
 | `src/`            | Pages, composants, styles et règles de l'accueil                                       |
 | `worker/`         | Worker Cloudflare : fichiers du site, connexion à l'admin, formulaire de contact       |
 
-Le contexte complet du projet (décisions, direction artistique, prochaines étapes) est dans [`CLAUDE.md`](CLAUDE.md).
+Les décisions d'architecture sont expliquées dans [`docs/adr/`](docs/adr/README.md). Le contexte complet du projet (direction artistique, données du club, prochaines étapes) est dans [`CLAUDE.md`](CLAUDE.md).

@@ -1,6 +1,6 @@
 # Formulaire de contact
 
-Le bouton « Nous contacter » ouvre une fenêtre de contact. Les messages arrivent dans **izonhandball@gmail.com**, et « Répondre » dans Gmail écrit directement au visiteur. Le choix de cette solution est expliqué dans l'[ADR 0001](adr/0001-formulaire-de-contact.md).
+Le bouton « Nous contacter » ouvre une fenêtre de contact. Les messages arrivent dans **izonhandball@gmail.com**, et « Répondre » dans Gmail écrit directement au visiteur. Le choix de cette solution est expliqué dans l'[ADR 0013](adr/0013-formulaire-de-contact.md).
 
 ## Fonctionnement
 
@@ -105,4 +105,4 @@ Seulement si des boîtes OVH `@hbc-izon.fr` doivent à nouveau recevoir du courr
 2. Dans DNS › Records, recréer les enregistrements OVH d'origine :
    - MX `hbc-izon.fr` → `mx1.mail.ovh.net` (priorité 1), `mx2.mail.ovh.net` (5), `mx3.mail.ovh.net` (100) ;
    - TXT `hbc-izon.fr` → `v=spf1 include:mx.ovh.com -all`.
-3. Remplacer l'envoi du formulaire par une autre option de l'[ADR 0001](adr/0001-formulaire-de-contact.md) (Resend sur sous-domaine par exemple).
+3. Remplacer l'envoi du formulaire par une autre option de l'[ADR 0013](adr/0013-formulaire-de-contact.md) (Resend sur sous-domaine par exemple).
