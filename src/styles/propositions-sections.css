@@ -56,20 +56,18 @@ html[data-sections="b"] #equipes::after {
   content: none;
 }
 html[data-sections="b"] .accroche {
+  --haut-b: 34px;
   position: relative;
   z-index: 2;
-}
-html[data-sections="b"] .accroche::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -33px;
-  height: 34px;
-  background: #e8b62e;
-  -webkit-mask: var(--bord-b) 0 0 / 100% 100%;
-  mask: var(--bord-b) 0 0 / 100% 100%;
-  pointer-events: none;
+  margin-top: calc(1px - var(--haut-b));
+  padding-top: calc(28px + var(--haut-b));
+  /* Le bord est découpé dans l'accroche elle-même : le dégradé reste continu. */
+  -webkit-mask:
+    var(--bord-b) top / 100% var(--haut-b) no-repeat,
+    linear-gradient(#000 0 0) 0 calc(var(--haut-b) - 1px) / 100% 100% no-repeat;
+  mask:
+    var(--bord-b) top / 100% var(--haut-b) no-repeat,
+    linear-gradient(#000 0 0) 0 calc(var(--haut-b) - 1px) / 100% 100% no-repeat;
 }
 html[data-sections="b"] .section--alt::after {
   bottom: -33px;
@@ -96,9 +94,9 @@ html[data-sections="b"] main .section h2.titre-affiche {
   html[data-sections="b"] .section--alt::after {
     bottom: -45px;
   }
-  html[data-sections="b"] .accroche::before {
-    top: -45px;
-    height: 46px;
+  html[data-sections="b"] .accroche {
+    --haut-b: 46px;
+    padding-top: calc(52px + var(--haut-b));
   }
 }
 
