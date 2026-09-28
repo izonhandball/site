@@ -28,12 +28,12 @@ html[data-sections="a"] main .section {
 /* ---------- B. Pinceau : bords déchirés au pinceau, fond texturé, trait jaune sous le titre ---------- */
 html[data-sections="b"] {
   --fond-b: #202020;
+  --bord-b: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'%3E%3Cpath d='M0 40 L0 12 L14 11 L24 13 L31 26 L42 26 L50 24 L63 20 L70 27 L78 16 L93 14 L107 14 L114 8 L128 10 L141 8 L157 10 L169 6 L184 3 L192 6 L199 19 L215 11 L224 15 L237 14 L255 18 L261 22 L279 26 L290 34 L298 29 L306 18 L322 13 L335 22 L351 10 L361 17 L369 5 L378 8 L387 1 L397 7 L412 6 L426 1 L441 14 L452 21 L459 7 L467 18 L474 10 L481 23 L489 15 L499 15 L517 21 L524 16 L533 26 L539 28 L547 31 L565 23 L574 14 L589 13 L599 6 L617 12 L633 9 L645 10 L654 3 L672 8 L690 19 L698 10 L707 18 L723 19 L738 15 L755 26 L767 17 L777 25 L788 18 L803 12 L810 20 L818 18 L832 8 L840 2 L853 7 L865 11 L873 3 L882 8 L893 2 L903 8 L920 11 L932 15 L938 15 L944 21 L956 22 L966 21 L981 16 L990 19 L1003 22 L1019 18 L1032 17 L1043 15 L1060 14 L1078 5 L1095 11 L1102 13 L1109 8 L1126 2 L1140 4 L1158 9 L1168 15 L1184 14 L1200 18 L1200 40Z'/%3E%3C/svg%3E");
 }
 html[data-sections="b"] .section--alt {
   position: relative;
   z-index: 1;
   background-color: var(--fond-b);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   padding-block: 44px 48px;
 }
 html[data-sections="b"] .section--alt::before,
@@ -44,14 +44,32 @@ html[data-sections="b"] .section--alt::after {
   right: 0;
   height: 34px;
   background: var(--fond-b);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'%3E%3Cpath d='M0 40 L0 12 L14 11 L24 13 L31 26 L42 26 L50 24 L63 20 L70 27 L78 16 L93 14 L107 14 L114 8 L128 10 L141 8 L157 10 L169 6 L184 3 L192 6 L199 19 L215 11 L224 15 L237 14 L255 18 L261 22 L279 26 L290 34 L298 29 L306 18 L322 13 L335 22 L351 10 L361 17 L369 5 L378 8 L387 1 L397 7 L412 6 L426 1 L441 14 L452 21 L459 7 L467 18 L474 10 L481 23 L489 15 L499 15 L517 21 L524 16 L533 26 L539 28 L547 31 L565 23 L574 14 L589 13 L599 6 L617 12 L633 9 L645 10 L654 3 L672 8 L690 19 L698 10 L707 18 L723 19 L738 15 L755 26 L767 17 L777 25 L788 18 L803 12 L810 20 L818 18 L832 8 L840 2 L853 7 L865 11 L873 3 L882 8 L893 2 L903 8 L920 11 L932 15 L938 15 L944 21 L956 22 L966 21 L981 16 L990 19 L1003 22 L1019 18 L1032 17 L1043 15 L1060 14 L1078 5 L1095 11 L1102 13 L1109 8 L1126 2 L1140 4 L1158 9 L1168 15 L1184 14 L1200 18 L1200 40Z'/%3E%3C/svg%3E")
-    0 0 / 100% 100%;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'%3E%3Cpath d='M0 40 L0 12 L14 11 L24 13 L31 26 L42 26 L50 24 L63 20 L70 27 L78 16 L93 14 L107 14 L114 8 L128 10 L141 8 L157 10 L169 6 L184 3 L192 6 L199 19 L215 11 L224 15 L237 14 L255 18 L261 22 L279 26 L290 34 L298 29 L306 18 L322 13 L335 22 L351 10 L361 17 L369 5 L378 8 L387 1 L397 7 L412 6 L426 1 L441 14 L452 21 L459 7 L467 18 L474 10 L481 23 L489 15 L499 15 L517 21 L524 16 L533 26 L539 28 L547 31 L565 23 L574 14 L589 13 L599 6 L617 12 L633 9 L645 10 L654 3 L672 8 L690 19 L698 10 L707 18 L723 19 L738 15 L755 26 L767 17 L777 25 L788 18 L803 12 L810 20 L818 18 L832 8 L840 2 L853 7 L865 11 L873 3 L882 8 L893 2 L903 8 L920 11 L932 15 L938 15 L944 21 L956 22 L966 21 L981 16 L990 19 L1003 22 L1019 18 L1032 17 L1043 15 L1060 14 L1078 5 L1095 11 L1102 13 L1109 8 L1126 2 L1140 4 L1158 9 L1168 15 L1184 14 L1200 18 L1200 40Z'/%3E%3C/svg%3E")
-    0 0 / 100% 100%;
+  -webkit-mask: var(--bord-b) 0 0 / 100% 100%;
+  mask: var(--bord-b) 0 0 / 100% 100%;
   pointer-events: none;
 }
 html[data-sections="b"] .section--alt::before {
   top: -33px;
+}
+/* Équipes : c'est l'accroche Histoire qui mord sur elle, avec sa propre couleur. */
+html[data-sections="b"] #equipes::after {
+  content: none;
+}
+html[data-sections="b"] .accroche {
+  position: relative;
+  z-index: 2;
+}
+html[data-sections="b"] .accroche::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -33px;
+  height: 34px;
+  background: #e8b62e;
+  -webkit-mask: var(--bord-b) 0 0 / 100% 100%;
+  mask: var(--bord-b) 0 0 / 100% 100%;
+  pointer-events: none;
 }
 html[data-sections="b"] .section--alt::after {
   bottom: -33px;
@@ -78,6 +96,10 @@ html[data-sections="b"] main .section h2.titre-affiche {
   html[data-sections="b"] .section--alt::after {
     bottom: -45px;
   }
+  html[data-sections="b"] .accroche::before {
+    top: -45px;
+    height: 46px;
+  }
 }
 
 /* ---------- C. Affiche : Annonces sur le jaune des affiches Résultats, coupes en biais ---------- */
@@ -87,7 +109,6 @@ html[data-sections="c"] {
 html[data-sections="c"] #annonces {
   position: relative;
   z-index: 1;
-  margin-top: calc(-1 * var(--biais));
   padding-block: calc(28px + var(--biais)) calc(32px + var(--biais));
   background: linear-gradient(170deg, #f7c600, #eaa300);
   color: var(--noir);
@@ -118,7 +139,6 @@ html[data-sections="c"] #equipes {
   padding-top: calc(28px + var(--biais) + 10px);
   background: #1d1d1d;
   clip-path: polygon(0 0, 100% var(--biais), 100% 100%, 0 100%);
-  margin-top: calc(-1 * var(--biais));
 }
 html[data-sections="c"] #equipes::before {
   content: "";
