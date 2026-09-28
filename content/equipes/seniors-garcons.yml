@@ -8,8 +8,8 @@ equipes:
     niveau: Départemental Honneur
 horaires:
   - jour: Mardi
-    debut: 20:00
-    fin: 21:30
+    debut: 20:15
+    fin: 22:00
   - jour: Vendredi
     debut: 19:45
     fin: 21:15
