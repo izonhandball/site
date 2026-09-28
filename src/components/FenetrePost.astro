@@ -1,8 +1,9 @@
 ---
 import Carrousel from "./Carrousel.astro";
 import Icone from "./Icone.astro";
+import Legende from "./Legende.astro";
 import Visuel from "./Visuel.astro";
-import { legende, type InstaPost } from "../lib/instagram";
+import { type InstaPost } from "../lib/instagram";
 import { formatDate } from "../lib/site";
 
 // Fiche détaillée d'un post (annonce ou album de la vie du club), dans une <dialog>.
@@ -52,7 +53,7 @@ const date = formatDate(post.timestamp);
         </button>
       </div>
       <p class="script fiche__date">Publié le {date}</p>
-      <p class="legende-post">{legende(post.caption)}</p>
+      <Legende caption={post.caption} />
       <a href={post.permalink} class="btn btn--jaune fiche__insta">
         <Icone nom="instagram" /> Voir sur Instagram
       </a>

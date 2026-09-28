@@ -112,10 +112,58 @@ button {
 .legende-post {
   margin: 0;
   white-space: pre-line;
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 1.45;
   color: var(--texte-doux);
   overflow-wrap: anywhere;
+}
+@media (min-width: 900px) {
+  .legende-post {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+}
+.legende-post > p {
+  margin: 0;
+}
+.legende-post > p + p {
+  margin-top: 0.7em;
+}
+/* Légende repliée (mobile) : 5 lignes qui s'effacent vers le bas. */
+.legende-post.est-repliee {
+  max-height: 7.25em;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, #000 45%, transparent);
+}
+.legende-suite {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  color: var(--jaune);
+  font-family: var(--f-titre);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+}
+.legende-suite[hidden] {
+  display: none;
+}
+.legende-suite svg {
+  transition: transform 0.2s;
+}
+.legende-suite[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .legende-suite svg {
+    transition: none;
+  }
 }
 .a-completer {
   color: var(--texte-absent);

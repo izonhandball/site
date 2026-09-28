@@ -1,0 +1,27 @@
+---
+import Icone from "./Icone.astro";
+import { legende } from "../lib/instagram";
+
+// Légende d'un post Instagram, un paragraphe par bloc séparé d'une ligne vide.
+// `repliable` : sur mobile, les premières lignes seulement, avec « Lire la suite »
+// (ui.ts n'affiche le bouton que si le texte dépasse ; sans JS, tout reste visible).
+interface Props {
+  caption: string;
+  id?: string;
+  repliable?: boolean;
+}
+const { caption, id, repliable = false } = Astro.props;
+const paragraphes = legende(caption).split(/\n\s*\n/);
+---
+
+<div class="legende-post" id={id} data-repliable={repliable ? "" : undefined}>
+  {paragraphes.map((p) => (
+    <p>{p}</p>
+  ))}
+</div>
+{repliable && (
+  <button type="button" class="legende-suite" aria-controls={id} aria-expanded="false" hidden>
+    <span data-libelle>Lire la suite</span>
+    <Icone nom="bas" taille={16} />
+  </button>
+)}

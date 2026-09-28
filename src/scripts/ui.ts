@@ -275,8 +275,48 @@ function contact() {
   });
 }
 
+// Légendes repliables (À la une) : sur mobile, « Lire la suite » quand le texte dépasse.
+// ResizeObserver remesure quand l'onglet devient visible ou que la largeur change.
+function legendes() {
+  const mobile = window.matchMedia("(max-width: 899.98px)");
+  const observateur = new ResizeObserver((entrees) => {
+    for (const { target } of entrees) mesurer(target as HTMLElement);
+  });
+  const bouton = (texte: HTMLElement) =>
+    document.querySelector<HTMLButtonElement>(`.legende-suite[aria-controls="${texte.id}"]`);
+  const mesurer = (texte: HTMLElement) => {
+    const btn = bouton(texte);
+    if (!btn || btn.getAttribute("aria-expanded") === "true") return;
+    texte.classList.toggle("est-repliee", mobile.matches);
+    const depasse = mobile.matches && texte.scrollHeight > texte.clientHeight + 1;
+    if (!depasse) texte.classList.remove("est-repliee");
+    btn.hidden = !depasse;
+  };
+  for (const texte of document.querySelectorAll<HTMLElement>("[data-repliable]")) {
+    observateur.observe(texte);
+    bouton(texte)?.addEventListener("click", (e) => {
+      const btn = e.currentTarget as HTMLButtonElement;
+      const ouvrir = btn.getAttribute("aria-expanded") !== "true";
+      btn.setAttribute("aria-expanded", String(ouvrir));
+      btn.querySelector("[data-libelle]")!.textContent = ouvrir ? "Réduire" : "Lire la suite";
+      texte.classList.toggle("est-repliee", !ouvrir);
+      if (!ouvrir && texte.getBoundingClientRect().top < 84)
+        texte.scrollIntoView({ block: "center" });
+    });
+  }
+  mobile.addEventListener("change", () => {
+    for (const texte of document.querySelectorAll<HTMLElement>("[data-repliable]")) {
+      const btn = bouton(texte);
+      btn?.setAttribute("aria-expanded", "false");
+      btn?.querySelector("[data-libelle]")?.replaceChildren("Lire la suite");
+      mesurer(texte);
+    }
+  });
+}
+
 onglets();
 carrousels();
+legendes();
 fenetres();
 menu();
 contact();

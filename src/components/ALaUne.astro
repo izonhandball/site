@@ -1,11 +1,13 @@
 ---
 import Carrousel from "./Carrousel.astro";
 import Icone from "./Icone.astro";
+import Legende from "./Legende.astro";
 import Visuel from "./Visuel.astro";
-import { LIBELLES, legende, type ALaUne } from "../lib/instagram";
+import { LIBELLES, type ALaUne } from "../lib/instagram";
 import { formatDate, formatJourMois } from "../lib/site";
 
 // Dernier post de chaque bloc piloté (Match day, Programme, Résultats), le plus récent d'abord.
+// Sur mobile, l'affiche passe avant le texte (le titre est déjà dans l'onglet et sur l'affiche).
 // Sans post piloté : affiche d'attente qui renvoie vers Instagram et les résultats.
 interface Props {
   items: ALaUne[];
@@ -68,7 +70,7 @@ const { items, instagram, resultats } = Astro.props;
             <div class="une__texte">
               <h2 class="une__titre">{LIBELLES[u.categorie]}</h2>
               <p class="script une__date">Publié le {formatDate(u.post.timestamp)}</p>
-              <p class="legende-post">{legende(u.post.caption)}</p>
+              <Legende caption={u.post.caption} id={`legende-${u.categorie}`} repliable />
               <a href={u.post.permalink} class="btn une__insta">
                 <Icone nom="instagram" /> Voir sur Instagram
               </a>
@@ -247,17 +249,20 @@ const { items, instagram, resultats } = Astro.props;
   .une__panneau[hidden] {
     display: none;
   }
+  .une__visuels {
+    order: -1;
+  }
   .une__titre {
-    margin: 0;
-    font-family: var(--f-affiche);
-    font-weight: 400;
-    font-size: clamp(52px, 8vw, 100px);
-    line-height: 0.88;
-    text-transform: uppercase;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   .une__date {
-    margin: 10px 0 16px;
-    font-size: 18px;
+    margin: 0 0 12px;
+    font-size: 16px;
   }
   .une__insta {
     margin-top: 24px;
@@ -294,7 +299,25 @@ const { items, instagram, resultats } = Astro.props;
       max-width: 600px;
       --largeur-diapo: 81%;
     }
+    .une__visuels {
+      order: 0;
+    }
+    .une__titre {
+      position: static;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip-path: none;
+      white-space: normal;
+      margin: 0;
+      font-family: var(--f-affiche);
+      font-weight: 400;
+      font-size: clamp(52px, 8vw, 100px);
+      line-height: 0.88;
+      text-transform: uppercase;
+    }
     .une__date {
+      margin: 10px 0 16px;
       font-size: 20px;
     }
     .une__vignettes {
