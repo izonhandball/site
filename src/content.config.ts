@@ -23,6 +23,7 @@ const club = defineCollection({
       ffhandball: url,
       scorenco: url,
       gesthand: url,
+      helloasso: url,
       boutique: url,
     }),
     accrocheHistoire: z.string(),

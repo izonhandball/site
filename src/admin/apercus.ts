@@ -250,6 +250,7 @@ function club(props: PropsApercu) {
             lien("instagram", "Instagram"),
             lien("facebook", "Facebook"),
             lien("scorenco", "Résultats & classements"),
+            lien("helloasso", "HelloAsso"),
             lien("boutique", "Boutique"),
           ),
         ),

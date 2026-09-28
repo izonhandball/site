@@ -138,6 +138,7 @@ Résultats : https://www.instagram.com/p/Ddj4ZUbEVND/ (carrousel : couverture + 
 - Facebook : https://www.facebook.com/izonhandball/
 - FFHandball : https://monclub.ffhandball.fr/clubs/hbc-izonnais/
 - Inscription au club (Gesthand, FFHandball) : https://gesthand.net/ihand-central/public/individu/inscription/1536?crtl=9b6dda1e580b6c0ae3f50a194f184e3cf775c724
+- HelloAsso (pied de page) : https://www.helloasso.com/associations/handball-izonnais
 - Boutique : https://www.helloasso.com/associations/handball-izonnais/boutiques/boutique
 - Résultats & classements : https://scorenco.com/hand/clubs/hbc-izonnais-2pr8
 - Ancien site Clubeo : https://hbc-izon.clubeo.com/
