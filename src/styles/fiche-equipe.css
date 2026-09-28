@@ -28,7 +28,8 @@
   color: var(--corail);
 }
 .fiche-equipe__nom {
-  margin: 6px 0 20px;
+  /* Interligne serré : l'accent des capitales (É) déborde au-dessus, d'où la marge en em. */
+  margin: 0.3em 0 20px;
   font-family: var(--f-affiche);
   font-weight: 400;
   font-size: clamp(38px, 5vw, 52px);
@@ -126,7 +127,7 @@
   }
   .fiche-equipe__nom {
     grid-area: 3 / 1;
-    margin: 4px 0 0;
+    margin: 0.3em 0 0;
     padding-bottom: 12px;
   }
   .fiche-equipe__photo figcaption {
