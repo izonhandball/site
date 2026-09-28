@@ -1,9 +1,13 @@
-// Worker Cloudflare : sert le site statique (dist/) et l'authentification GitHub de Decap CMS.
+// Worker Cloudflare : sert le site statique (dist/), l'authentification GitHub de Decap CMS
+// et le formulaire de contact.
 //   /api/auth           → redirige vers GitHub (OAuth App de l'organisation izonhandball)
 //   /api/auth/callback  → échange le code contre un jeton et le transmet à /admin par postMessage
-// Secrets du Worker : GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET (wrangler secret put).
+//   /api/contact        → envoie le formulaire de contact à la boîte du club (contact.ts)
+// Secrets du Worker : GITHUB_CLIENT_SECRET, TURNSTILE_SECRET (tableau de bord Cloudflare).
 
-export interface Env {
+import { contact, type EnvContact } from "./contact";
+
+export interface Env extends EnvContact {
   ASSETS: { fetch(requete: Request): Promise<Response> };
   GITHUB_CLIENT_ID?: string;
   GITHUB_CLIENT_SECRET?: string;
@@ -18,6 +22,7 @@ export default {
     const url = new URL(requete.url);
     if (url.pathname === "/api/auth") return debut(url, env);
     if (url.pathname === "/api/auth/callback") return retour(requete, url, env);
+    if (url.pathname === "/api/contact") return contact(requete, env);
     if (url.pathname.startsWith("/api/")) return new Response("Introuvable", { status: 404 });
     return env.ASSETS.fetch(requete);
   },

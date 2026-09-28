@@ -33,16 +33,20 @@ const liens = [
         {l.label}
       </a>
     ))}
-    <a href={club.liens.adhesion} class="btn btn--jaune entete__rejoindre-mobile">
-      Nous rejoindre
-    </a>
+    <button
+      type="button"
+      class="btn btn--jaune entete__contact-mobile"
+      data-ouvrir="fenetre-contact"
+    >
+      Nous contacter
+    </button>
   </nav>
   <a href={club.liens.instagram} class="entete__insta" aria-label="Instagram du HBC Izon">
     <Icone nom="instagram" taille={22} />
   </a>
-  <a href={club.liens.adhesion} class="btn btn--jaune entete__rejoindre">
-    Nous rejoindre
-  </a>
+  <button type="button" class="btn btn--jaune entete__contact" data-ouvrir="fenetre-contact">
+    Nous contacter
+  </button>
   <button
     type="button"
     class="entete__burger"
@@ -104,7 +108,7 @@ const liens = [
     justify-content: center;
     color: var(--texte);
   }
-  .entete__rejoindre {
+  .entete__contact {
     display: none;
   }
 
@@ -134,7 +138,7 @@ const liens = [
   .entete__nav a[aria-current="page"] {
     color: var(--jaune);
   }
-  .entete__rejoindre-mobile {
+  .entete__contact-mobile {
     margin-top: 18px;
     width: 100%;
     justify-content: center;
@@ -209,11 +213,11 @@ const liens = [
     .entete__insta {
       border: 2px solid var(--bordure-forte);
     }
-    .entete__rejoindre {
+    .entete__contact {
       display: inline-flex;
       padding: 13px 20px;
     }
-    .entete__rejoindre-mobile,
+    .entete__contact-mobile,
     .entete__burger {
       display: none;
     }

@@ -17,4 +17,7 @@
   // L'identifiant est public ; le secret GITHUB_CLIENT_SECRET est posé sur le Worker
   // depuis le tableau de bord Cloudflare (Settings → Variables and Secrets), jamais ici.
   "vars": { "GITHUB_CLIENT_ID": "Ov23liwK3aU0M7hWOwFp" },
+  // Formulaire de contact : Email Routing de hbc-izon.fr, vers la seule adresse du club
+  // (adresse vérifiée du compte : envoi gratuit). Secret TURNSTILE_SECRET posé sur le Worker.
+  "send_email": [{ "name": "CONTACT", "destination_address": "izonhandball@gmail.com" }],
 }

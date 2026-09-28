@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import EnTete from "../components/EnTete.astro";
 import PiedDePage from "../components/PiedDePage.astro";
+import FenetreContact from "../components/FenetreContact.astro";
 
 interface Props {
   titre: string;
@@ -38,6 +39,7 @@ const canonique = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <PiedDePage />
+    <FenetreContact />
     <script>
       import "../scripts/ui.ts";
     </script>

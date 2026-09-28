@@ -1,4 +1,5 @@
-// Interactions de l'interface, sans framework : onglets, carrousels, fenêtres, menu mobile.
+// Interactions de l'interface, sans framework : onglets, carrousels, fenêtres, menu mobile,
+// formulaire de contact.
 
 function onglets() {
   const activer = (tab: HTMLElement) => {
@@ -119,7 +120,133 @@ function menu() {
   };
   bouton.addEventListener("click", () => basculer(bouton.getAttribute("aria-expanded") !== "true"));
   nav.addEventListener("click", (e) => {
-    if ((e.target as HTMLElement).closest("a")) basculer(false);
+    if ((e.target as HTMLElement).closest("a, [data-ouvrir]")) basculer(false);
+  });
+}
+
+// Turnstile (anti-robot de Cloudflare), chargé à la première ouverture du formulaire.
+interface Turnstile {
+  render(el: HTMLElement, options: Record<string, unknown>): string;
+  getResponse(id: string): string | undefined;
+  reset(id: string): void;
+}
+// Clé de test de Cloudflare : jeton toujours valide, accepté seulement par la clé secrète de test.
+const CLE_TURNSTILE_TEST = "1x00000000000000000000AA";
+const fenetre = window as Window & { turnstile?: Turnstile; turnstilePret?: () => void };
+
+function contact() {
+  const form = document.querySelector<HTMLFormElement>("[data-contact]");
+  const dlg = form?.closest("dialog");
+  if (!form || !dlg) return;
+  const erreur = dlg.querySelector<HTMLElement>("[data-contact-erreur]")!;
+  const envoyer = dlg.querySelector<HTMLButtonElement>("[data-contact-envoyer]")!;
+  const merci = dlg.querySelector<HTMLElement>("[data-contact-merci]")!;
+  const email = dlg.querySelector<HTMLAnchorElement>('a[href^="mailto:"]')?.textContent ?? "";
+
+  const zoneTurnstile = form.querySelector<HTMLElement>("[data-turnstile]")!;
+  let widget: string | undefined;
+  const chargerTurnstile = () => {
+    if (document.getElementById("script-turnstile")) return;
+    fenetre.turnstilePret = () => {
+      widget = fenetre.turnstile!.render(zoneTurnstile, {
+        sitekey: ["localhost", "127.0.0.1"].includes(location.hostname)
+          ? CLE_TURNSTILE_TEST
+          : zoneTurnstile.dataset.turnstile,
+        "response-field-name": "turnstile",
+        appearance: "interaction-only",
+        theme: "dark",
+        language: "fr",
+      });
+    };
+    const script = document.createElement("script");
+    script.id = "script-turnstile";
+    script.src =
+      "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=turnstilePret";
+    script.async = true;
+    document.head.append(script);
+  };
+  document.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest(`[data-ouvrir="${dlg.id}"]`)) chargerTurnstile();
+  });
+
+  const signaler = (message: string) => {
+    erreur.textContent = message;
+    erreur.hidden = false;
+  };
+
+  // Champ « Équipe » affiché seulement pour un essai ou une inscription.
+  form.addEventListener("change", (e) => {
+    const champ = e.target as HTMLInputElement;
+    if (champ.name === "sujet") {
+      for (const bloc of form.querySelectorAll<HTMLElement>("[data-si-sujet]")) {
+        bloc.hidden = !bloc.dataset.siSujet!.split(" ").includes(champ.value);
+      }
+    }
+    if (champ.checkValidity()) {
+      for (const c of form.querySelectorAll(`[name="${champ.name}"]`)) {
+        c.removeAttribute("aria-invalid");
+      }
+    }
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    erreur.hidden = true;
+    const invalides = [...form.elements].filter(
+      (c) =>
+        (c instanceof HTMLInputElement || c instanceof HTMLTextAreaElement) && !c.checkValidity(),
+    ) as HTMLInputElement[];
+    for (const c of form.querySelectorAll("[aria-invalid]")) c.removeAttribute("aria-invalid");
+    for (const c of invalides) c.setAttribute("aria-invalid", "true");
+    if (invalides.length) {
+      const premier = invalides[0]!;
+      signaler(
+        invalides.length === 1 && premier.type === "email" && premier.value
+          ? "L'adresse e-mail n'est pas valide."
+          : "Complétez les champs encadrés en rouge.",
+      );
+      premier.focus();
+      return;
+    }
+
+    if (!widget || !fenetre.turnstile?.getResponse(widget)) {
+      signaler("Vérification anti-robot en cours. Réessayez dans quelques secondes.");
+      return;
+    }
+
+    envoyer.disabled = true;
+    envoyer.setAttribute("aria-busy", "true");
+    envoyer.textContent = "Envoi…";
+    try {
+      const donnees = Object.fromEntries(new FormData(form));
+      const reponse = await fetch(form.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(donnees),
+      });
+      if (!reponse.ok) throw new Error(String(reponse.status));
+      dlg.querySelector("[data-contact-adresse]")!.textContent = String(donnees.email);
+      form.hidden = true;
+      merci.hidden = false;
+      merci.focus();
+    } catch {
+      signaler(`L'envoi a échoué. Réessayez dans un instant, ou écrivez directement à ${email}.`);
+    } finally {
+      // Un jeton Turnstile ne sert qu'une fois : on en redemande un pour l'envoi suivant.
+      if (widget) fenetre.turnstile?.reset(widget);
+      envoyer.disabled = false;
+      envoyer.removeAttribute("aria-busy");
+      envoyer.textContent = "Envoyer";
+    }
+  });
+
+  // Après un envoi réussi, la fenêtre se rouvre sur un formulaire vierge.
+  dlg.addEventListener("close", () => {
+    if (merci.hidden) return;
+    form.reset();
+    for (const bloc of form.querySelectorAll<HTMLElement>("[data-si-sujet]")) bloc.hidden = true;
+    form.hidden = false;
+    merci.hidden = true;
   });
 }
 
@@ -127,3 +254,4 @@ onglets();
 carrousels();
 fenetres();
 menu();
+contact();

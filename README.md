@@ -48,13 +48,19 @@ Mise en route, à faire une seule fois :
 
 Pour vérifier le jeton : `pnpm ig:etat`. Si le renouvellement échoue (mot de passe Instagram changé, accès révoqué…), le site reste en ligne avec les derniers posts. Il suffit de refaire les étapes 1 et 3.
 
+## Formulaire de contact
+
+Le bouton « Nous contacter » envoie les messages à izonhandball@gmail.com, par Cloudflare Email Routing et le Worker du site (`/api/contact`), avec Turnstile contre les robots. `contact@hbc-izon.fr` est aussi renvoyé vers cette boîte. Configuration, tests et dépannage : [`docs/formulaire-de-contact.md`](docs/formulaire-de-contact.md). Pourquoi cette solution : [ADR 0001](docs/adr/0001-formulaire-de-contact.md).
+
 ## Où est quoi
 
 | Dossier           | Contenu                                                                                |
 | ----------------- | -------------------------------------------------------------------------------------- |
 | `content/`        | Contenu fixe (YAML / Markdown), édité via Decap CMS. Schémas : `src/content.config.ts` |
+| `docs/`           | Documentation d'exploitation et décisions d'architecture (`docs/adr/`)                 |
 | `data/instagram/` | Posts Instagram, écrits par la synchro automatique                                     |
 | `public/`         | Images (Instagram, équipes, archives) et Decap CMS (`admin/`)                          |
 | `src/`            | Pages, composants, styles et règles de l'accueil                                       |
+| `worker/`         | Worker Cloudflare : fichiers du site, connexion à l'admin, formulaire de contact       |
 
 Le contexte complet du projet (décisions, direction artistique, prochaines étapes) est dans [`CLAUDE.md`](CLAUDE.md).

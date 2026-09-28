@@ -1,0 +1,401 @@
+---
+import { getCollection } from "astro:content";
+import Icone from "./Icone.astro";
+import { getClub } from "../lib/site";
+
+// Formulaire de contact, ouvert par le bouton « Nous contacter » de l'en-tête.
+// Envoyé en JSON à /api/contact (Worker) ; le club répond depuis sa boîte mail.
+const club = await getClub();
+// Clé publique du widget Turnstile « Site HBC Izon - formulaire de contact »
+// (hbc-izon.fr et workers.dev ; en local, ui.ts prend la clé de test de Cloudflare).
+const turnstile = "0x4AAAAAAFH2KRxS11ofFMsF";
+const equipes = (await getCollection("equipes")).sort((a, b) => a.data.ordre - b.data.ordre);
+const sujets = [
+  { id: "essai", label: "Venir essayer" },
+  { id: "inscription", label: "Inscription" },
+  { id: "partenariat", label: "Partenariat" },
+  { id: "autre", label: "Autre question" },
+];
+---
+
+<dialog id="fenetre-contact" class="fenetre contact" aria-labelledby="contact-titre">
+  <div class="contact__corps">
+    <button type="button" class="btn-carre contact__fermer" data-fermer aria-label="Fermer">
+      <Icone nom="fermer" />
+    </button>
+    <div class="contact__affiche">
+      <h2 id="contact-titre" class="contact__titre">
+        Nous contacter
+      </h2>
+      <p class="script contact__accroche">Une question, un essai, un partenariat ?</p>
+      <ul class="contact__infos">
+        <li>
+          <Icone nom="lieu" taille={18} />
+          <span>
+            {club.salle.nom}
+            <br />
+            {club.salle.adresse}
+          </span>
+        </li>
+        <li>
+          <Icone nom="mail" taille={18} />
+          <a href={`mailto:${club.email}`}>{club.email}</a>
+        </li>
+      </ul>
+      <p class="contact__adhesion">
+        Déjà décidé ? L'adhésion se fait en ligne sur <a href={club.liens.adhesion}>HelloAsso</a>.
+      </p>
+    </div>
+
+    <div class="contact__zone">
+      <form class="contact__form" action="/api/contact" method="post" data-contact novalidate>
+        <fieldset class="contact__sujets">
+          <legend>C'est pour</legend>
+          <div class="contact__choix">
+            {sujets.map((s) => (
+              <label class="choix contact__sujet">
+                <input type="radio" name="sujet" value={s.id} required />
+                {s.label}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="contact__champ" data-si-sujet="essai inscription" hidden>
+          <label for="contact-equipe">Équipe</label>
+          <select id="contact-equipe" name="equipe">
+            <option value="">Je ne sais pas encore</option>
+            {equipes.map((e) => (
+              <option value={e.data.nom}>
+                {e.data.nom}
+                {e.data.naissance ? ` (${e.data.naissance.toLowerCase()})` : ""}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div class="contact__ligne">
+          <div class="contact__champ">
+            <label for="contact-nom">Nom et prénom</label>
+            <input id="contact-nom" name="nom" autocomplete="name" required maxlength="100" />
+          </div>
+          <div class="contact__champ">
+            <label for="contact-email">E-mail</label>
+            <input
+              id="contact-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              maxlength="200"
+            />
+          </div>
+        </div>
+
+        <div class="contact__champ">
+          <label for="contact-tel">
+            Téléphone <span>facultatif</span>
+          </label>
+          <input id="contact-tel" name="telephone" type="tel" autocomplete="tel" maxlength="30" />
+        </div>
+
+        <div class="contact__champ">
+          <label for="contact-message">Message</label>
+          <textarea
+            id="contact-message"
+            name="message"
+            rows="5"
+            required
+            maxlength="3000"
+          ></textarea>
+        </div>
+
+        <!-- Piège à robots : invisible pour les visiteurs, rempli par les robots. -->
+        <div class="contact__piege" aria-hidden="true">
+          <label>
+            Site web <input name="site" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+
+        <div class="contact__turnstile" data-turnstile={turnstile}></div>
+
+        <p class="contact__erreur" data-contact-erreur role="alert" hidden></p>
+
+        <div class="contact__pied">
+          <button type="submit" class="btn btn--jaune" data-contact-envoyer>
+            Envoyer
+          </button>
+          <p class="contact__mention">Vos coordonnées servent uniquement à vous répondre.</p>
+        </div>
+      </form>
+
+      <div class="contact__merci" data-contact-merci hidden tabindex="-1">
+        <p class="contact__merci-titre">Message envoyé</p>
+        <p>
+          Le club vous répondra à <strong data-contact-adresse></strong> dès qu'un bénévole l'aura
+          lu.
+        </p>
+        <button type="button" class="btn" data-fermer>
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .contact {
+    width: min(1040px, 100vw);
+  }
+  .contact__corps {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  /* Colonne « affiche » : fond jaune-orangé des affiches Résultats, encre noire. */
+  .contact__affiche {
+    padding: 22px 64px 22px 18px;
+    background: var(--degrade-histoire);
+    color: var(--encre-histoire);
+  }
+  .contact__titre {
+    margin: 0;
+    font-family: var(--f-affiche);
+    font-weight: 400;
+    font-size: clamp(44px, 11vw, 76px);
+    line-height: 0.88;
+    text-transform: uppercase;
+  }
+  .contact__accroche {
+    margin: 10px 0 0;
+    color: var(--encre-histoire);
+    font-size: 19px;
+  }
+  .contact__infos,
+  .contact__adhesion {
+    display: none;
+  }
+  .contact__affiche a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+
+  .contact__zone {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 22px 18px 28px;
+  }
+  .contact__fermer {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    border-color: var(--encre-histoire);
+    color: var(--encre-histoire);
+  }
+
+  .contact__form:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .contact__sujets {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .contact__sujets legend,
+  .contact__champ label {
+    display: block;
+    margin-bottom: 8px;
+    padding: 0;
+    font-family: var(--f-titre);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.3px;
+    color: var(--texte-doux);
+  }
+  .contact__champ label span {
+    font-weight: 500;
+    color: var(--texte-discret);
+  }
+  .contact__choix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .contact__sujet {
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .contact__sujet input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .contact__sujet:has(:checked) {
+    background: var(--jaune);
+    border-color: var(--jaune);
+    color: var(--noir);
+  }
+  .contact__sujet:has([aria-invalid="true"]) {
+    border-color: var(--corail);
+  }
+  .contact__sujet:has(:focus-visible) {
+    outline: 3px solid var(--jaune);
+    outline-offset: 2px;
+  }
+
+  .contact__ligne {
+    display: grid;
+    gap: 18px;
+  }
+  .contact__champ input,
+  .contact__champ select,
+  .contact__champ textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--bordure-forte);
+    border-radius: 0;
+    background: var(--noir);
+    color: var(--texte);
+    font: 17px/1.4 var(--f-texte);
+  }
+  .contact__champ textarea {
+    resize: vertical;
+    min-height: 130px;
+  }
+  .contact__champ :is(input, select, textarea):focus-visible {
+    outline: none;
+    border-color: var(--jaune);
+  }
+  .contact__champ [aria-invalid="true"] {
+    border-color: var(--corail);
+  }
+
+  .contact__piege {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .contact__turnstile:empty {
+    display: none;
+  }
+  .contact__erreur {
+    margin: 0;
+    padding: 12px 14px;
+    border-left: 4px solid var(--corail);
+    background: rgb(255 107 110 / 0.1);
+    color: var(--texte);
+    font-size: 16px;
+  }
+
+  .contact__pied {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+  }
+  .contact__pied .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+  .contact__pied .btn[aria-busy="true"] {
+    opacity: 0.6;
+    cursor: progress;
+  }
+  .contact__mention {
+    margin: 0;
+    font-size: 14px;
+    color: var(--texte-discret);
+  }
+
+  .contact__merci {
+    padding-top: 12px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--texte-doux);
+  }
+  .contact__merci:focus {
+    outline: none;
+  }
+  .contact__merci-titre {
+    margin: 0 0 12px;
+    font-family: var(--f-affiche);
+    font-size: 52px;
+    line-height: 0.95;
+    text-transform: uppercase;
+    color: var(--jaune);
+  }
+  .contact__merci strong {
+    color: var(--texte);
+  }
+  .contact__merci .btn {
+    margin-top: 16px;
+  }
+
+  @media (min-width: 900px) {
+    .contact__corps {
+      flex-direction: row;
+    }
+    .contact__affiche {
+      flex: 0 0 360px;
+      display: flex;
+      flex-direction: column;
+      padding: 44px 36px;
+    }
+    .contact__accroche {
+      margin-top: 16px;
+      font-size: 22px;
+    }
+    .contact__infos {
+      display: block;
+      margin: auto 0 0;
+      padding: 28px 0 0;
+      list-style: none;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .contact__infos li {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .contact__infos :global(svg) {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .contact__adhesion {
+      display: block;
+      margin: 22px 0 0;
+      padding-top: 18px;
+      border-top: 2px solid var(--encre-histoire);
+      font-size: 15px;
+    }
+    .contact__zone {
+      padding: 44px 44px 40px;
+    }
+    .contact__fermer {
+      top: 16px;
+      right: 16px;
+      border-color: var(--texte);
+      color: var(--texte);
+    }
+    .contact__choix {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .contact__ligne {
+      grid-template-columns: 1fr 1fr;
+    }
+    .contact__pied .btn {
+      flex: 0 0 auto;
+    }
+  }
+</style>
