@@ -1,8 +1,10 @@
 nom: U13
 groupe: jeunes
 ordre: 13
-naissance: Nés en 2014 ou 2015
+niveau: Départemental
+naissance: Nés en 2014 & 2015
 horaires:
   - jour: Mardi
-    debut: "18:45"
-    fin: "20:15"
+    debut: 18:45
+    fin: 20:15
+entraineurs: Franck & Enzo
