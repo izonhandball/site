@@ -101,7 +101,7 @@ Issue des affiches publiées par le club sur Instagram (Match Day, Les Résultat
 
 - **Couleurs** : noir `#0b0b0b` dominant · jaune `#f5c400` · dégradé jaune-orangé `#f7c600 → #eaa300` (fond des affiches résultats) · rouge `#e0161b` (accent, maillots) · blanc.
 - **Typo (site, d'après la maquette)** : titres d'affiche `Anton` en capitales · libellés et boutons `Barlow Condensed` 700/900 · dates et accroches `Playfair Display` italique jaune · texte courant `Barlow`. Polices servies par le site (`@fontsource`), pas de Google Fonts.
-- **Couleurs du site** : noir `#0d0d0d`, sections alternées `#1a1a1a`, jaune `#ffd52e`, rouge `#e0161b`, corail `#ff6b6e` (catégories), dégradé `#e8b62e → #cf9616` (accroche Histoire).
+- **Couleurs du site** : noir `#0d0d0d`, sections alternées `#202020` à bords déchirés au pinceau (l'accroche Histoire mord à son tour sur Équipes), titres de section soulignés d'un trait de pinceau jaune, jaune `#ffd52e`, rouge `#e0161b`, corail `#ff6b6e` (catégories), dégradé `#e8b62e → #cf9616` (accroche Histoire).
 - **Typo des affiches Instagram** (référence) : `Barlow Condensed` 900, script manuscrit type `Permanent Marker`.
 - **Motifs** : coups de pinceau et éclaboussures jaunes, griffures rouges dans les coins, traits de pinceau jaunes dans les 4 coins (Match Day), texture sombre, photos en noir et blanc.
 - **Gabarit résultats** : photo d'équipe en tête, « LES RÉSULTATS » + script « Nos séniors » / « Nos jeunes », barres noires `CATÉGORIE (jaune) // ADVERSAIRE (blanc) SCORE (gros)` + « Victoire »/« Défaite » en script + pastille verte/rouge.

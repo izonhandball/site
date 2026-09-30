@@ -16,7 +16,7 @@ const idFiche = (i: number) => `annonce-${(i + posts.length) % posts.length}`;
 {posts.length > 0 && (
   <section id="annonces" class="section section--alt annonces">
     <div class="section__inner">
-      <h2 class="titre-affiche titre-affiche--jaune annonces__titre">Annonces</h2>
+      <h2 class="titre-affiche annonces__titre">Annonces</h2>
       <Carrousel libelle="Annonces">
         {posts.map((p, i) => (
           <button type="button" class="carte" data-ouvrir={idFiche(i)}>
