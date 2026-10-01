@@ -1,0 +1,8 @@
+nom: MiniHand
+groupe: jeunes
+ordre: 10
+horaires:
+  - debut: 15:45
+    fin: 17:00
+    jour: Mercredi
+entraineurs: Duret Vincent
