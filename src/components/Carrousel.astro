@@ -4,6 +4,7 @@ import Icone from "./Icone.astro";
 // Carrousel horizontal à défilement natif (glisser au doigt, flèches, compteur).
 // Chaque enfant direct est une diapositive ; sa largeur vient de la variable CSS
 // --largeur-diapo (100 % par défaut), à définir sur un parent selon la taille d'écran.
+// Emplacements : « nav » (dans la barre des flèches), « apres » (sous la barre, ex. vignettes).
 interface Props {
   libelle: string;
   class?: string;
@@ -31,6 +32,7 @@ const { libelle, class: classe } = Astro.props;
     <span class="carrousel__compteur" data-compteur aria-live="polite"></span>
     <slot name="nav" />
   </div>
+  <slot name="apres" />
 </div>
 
 <style>

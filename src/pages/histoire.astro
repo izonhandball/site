@@ -2,8 +2,9 @@
 import { getCollection, getEntry, render } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Carrousel from "../components/Carrousel.astro";
+import Icone from "../components/Icone.astro";
 import Visuel from "../components/Visuel.astro";
-import { getClub } from "../lib/site";
+import { getClub, imagePublique } from "../lib/site";
 import { fondMaillot, hauteursLicencies } from "../lib/histoire";
 import "../styles/histoire.css";
 
@@ -70,9 +71,62 @@ const idPeriode = (ordre: number) => `periode-${ordre}`;
           aria-labelledby={`onglet-${idPeriode(p.data.ordre)}`}
           hidden={i !== 0}
         >
-          <div class="periode__texte">
+          <div class="periode__entete">
             <p class="script periode__dates">{p.data.periode}</p>
             <h2 class="periode__titre">{p.data.titre}</h2>
+          </div>
+          <div class="periode__archives">
+            {p.data.archives.length ? (
+              <Carrousel libelle={`Archives ${p.data.periode}`} class="archives">
+                {p.data.archives.map((a) =>
+                  imagePublique(a.image) ? (
+                    <figure>
+                      <button
+                        type="button"
+                        class="archive__cadre"
+                        data-agrandir
+                        aria-label={`Agrandir : ${a.legende}`}
+                      >
+                        <Visuel src={a.image} alt={a.legende} />
+                        <span class="archive__loupe">
+                          <Icone nom="agrandir" />
+                        </span>
+                      </button>
+                      <figcaption>{a.legende}</figcaption>
+                    </figure>
+                  ) : (
+                    <figure>
+                      <div class="archive__cadre">
+                        <Visuel
+                          src={a.image}
+                          alt={a.legende}
+                          ratio="4 / 3"
+                          vide="Archive à numériser"
+                        />
+                      </div>
+                      <figcaption>{a.legende}</figcaption>
+                    </figure>
+                  ),
+                )}
+                {p.data.archives.length > 1 && (
+                  <div slot="apres" class="archives__vignettes">
+                    {p.data.archives.map((a, j) => (
+                      <button
+                        type="button"
+                        data-aller={j}
+                        aria-label={`Afficher l'archive ${j + 1}`}
+                      >
+                        <Visuel src={a.image} alt="" vide="" ratio="1 / 1" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </Carrousel>
+            ) : (
+              <div class="periode__vide">Archives de cette période à numériser</div>
+            )}
+          </div>
+          <div class="periode__corps">
             <div class="periode__faits">
               <p.Contenu />
             </div>
@@ -81,25 +135,6 @@ const idPeriode = (ordre: number) => `periode-${ordre}`;
               p.data.presidents.map((pr) => <p class="periode__president">{pr}</p>)
             ) : (
               <p class="periode__president a-completer">À compléter</p>
-            )}
-          </div>
-          <div class="periode__archives">
-            {p.data.archives.length ? (
-              <Carrousel libelle={`Archives ${p.data.periode}`}>
-                {p.data.archives.map((a) => (
-                  <figure>
-                    <Visuel
-                      src={a.image}
-                      alt={a.legende}
-                      ratio="3 / 4"
-                      vide="Archive à numériser"
-                    />
-                    <figcaption>{a.legende}</figcaption>
-                  </figure>
-                ))}
-              </Carrousel>
-            ) : (
-              <div class="periode__vide">Archives de cette période à numériser</div>
             )}
           </div>
         </div>
@@ -142,4 +177,15 @@ const idPeriode = (ordre: number) => `periode-${ordre}`;
       {histoire.citationMaillots && <p class="sous-titre">{histoire.citationMaillots}</p>}
     </div>
   </section>
+
+  <!-- Archive agrandie : coupures de presse et bulletins à lire en taille réelle. -->
+  <dialog id="archive-zoom" class="fenetre zoom" aria-label="Archive agrandie">
+    <div class="zoom__barre">
+      <p class="zoom__legende" data-zoom-legende></p>
+      <button type="button" class="btn zoom__fermer" data-fermer>
+        <Icone nom="fermer" /> Fermer
+      </button>
+    </div>
+    <img class="zoom__image" data-zoom-image alt="" />
+  </dialog>
 </Base>

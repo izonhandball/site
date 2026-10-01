@@ -24,5 +24,5 @@ archives:
 - Avec la salle, les effectifs décollent : 122 licenciés en 2001-02, 146 en 2005-06, 168 en 2011-12.
 - Novembre 2011 : premier concours des meilleurs supporteurs, lors du derby contre Saint-Loubès. Plus de 150 spectateurs déguisés et maquillés aux couleurs sang et or, animés par Léo, la mascotte.
 - 12 mai 2012 : les séniors battent le CA Béglais, deuxième du championnat (35-29). C'est le dernier match de Rémi Gogniat, joueur puis entraîneur, qui rejoint Libourne, son club de toujours.
-- Septembre 2012 : nouvelle saison, nouveau logo. « Que Montpellier, Paris, Arvor ou Mios se méfient… Izon arrive ! »
+- Septembre 2012 : nouvelle saison, nouveau logo. « Que Montpellier, Paris, Arvor ou Mios se méfient… Izon arrive ! »
 - Les maillots passent du vert au noir, puis au noir et blanc, avant le jaune et rouge.

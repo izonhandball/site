@@ -135,6 +135,24 @@ function fenetres() {
   });
 }
 
+// Archives de la page Histoire : toucher une image l'ouvre en grand (coupures de presse à lire).
+function agrandir() {
+  const dlg = document.getElementById("archive-zoom") as HTMLDialogElement | null;
+  if (!dlg) return;
+  const image = dlg.querySelector<HTMLImageElement>("[data-zoom-image]")!;
+  const legende = dlg.querySelector<HTMLElement>("[data-zoom-legende]")!;
+  document.addEventListener("click", (e) => {
+    const bouton = (e.target as HTMLElement).closest<HTMLElement>("[data-agrandir]");
+    const source = bouton?.querySelector("img");
+    if (!source) return;
+    image.src = source.currentSrc || source.src;
+    image.alt = source.alt;
+    legende.textContent = bouton!.closest("figure")?.querySelector("figcaption")?.textContent ?? "";
+    dlg.showModal();
+    dlg.scrollTo({ top: 0 });
+  });
+}
+
 function menu() {
   const bouton = document.querySelector<HTMLButtonElement>("[data-menu-bouton]");
   const nav = document.getElementById(bouton?.getAttribute("aria-controls") ?? "");
@@ -318,5 +336,6 @@ onglets();
 carrousels();
 legendes();
 fenetres();
+agrandir();
 menu();
 contact();

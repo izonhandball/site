@@ -95,11 +95,8 @@
   color: var(--noir);
 }
 
-.periode {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
+/* Panneau d'une période. Ordre du document = ordre mobile : en-tête, archives, faits.
+   Sur desktop, les archives passent à droite et restent à l'écran pendant la lecture. */
 .periode[hidden] {
   display: none;
 }
@@ -143,6 +140,11 @@
   padding: 8px 0;
   border-top: 1px solid var(--bordure);
 }
+.periode__archives {
+  /* La hauteur du cadre (75cqw) sert à placer les flèches au milieu de l'image. */
+  container-type: inline-size;
+  margin-bottom: 30px;
+}
 .periode__archives figure {
   margin: 0;
 }
@@ -152,8 +154,131 @@
   font-style: italic;
   color: var(--texte-discret);
 }
+
+/* Archives : cadre de hauteur fixe, l'image s'y ajuste quelle que soit sa forme
+   (coupure de presse en hauteur, photo d'équipe en largeur). */
+.archives {
+  position: relative;
+}
+.archive__cadre {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 1px solid var(--bordure);
+  background: var(--gris-fonce);
+  color: var(--texte);
+}
+button.archive__cadre {
+  cursor: zoom-in;
+}
+.archive__cadre img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.archive__cadre .visuel-vide {
+  height: 100%;
+}
+.archive__loupe {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: inline-flex;
+  padding: 8px;
+  background: rgb(13 13 13 / 0.75);
+}
+.archives .carrousel__nav {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 75cqw;
+  margin: 0;
+  padding: 0 10px;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.archives .carrousel__nav .btn-carre {
+  pointer-events: auto;
+}
+.archives .carrousel__nav .btn-carre:not(.btn-carre--jaune) {
+  background: rgb(13 13 13 / 0.75);
+}
+.archives .carrousel__nav .btn-carre:disabled {
+  visibility: hidden;
+}
+.archives .carrousel__compteur {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.archives__vignettes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.archives__vignettes button {
+  width: 52px;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: var(--gris-fonce);
+  cursor: pointer;
+  opacity: 0.45;
+}
+.archives__vignettes button:hover,
+.archives__vignettes button[aria-current="true"] {
+  opacity: 1;
+}
+.archives__vignettes button[aria-current="true"] {
+  outline: 3px solid var(--jaune);
+  outline-offset: 2px;
+}
+.archives__vignettes img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.archives__vignettes .visuel-vide {
+  height: 100%;
+  padding: 0;
+  border-width: 1px;
+}
+
+/* Archive agrandie (ui.ts, agrandir) : largeur réelle, on fait défiler les documents hauts. */
+.zoom {
+  overflow: auto;
+}
+.zoom__barre {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  background: var(--gris-fonce);
+  border-bottom: 1px solid var(--bordure);
+}
+.zoom__legende {
+  margin: 0;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--texte-doux);
+}
+.zoom__fermer {
+  margin-left: auto;
+  padding: 10px 14px;
+  font-size: 15px;
+}
+.zoom__image {
+  margin: 0 auto;
+}
+
 .periode__vide {
-  min-height: 260px;
+  min-height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -258,17 +383,27 @@
   .frise__dates {
     font-size: 22px;
   }
-  .periode {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 44px;
+  .periode:not([hidden]) {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 44px;
   }
-  .periode__texte {
-    flex: 0 0 520px;
+  .periode__entete {
+    grid-area: 1 / 1;
+  }
+  .periode__corps {
+    grid-area: 2 / 1;
   }
   .periode__archives {
-    flex: 1 1 0;
-    min-width: 0;
+    grid-area: 1 / 2 / 3;
+    align-self: start;
+    position: sticky;
+    top: 88px;
+    margin-bottom: 0;
+  }
+  .periode__vide {
+    min-height: 260px;
   }
   .barres {
     gap: 14px;
@@ -276,5 +411,10 @@
   }
   .barre__trait {
     max-height: 220px;
+  }
+}
+@media (min-width: 1100px) {
+  .periode__archives {
+    top: 112px;
   }
 }

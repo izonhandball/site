@@ -155,14 +155,9 @@ function periode(props: PropsApercu) {
       { className: "periode" },
       h(
         "div",
-        { className: "periode__texte" },
+        { className: "periode__entete" },
         h("p", { className: "script periode__dates" }, p.periode || "Période"),
         h("h2", { className: "periode__titre" }, p.titre || "Titre"),
-        h("div", { className: "periode__faits" }, props.widgetFor("body")),
-        h("p", { className: "periode__sous-titre" }, "Présidence"),
-        ...(presidents.length
-          ? presidents.map((pr) => h("p", { className: "periode__president", key: pr }, pr))
-          : [h("p", { className: "periode__president a-completer" }, A_COMPLETER)]),
       ),
       h(
         "div",
@@ -175,12 +170,25 @@ function periode(props: PropsApercu) {
                 h(
                   "figure",
                   { key: i },
-                  visuel(props, a.image, a.legende, "3 / 4", "Archive à numériser"),
+                  h(
+                    "div",
+                    { className: "archive__cadre" },
+                    visuel(props, a.image, a.legende, "4 / 3", "Archive à numériser"),
+                  ),
                   h("figcaption", null, a.legende),
                 ),
               ),
             )
           : h("div", { className: "periode__vide" }, "Archives de cette période à numériser"),
+      ),
+      h(
+        "div",
+        { className: "periode__corps" },
+        h("div", { className: "periode__faits" }, props.widgetFor("body")),
+        h("p", { className: "periode__sous-titre" }, "Présidence"),
+        ...(presidents.length
+          ? presidents.map((pr) => h("p", { className: "periode__president", key: pr }, pr))
+          : [h("p", { className: "periode__president a-completer" }, A_COMPLETER)]),
       ),
     ),
   );
