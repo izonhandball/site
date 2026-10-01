@@ -2,7 +2,8 @@
 ordre: 5
 periode: 2013 – aujourd'hui
 titre: Aujourd'hui
-presidents: []
+presidents:
+  - "2024 - Aujourd'hui : Benoit Robert"
 archives:
   - image: /images/archives/2026-depuis-1973-1.webp
     legende: « Le HBC Izonnais, depuis 1973. » · Instagram, mai 2026
@@ -17,6 +18,5 @@ archives:
   - image: /images/archives/2026-depuis-1973-3.webp
     legende: « Le HBC Izonnais, depuis 1973. » · Instagram, mai 2026
 ---
-
-- 2023 : le club fête ses 50 ans.
-- Les jeunes évoluent au sein du Grand Libournais Handball.
+* 2023 : le club fête ses 50 ans.
+* Les jeunes évoluent au sein du Grand Libournais Handball.
