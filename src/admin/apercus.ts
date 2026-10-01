@@ -91,18 +91,19 @@ function ficheEquipe(props: PropsApercu, email: string) {
     h(
       "div",
       { className: "fiche-equipe" },
-      h(
-        "figure",
-        { className: "fiche-equipe__photo" },
-        visuel(
-          props,
-          e.photo,
-          `Photo de l'équipe ${e.nom ?? ""}`,
-          "3 / 4",
-          "Photo d'équipe à fournir",
-        ),
-        e.photo && e.photoLegende ? h("figcaption", { className: "script" }, e.photoLegende) : null,
-      ),
+      e.photo
+        ? h(
+            "figure",
+            { className: "fiche-equipe__photo" },
+            h("img", {
+              src: props.getAsset(e.photo).toString(),
+              alt: `Photo de l'équipe ${e.nom ?? ""}`,
+              // Fichier déclaré mais pas encore déposé : pas de cadre, comme sur le site.
+              onError: (ev: Event) => (ev.currentTarget as HTMLElement).closest("figure")?.remove(),
+            }),
+            e.photoLegende ? h("figcaption", { className: "script" }, e.photoLegende) : null,
+          )
+        : null,
       h(
         "div",
         { className: "fiche-equipe__texte" },

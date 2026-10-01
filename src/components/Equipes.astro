@@ -1,12 +1,12 @@
 ---
 import { getCollection } from "astro:content";
 import Icone from "./Icone.astro";
-import Visuel from "./Visuel.astro";
-import { getClub } from "../lib/site";
+import { getClub, imagePublique } from "../lib/site";
 import { A_COMPLETER, libelleGroupe, lignesEquipe, resumeHoraires } from "../lib/equipes";
 import "../styles/fiche-equipe.css";
 
-// Fiches équipes (content/equipes/*.yml). Une information absente s'affiche « À compléter ».
+// Fiches équipes (content/equipes/*.yml). Une information absente s'affiche « À compléter » ;
+// sans photo déposée, la fiche n'a pas de cadre photo.
 const club = await getClub();
 const equipes = (await getCollection("equipes")).sort((a, b) => a.data.ordre - b.data.ordre);
 const groupes = [
@@ -91,17 +91,17 @@ for (const g of groupes) {
           hidden={e.id !== parDefaut}
           style={`--o: ${(ordre.get(e.id) ?? 0) + 1}`}
         >
-          <figure class="fiche-equipe__photo">
-            <Visuel
-              src={e.data.photo}
-              alt={`Photo de l'équipe ${e.data.nom}`}
-              ratio="3 / 4"
-              vide="Photo d'équipe à fournir"
-            />
-            {e.data.photo && e.data.photoLegende && (
-              <figcaption class="script">{e.data.photoLegende}</figcaption>
-            )}
-          </figure>
+          {imagePublique(e.data.photo) && (
+            <figure class="fiche-equipe__photo">
+              <img
+                src={e.data.photo}
+                alt={`Photo de l'équipe ${e.data.nom}`}
+                loading="lazy"
+                decoding="async"
+              />
+              {e.data.photoLegende && <figcaption class="script">{e.data.photoLegende}</figcaption>}
+            </figure>
+          )}
           <div class="fiche-equipe__texte">
             <p class="fiche-equipe__groupe">{libelleGroupe(e.data)}</p>
             <h3 class="fiche-equipe__nom">{e.data.nom}</h3>
