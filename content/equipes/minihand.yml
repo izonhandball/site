@@ -1,6 +1,7 @@
 nom: MiniHand
 groupe: jeunes
 ordre: 15
+equipes: []
 naissance: 2018 à 2021
 horaires:
   - debut: 15:45
