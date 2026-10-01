@@ -3,9 +3,10 @@ ordre: 5
 periode: 2013 – aujourd'hui
 titre: Aujourd'hui
 presidents:
-  - "2021-2022 : Philippe Lambert"
-  - "2022-2023: Benjamin MAGNAN"
-  - "2024 - 2026 : Benoit Robert"
+  - "2013 - 2022 : Vincent Duret"
+  - "2021-2022 : Philippe Lambert & Benjamin Magnan"
+  - "2023-2025: Philippe Lambert"
+  - "2025 - aujourd'hui : Benoit Robert"
 archives:
   - image: /images/archives/2026-depuis-1973-1.webp
     legende: « Le HBC Izonnais, depuis 1973. » · Instagram, mai 2026
