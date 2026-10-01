@@ -114,9 +114,22 @@ main .section--alt::after {
   bottom: calc(1px - var(--haut-pinceau));
   transform: scale(-1, -1);
 }
+/* Sections voisines : le bord déchiré mord sur leur marge, pas sur leur contenu. */
+main .section--alt + .section {
+  padding-top: calc(28px + var(--haut-pinceau));
+}
+main .section:has(+ .section--alt) {
+  padding-bottom: calc(32px + var(--haut-pinceau));
+}
 @media (min-width: 900px) {
   main .section--alt {
     padding-block: 72px 80px;
+  }
+  main .section--alt + .section {
+    padding-top: calc(52px + var(--haut-pinceau));
+  }
+  main .section:has(+ .section--alt) {
+    padding-bottom: calc(56px + var(--haut-pinceau));
   }
 }
 /* Accroche Histoire après une section alternée : c'est elle qui mord, découpée dans son propre
