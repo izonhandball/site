@@ -1,7 +1,19 @@
 {
-  "updatedAt": "2026-10-02T02:03:36.437Z",
+  "updatedAt": "2026-10-03T02:01:43.090Z",
   "source": "api",
   "posts": [
+    {
+      "id": "18110350561881067",
+      "permalink": "https://www.instagram.com/reel/Dd_Ig2zRS68/",
+      "timestamp": "2026-10-02T09:13:46+0000",
+      "media_type": "VIDEO",
+      "caption": "N’hésitez plus à venir, vous allez en prendre plein la vue 👀🤾 #handball #hbcizon #sport",
+      "media": [
+        {
+          "src": "/instagram/18110350561881067-1.webp"
+        }
+      ]
+    },
     {
       "id": "17915705223261150",
       "permalink": "https://www.instagram.com/p/Dd9fbZ6ESX7/",
@@ -185,18 +197,6 @@
         },
         {
           "src": "/instagram/18075790244425218-5.webp"
-        }
-      ]
-    },
-    {
-      "id": "17930580702409020",
-      "permalink": "https://www.instagram.com/p/DdqifX-S4Kp/",
-      "timestamp": "2026-09-24T09:26:24+0000",
-      "media_type": "IMAGE",
-      "caption": "DEUXIÈME WEEK-END DE CHAMPIONNAT 🔥\n\nLe championnat continue et cette fois, on joue À LA MAISON ! 🏠\n\nCe samedi 26 septembre, nos Séniors Garçons 1 qui évoluent en Honneur Régional jouent leur premier match à domicile de la saison :\n\n🤾‍♂️ HBC Izon 🆚 PE2M HB 🕘 Coup d’envoi à 21h00 📍 Salle Les Costauds, Izon (33450)\n\nUn premier match devant son public, ça se vit ensemble ! Nos gars ont besoin de vous dans les tribunes pour une ambiance de dingue du début à la fin 📣\n\n👉 Bloque ton samedi soir et viens remplir les tribunes !\n\nEt évidemment, restauration sur place pour prolonger la soirée 🍻🌭🥤\n\nOn vous attend nombreux pour lancer cette saison à domicile, ça va être énorme ! 🖤💛❤️",
-      "media": [
-        {
-          "src": "/instagram/17930580702409020-1.webp"
         }
       ]
     }
