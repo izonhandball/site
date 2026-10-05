@@ -1,7 +1,49 @@
 {
-  "updatedAt": "2026-10-03T02:01:43.090Z",
+  "updatedAt": "2026-10-05T02:02:59.013Z",
   "source": "api",
   "posts": [
+    {
+      "id": "18116692261797504",
+      "permalink": "https://www.instagram.com/reel/DeFTtmwxb0S/",
+      "timestamp": "2026-10-04T18:47:04+0000",
+      "media_type": "VIDEO",
+      "caption": "Ces victoires étaient pour vous 🩷💪🏼 #handball #hbcizon #sport #octobrerose🎀",
+      "media": [
+        {
+          "src": "/instagram/18116692261797504-1.webp"
+        }
+      ]
+    },
+    {
+      "id": "18095142509389333",
+      "permalink": "https://www.instagram.com/p/DeE5_hbDImh/",
+      "timestamp": "2026-10-04T15:00:14+0000",
+      "media_type": "CAROUSEL_ALBUM",
+      "caption": "🎀 Retour en images sur notre journée Octobre Rose !\n\nEnsemble, nous nous sommes mobilisés pour la lutte contre le cancer du sein, et le terrain nous a aussi offert de belles émotions : 3 victoires pour nos U18, nos Séniors F et nos Séniors G2 ! 🏆\n\nMerci à toutes celles et ceux qui ont participé, partagé, soutenu. \n\nParce que le dépistage sauve des vies, parlons-en autour de nous 💗\n\n#OctobreRose #CancerDuSein #Dépistage #Solidarité",
+      "media": [
+        {
+          "src": "/instagram/18095142509389333-1.webp"
+        },
+        {
+          "src": "/instagram/18095142509389333-2.webp"
+        },
+        {
+          "src": "/instagram/18095142509389333-3.webp"
+        },
+        {
+          "src": "/instagram/18095142509389333-4.webp"
+        },
+        {
+          "src": "/instagram/18095142509389333-5.webp"
+        },
+        {
+          "src": "/instagram/18095142509389333-6.webp"
+        },
+        {
+          "src": "/instagram/18095142509389333-7.webp"
+        }
+      ]
+    },
     {
       "id": "18110350561881067",
       "permalink": "https://www.instagram.com/reel/Dd_Ig2zRS68/",
@@ -11,21 +53,6 @@
       "media": [
         {
           "src": "/instagram/18110350561881067-1.webp"
-        }
-      ]
-    },
-    {
-      "id": "17915705223261150",
-      "permalink": "https://www.instagram.com/p/Dd9fbZ6ESX7/",
-      "timestamp": "2026-10-01T17:53:25+0000",
-      "media_type": "CAROUSEL_ALBUM",
-      "caption": "JOURNÉE SPÉCIALE OCTOBRE ROSE 🎀\n\n5 matchs à domicile, 1 seule cause : venez nous encourager en rose !\n\nCe week-end, notre club se mobilise pour la lutte contre le cancer du sein !\n\nDès 13h30 : Vente de rubans roses à 1 € Opération « 1 but marqué par nos licenciés = 1 € reversé »\n\n💗 L’intégralité des fonds récoltés sera reversée à la lutte contre le cancer du sein.\n\nEt le soir, place à la convivialité ! Dès 19h, buvette spéciale et repas : riz et poulet croustillant.\n⚠️ Réservation obligatoire (max ce soir 23h) lien en bio ! #hbcimatchday",
-      "media": [
-        {
-          "src": "/instagram/17915705223261150-1.webp"
-        },
-        {
-          "src": "/instagram/17915705223261150-2.webp"
         }
       ]
     },
@@ -161,42 +188,6 @@
         },
         {
           "src": "/instagram/18139118389613088-10.webp"
-        }
-      ]
-    },
-    {
-      "id": "18098420768574390",
-      "permalink": "https://www.instagram.com/reel/DduEOjIxnHj/",
-      "timestamp": "2026-09-25T18:16:13+0000",
-      "media_type": "VIDEO",
-      "caption": "LES GARÇONS ONT UN MESSAGE POUR VOUS 😉\n\nCette fois… ON JOUE À LA MAISON 🏠\n\n📅 Samedi 26 septembre — 21h00 \n🤾‍♂️ HBC IZON 🆚 PE2M HB 📍 Salle Les Costauds\n\nOn a besoin de vous dans les tribunes 📣 Restauration sur place 🍻🌭\n\n👉 On vous attend nombreux, venez remplir la salle ! 🖤💛❤️",
-      "media": [
-        {
-          "src": "/instagram/18098420768574390-1.webp"
-        }
-      ]
-    },
-    {
-      "id": "18075790244425218",
-      "permalink": "https://www.instagram.com/p/DdtHVY1jFPU/",
-      "timestamp": "2026-09-25T09:15:02+0000",
-      "media_type": "CAROUSEL_ALBUM",
-      "caption": "On n’est pas des petits mecs ! 👀\n\nJ-1 avant le coup d’envoi de la deuxième journée de championnat🔥 Venez faire le plein d’ambiance avec nous !\n\n#hbcizon #j-1 #onestpasdespetitsmecs",
-      "media": [
-        {
-          "src": "/instagram/18075790244425218-1.webp"
-        },
-        {
-          "src": "/instagram/18075790244425218-2.webp"
-        },
-        {
-          "src": "/instagram/18075790244425218-3.webp"
-        },
-        {
-          "src": "/instagram/18075790244425218-4.webp"
-        },
-        {
-          "src": "/instagram/18075790244425218-5.webp"
         }
       ]
     }
