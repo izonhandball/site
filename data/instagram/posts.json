@@ -1,7 +1,25 @@
 {
-  "updatedAt": "2026-10-06T02:02:56.397Z",
+  "updatedAt": "2026-10-07T02:04:01.242Z",
   "source": "api",
   "posts": [
+    {
+      "id": "18070072100774828",
+      "permalink": "https://www.instagram.com/p/DeJqI-fjBRT/",
+      "timestamp": "2026-10-06T11:17:55+0000",
+      "media_type": "CAROUSEL_ALBUM",
+      "caption": "PROGRAMME DU WEEK-END | 10 OCTOBRE 🔥\n\nUn nouveau week-end de handball se prépare au HBC Izon !\n\nAu programme, plusieurs rencontres pour nos équipes, avec notamment deux matchs de nos Seniors Garçons à suivre ce week-end.\n\n📅 SAMEDI 10 OCTOBRE 🤾 Nos équipes seront sur les terrains pour défendre les couleurs du HBC Izon !\n\n📣 Joueurs, familles, supporters : on vous attend nombreux pour encourager nos équipes et partager un beau week-end de handball !\n\n#hbciprogramme #handball #hbcizon",
+      "media": [
+        {
+          "src": "/instagram/18070072100774828-1.webp"
+        },
+        {
+          "src": "/instagram/18070072100774828-2.webp"
+        },
+        {
+          "src": "/instagram/18070072100774828-3.webp"
+        }
+      ]
+    },
     {
       "id": "18155460829467369",
       "permalink": "https://www.instagram.com/p/DeG6eSRDAPH/",
@@ -116,24 +134,6 @@
       "media": [
         {
           "src": "/instagram/18127286845797759-1.webp"
-        }
-      ]
-    },
-    {
-      "id": "17906615688482439",
-      "permalink": "https://www.instagram.com/p/Dd34sObEX7u/",
-      "timestamp": "2026-09-29T13:38:44+0000",
-      "media_type": "CAROUSEL_ALBUM",
-      "caption": "Ce samedi, on vous donne rendez-vous pour notre première grande journée matchs à domicile ! 🔥\n\nDès 13h30, place à nos jeunes pour une après-midi 100 % handball et passion.\nDès 19h, ce sera au tour de nos Seniors de faire vibrer le gymnase !\n\nEt parce que cette journée est aussi l’occasion de porter une belle cause, le HBC Izon se mobilise pour Octobre Rose 🎀\n👉 Alors n’hésitez pas à venir avec une touche de rose pour soutenir la lutte contre le cancer du sein !\n\n🍚 Et bien sûr, notre buvette spéciale du soir sera au rendez-vous !\nAu menu : riz – poulet croustillant 🤤\n\n⚠️ Réservation obligatoire pour le repas ! Pensez à réserver votre portion à l’avance.\n\n📍 On vous attend nombreux au gymnase pour encourager nos équipes et faire de cette première grande journée matchs une belle réussite ! #hbciprogramme",
-      "media": [
-        {
-          "src": "/instagram/17906615688482439-1.webp"
-        },
-        {
-          "src": "/instagram/17906615688482439-2.webp"
-        },
-        {
-          "src": "/instagram/17906615688482439-3.webp"
         }
       ]
     },
