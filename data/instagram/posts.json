@@ -1,7 +1,19 @@
 {
-  "updatedAt": "2026-10-07T02:04:01.242Z",
+  "updatedAt": "2026-10-08T02:03:52.461Z",
   "source": "api",
   "posts": [
+    {
+      "id": "18134647687638736",
+      "permalink": "https://www.instagram.com/reel/DeMXKc2sSiE/",
+      "timestamp": "2026-10-07T12:31:14+0000",
+      "media_type": "VIDEO",
+      "caption": "La défense n’a qu’à bien se tenir 👀🤭#handball #hbcizon #sport",
+      "media": [
+        {
+          "src": "/instagram/18134647687638736-1.webp"
+        }
+      ]
+    },
     {
       "id": "18070072100774828",
       "permalink": "https://www.instagram.com/p/DeJqI-fjBRT/",
@@ -149,45 +161,6 @@
         },
         {
           "src": "/instagram/18096610628538593-2.webp"
-        }
-      ]
-    },
-    {
-      "id": "18139118389613088",
-      "permalink": "https://www.instagram.com/p/Ddyqlw_jE_T/",
-      "timestamp": "2026-09-27T12:59:19+0000",
-      "media_type": "CAROUSEL_ALBUM",
-      "caption": "📸 Retour en images sur le match de nos seniors Garçons 1 !\n\nAprès une première mi-temps compliquée, nos Izonnais n’ont rien lâché et sont allés arracher le match nul à domicile hier soir 💪🤾\n\nUn mental de guerriers et un collectif qui répond présent dans les moments difficiles. 🖤💛❤️\n\n👉 Rendez-vous le week-end prochain pour un match sous le signe d’Octobre Rose 🩷 ! \n\nToutes les équipes se mobiliseront pour soutenir la lutte contre le cancer du sein : venez nombreux porter du rose et encourager nos joueurs / joueuses pour cette rencontre engagée !\n\n📅 On compte sur vous pour faire du bruit dans les tribunes 🩷🤾‍♂️",
-      "media": [
-        {
-          "src": "/instagram/18139118389613088-1.webp"
-        },
-        {
-          "src": "/instagram/18139118389613088-2.webp"
-        },
-        {
-          "src": "/instagram/18139118389613088-3.webp"
-        },
-        {
-          "src": "/instagram/18139118389613088-4.webp"
-        },
-        {
-          "src": "/instagram/18139118389613088-5.webp"
-        },
-        {
-          "src": "/instagram/18139118389613088-6.webp"
-        },
-        {
-          "src": "/instagram/18139118389613088-7.webp"
-        },
-        {
-          "src": "/instagram/18139118389613088-8.webp"
-        },
-        {
-          "src": "/instagram/18139118389613088-9.webp"
-        },
-        {
-          "src": "/instagram/18139118389613088-10.webp"
         }
       ]
     }
