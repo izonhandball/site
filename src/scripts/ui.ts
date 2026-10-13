@@ -167,7 +167,7 @@ function menu() {
   });
 }
 
-// Turnstile (anti-robot de Cloudflare), chargé à la première ouverture du formulaire.
+// Turnstile (anti-robot de Cloudflare), chargé une seule fois, quand un formulaire en a besoin.
 interface Turnstile {
   render(el: HTMLElement, options: Record<string, unknown>): string;
   getResponse(id: string): string | undefined;
@@ -176,22 +176,42 @@ interface Turnstile {
 // Clé de test de Cloudflare : jeton toujours valide, accepté seulement par la clé secrète de test.
 const CLE_TURNSTILE_TEST = "1x00000000000000000000AA";
 const fenetre = window as Window & { turnstile?: Turnstile; turnstilePret?: () => void };
+const turnstileEnAttente: ((t: Turnstile) => void)[] = [];
 
+function avecTurnstile(rappel: (t: Turnstile) => void) {
+  if (fenetre.turnstile) return rappel(fenetre.turnstile);
+  turnstileEnAttente.push(rappel);
+  if (document.getElementById("script-turnstile")) return;
+  fenetre.turnstilePret = () => {
+    for (const r of turnstileEnAttente.splice(0)) r(fenetre.turnstile!);
+  };
+  const script = document.createElement("script");
+  script.id = "script-turnstile";
+  script.src =
+    "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=turnstilePret";
+  script.async = true;
+  document.head.append(script);
+}
+
+// Formulaire de contact de la fenêtre « Nous contacter ».
 function contact() {
-  const form = document.querySelector<HTMLFormElement>("[data-contact]");
-  const dlg = form?.closest("dialog");
-  if (!form || !dlg) return;
-  const erreur = dlg.querySelector<HTMLElement>("[data-contact-erreur]")!;
-  const envoyer = dlg.querySelector<HTMLButtonElement>("[data-contact-envoyer]")!;
-  const merci = dlg.querySelector<HTMLElement>("[data-contact-merci]")!;
-  const email = dlg.querySelector<HTMLAnchorElement>('a[href^="mailto:"]')?.textContent ?? "";
+  const zone = document.querySelector<HTMLElement>("[data-contact-zone]");
+  const form = zone?.querySelector<HTMLFormElement>("[data-contact]");
+  const dlg = zone?.closest("dialog");
+  if (!zone || !form || !dlg) return;
+  const erreur = zone.querySelector<HTMLElement>("[data-contact-erreur]")!;
+  const envoyer = zone.querySelector<HTMLButtonElement>("[data-contact-envoyer]")!;
+  const merci = zone.querySelector<HTMLElement>("[data-contact-merci]")!;
+  const email = zone.dataset.email ?? "";
 
   const zoneTurnstile = form.querySelector<HTMLElement>("[data-turnstile]")!;
   let widget: string | undefined;
+  let demande = false;
   const chargerTurnstile = () => {
-    if (document.getElementById("script-turnstile")) return;
-    fenetre.turnstilePret = () => {
-      widget = fenetre.turnstile!.render(zoneTurnstile, {
+    if (demande) return;
+    demande = true;
+    avecTurnstile((turnstile) => {
+      widget = turnstile.render(zoneTurnstile, {
         sitekey: ["localhost", "127.0.0.1"].includes(location.hostname)
           ? CLE_TURNSTILE_TEST
           : zoneTurnstile.dataset.turnstile,
@@ -200,14 +220,9 @@ function contact() {
         theme: "dark",
         language: "fr",
       });
-    };
-    const script = document.createElement("script");
-    script.id = "script-turnstile";
-    script.src =
-      "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=turnstilePret";
-    script.async = true;
-    document.head.append(script);
+    });
   };
+  // À la première ouverture de la fenêtre (bouton de l'en-tête ou du pied de page).
   document.addEventListener("click", (e) => {
     if ((e.target as HTMLElement).closest(`[data-ouvrir="${dlg.id}"]`)) chargerTurnstile();
   });
@@ -268,7 +283,7 @@ function contact() {
         body: JSON.stringify(donnees),
       });
       if (!reponse.ok) throw new Error(String(reponse.status));
-      dlg.querySelector("[data-contact-adresse]")!.textContent = String(donnees.email);
+      zone.querySelector("[data-contact-adresse]")!.textContent = String(donnees.email);
       form.hidden = true;
       merci.hidden = false;
       merci.focus();

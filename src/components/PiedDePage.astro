@@ -12,6 +12,9 @@ const club = await getClub();
     <div class="pied__marque">
       <Logo taille={72} />
       <p class="script">{club.devise}</p>
+      <button type="button" class="btn btn--jaune pied__ecrire" data-ouvrir="fenetre-contact">
+        Nous contacter
+      </button>
     </div>
     <div class="pied__colonnes">
       <div>
@@ -23,15 +26,6 @@ const club = await getClub();
         </p>
       </div>
       <div>
-        <h2>Contact</h2>
-        <p>
-          <a href={`mailto:${club.email}`}>{club.email}</a>
-        </p>
-        <p>
-          <a href={club.liens.ffhandball}>Fiche FFHandball</a>
-        </p>
-      </div>
-      <div>
         <h2>Suivre</h2>
         <p>
           <a href={club.liens.instagram} class="pied__insta">
@@ -40,6 +34,9 @@ const club = await getClub();
         </p>
         <p>
           <a href={club.liens.facebook}>Facebook</a>
+        </p>
+        <p>
+          <a href={club.liens.ffhandball}>Fiche FFHandball</a>
         </p>
         <p>
           <a href={club.liens.scorenco}>Résultats &amp; classements</a>

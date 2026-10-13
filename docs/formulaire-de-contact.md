@@ -6,7 +6,7 @@ Le bouton « Nous contacter » ouvre une fenêtre de contact. Les messages arriv
 
 ```
 Navigateur                        Worker hbcizon (Cloudflare)              Gmail du club
-FenetreContact.astro + ui.ts      worker/contact.ts
+FormulaireContact.astro + ui.ts   worker/contact.ts
   │ widget Turnstile (jeton)        │
   │── POST /api/contact (JSON) ────▶│ 1. origine, champ piège, champs
   │                                 │ 2. jeton → Turnstile siteverify
@@ -15,13 +15,14 @@ FenetreContact.astro + ui.ts      worker/contact.ts
   « Message envoyé » ou erreur            répondre à : le visiteur)
 ```
 
-| Fichier                               | Rôle                                                                                          |
-| ------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `src/components/FenetreContact.astro` | Fenêtre et formulaire ; clé publique Turnstile                                                |
-| `src/scripts/ui.ts` (`contact()`)     | Chargement de Turnstile à la première ouverture, validation, envoi, états « envoyé » / erreur |
-| `worker/contact.ts`                   | Contrôles, vérification Turnstile, composition et envoi du mail                               |
-| `worker/contact.test.ts`              | Tests du Worker (envoi, refus, champ piège, injection dans l'objet…)                          |
-| `wrangler.jsonc`                      | Liaison `send_email` `CONTACT`, destinataire fixé                                             |
+| Fichier                                  | Rôle                                                                                          |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `src/components/FormulaireContact.astro` | Formulaire ; clé publique Turnstile                                                           |
+| `src/components/FenetreContact.astro`    | Fenêtre « Nous contacter » (boutons « Nous contacter » de l'en-tête et du pied de page)       |
+| `src/scripts/ui.ts` (`contact()`)        | Chargement de Turnstile à la première ouverture, validation, envoi, états « envoyé » / erreur |
+| `worker/contact.ts`                      | Contrôles, vérification Turnstile, composition et envoi du mail                               |
+| `worker/contact.test.ts`                 | Tests du Worker (envoi, refus, champ piège, injection dans l'objet…)                          |
+| `wrangler.jsonc`                         | Liaison `send_email` `CONTACT`, destinataire fixé                                             |
 
 Réponses de `/api/contact` : `200` envoyé (ou robot piégé), `400` formulaire invalide, `403` origine ou Turnstile refusés, `405` autre méthode que POST, `500` secret ou liaison manquants, `502` échec d'envoi. Le visiteur voit « Message envoyé », ou un message d'erreur qui donne l'adresse du club.
 
@@ -36,10 +37,10 @@ Tout se fait depuis le tableau de bord, rien n'est dans le code sauf la liaison 
 | Règle de renvoi           | Email Routing › Routing rules                                | `contact@hbc-izon.fr` → izonhandball@gmail.com                                                                     |
 | DNS                       | `hbc-izon.fr` › DNS › Records                                | MX `route1/2/3.mx.cloudflare.net`, TXT SPF et DKIM (`cf2024-1._domainkey`), TXT `_dmarc` `v=DMARC1; p=none`        |
 | Widget Turnstile          | Application security › Turnstile                             | « Site HBC Izon - formulaire de contact », mode Managed, hôtes `hbc-izon.fr` et `hbcizon.izonhandball.workers.dev` |
-| Clé publique Turnstile    | `src/components/FenetreContact.astro`                        | `0x4AAAAAAFH2KRxS11ofFMsF`                                                                                         |
+| Clé publique Turnstile    | `src/components/FormulaireContact.astro`                     | `0x4AAAAAAFH2KRxS11ofFMsF`                                                                                         |
 | Secret `TURNSTILE_SECRET` | Workers & Pages › hbcizon › Settings › Variables and Secrets | Secret key du widget (type Secret, Production)                                                                     |
 
-Changer de clé Turnstile (widget recréé, clé secrète régénérée) : mettre la nouvelle clé publique dans `FenetreContact.astro` et la nouvelle clé secrète dans `TURNSTILE_SECRET`, puis déployer. Changer la boîte destinataire : ajouter et vérifier la nouvelle adresse dans Destination addresses, puis modifier `destination_address` dans `wrangler.jsonc` et `DESTINATAIRE` dans `worker/contact.ts`.
+Changer de clé Turnstile (widget recréé, clé secrète régénérée) : mettre la nouvelle clé publique dans `FormulaireContact.astro` et la nouvelle clé secrète dans `TURNSTILE_SECRET`, puis déployer. Changer la boîte destinataire : ajouter et vérifier la nouvelle adresse dans Destination addresses, puis modifier `destination_address` dans `wrangler.jsonc` et `DESTINATAIRE` dans `worker/contact.ts`.
 
 ## Tester
 
