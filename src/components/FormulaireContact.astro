@@ -1,0 +1,111 @@
+---
+import { getCollection } from "astro:content";
+import { getClub } from "../lib/site";
+import "../styles/contact.css";
+
+// Formulaire de contact de la fenêtre « Nous contacter ».
+// Envoyé en JSON à /api/contact (Worker) ; le club répond depuis sa boîte mail.
+interface Props {
+  /** Préfixe des id des champs. */
+  id: string;
+}
+const { id } = Astro.props;
+const club = await getClub();
+// Clé publique du widget Turnstile « Site HBC Izon - formulaire de contact »
+// (hbc-izon.fr et workers.dev ; en local, ui.ts prend la clé de test de Cloudflare).
+const turnstile = "0x4AAAAAAFH2KRxS11ofFMsF";
+const equipes = (await getCollection("equipes")).sort((a, b) => a.data.ordre - b.data.ordre);
+const sujets = [
+  { id: "essai", label: "Venir essayer" },
+  { id: "inscription", label: "Inscription" },
+  { id: "partenariat", label: "Partenariat" },
+  { id: "autre", label: "Autre question" },
+];
+---
+
+<div data-contact-zone data-email={club.email}>
+  <form class="contact__form" action="/api/contact" method="post" data-contact novalidate>
+    <fieldset class="contact__sujets">
+      <legend>C'est pour</legend>
+      <div class="contact__choix">
+        {sujets.map((s) => (
+          <label class="choix contact__sujet">
+            <input type="radio" name="sujet" value={s.id} required />
+            {s.label}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+
+    <div class="contact__champ" data-si-sujet="essai inscription" hidden>
+      <label for={`${id}-equipe`}>Équipe</label>
+      <select id={`${id}-equipe`} name="equipe">
+        <option value="">Je ne sais pas encore</option>
+        {equipes.map((e) => (
+          <option value={e.data.nom}>
+            {e.data.nom}
+            {e.data.naissance ? ` (${e.data.naissance.toLowerCase()})` : ""}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    <div class="contact__ligne">
+      <div class="contact__champ">
+        <label for={`${id}-nom`}>Nom et prénom</label>
+        <input id={`${id}-nom`} name="nom" autocomplete="name" required maxlength="100" />
+      </div>
+      <div class="contact__champ">
+        <label for={`${id}-email`}>E-mail</label>
+        <input
+          id={`${id}-email`}
+          name="email"
+          type="email"
+          autocomplete="email"
+          required
+          maxlength="200"
+        />
+      </div>
+    </div>
+
+    <div class="contact__champ">
+      <label for={`${id}-tel`}>
+        Téléphone <span>facultatif</span>
+      </label>
+      <input id={`${id}-tel`} name="telephone" type="tel" autocomplete="tel" maxlength="30" />
+    </div>
+
+    <div class="contact__champ">
+      <label for={`${id}-message`}>Message</label>
+      <textarea id={`${id}-message`} name="message" rows="5" required maxlength="3000"></textarea>
+    </div>
+
+    <!-- Piège à robots : invisible pour les visiteurs, rempli par les robots. -->
+    <div class="contact__piege" aria-hidden="true">
+      <label>
+        Site web <input name="site" tabindex="-1" autocomplete="off" />
+      </label>
+    </div>
+
+    <div class="contact__turnstile" data-turnstile={turnstile}></div>
+
+    <p class="contact__erreur" data-contact-erreur role="alert" hidden></p>
+
+    <div class="contact__pied">
+      <button type="submit" class="btn btn--jaune" data-contact-envoyer>
+        Envoyer
+      </button>
+      <p class="contact__mention">Vos coordonnées servent uniquement à vous répondre.</p>
+    </div>
+  </form>
+
+  <div class="contact__merci" data-contact-merci hidden tabindex="-1">
+    <p class="contact__merci-titre">Message envoyé</p>
+    <p>
+      Le club vous répondra à <strong data-contact-adresse></strong> dès qu'un bénévole l'aura lu.
+    </p>
+    <button type="button" class="btn" data-fermer>
+      Fermer
+    </button>
+  </div>
+</div>

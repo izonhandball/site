@@ -235,7 +235,12 @@ function club(props: PropsApercu) {
       h(
         "div",
         { className: "pied__inner" },
-        h("div", { className: "pied__marque" }, h("p", { className: "script" }, c.devise)),
+        h(
+          "div",
+          { className: "pied__marque" },
+          h("p", { className: "script" }, c.devise),
+          h("span", { className: "btn btn--jaune pied__ecrire" }, "Nous contacter"),
+        ),
         h(
           "div",
           { className: "pied__colonnes" },
@@ -248,16 +253,10 @@ function club(props: PropsApercu) {
           h(
             "div",
             null,
-            h("h2", null, "Contact"),
-            h("p", null, h("a", { href: `mailto:${c.email}` }, c.email)),
-            lien("ffhandball", "Fiche FFHandball"),
-          ),
-          h(
-            "div",
-            null,
             h("h2", null, "Suivre"),
             lien("instagram", "Instagram"),
             lien("facebook", "Facebook"),
+            lien("ffhandball", "Fiche FFHandball"),
             lien("scorenco", "Résultats & classements"),
             lien("helloasso", "HelloAsso"),
             lien("boutique", "Boutique"),

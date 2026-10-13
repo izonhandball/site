@@ -89,6 +89,9 @@
   line-height: 1.6;
   color: var(--texte-discret);
 }
+.pied__ecrire {
+  margin-top: 18px;
+}
 .pied__insta {
   display: inline-flex;
   align-items: center;
@@ -108,7 +111,7 @@
   }
   .pied__colonnes {
     flex-grow: 1;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 30px;
   }
 }

@@ -1,0 +1,160 @@
+/* Formulaire de contact (FormulaireContact.astro), dans la fenêtre « Nous contacter ».
+   Mise en page selon la place disponible (requête de conteneur). */
+[data-contact-zone] {
+  container-type: inline-size;
+}
+
+.contact__form:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.contact__sujets {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.contact__sujets legend,
+.contact__champ label {
+  display: block;
+  margin-bottom: 8px;
+  padding: 0;
+  font-family: var(--f-titre);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.3px;
+  color: var(--texte-doux);
+}
+.contact__champ label span {
+  font-weight: 500;
+  color: var(--texte-discret);
+}
+.contact__choix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.contact__sujet {
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+}
+.contact__sujet input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.contact__sujet:has(:checked) {
+  background: var(--jaune);
+  border-color: var(--jaune);
+  color: var(--noir);
+}
+.contact__sujet:has([aria-invalid="true"]) {
+  border-color: var(--corail);
+}
+.contact__sujet:has(:focus-visible) {
+  outline: 3px solid var(--jaune);
+  outline-offset: 2px;
+}
+
+.contact__ligne {
+  display: grid;
+  gap: 18px;
+}
+.contact__champ input,
+.contact__champ select,
+.contact__champ textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--bordure-forte);
+  border-radius: 0;
+  background: var(--noir);
+  color: var(--texte);
+  font: 17px/1.4 var(--f-texte);
+}
+.contact__champ textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+.contact__champ :is(input, select, textarea):focus-visible {
+  outline: none;
+  border-color: var(--jaune);
+}
+.contact__champ [aria-invalid="true"] {
+  border-color: var(--corail);
+}
+
+.contact__piege {
+  position: absolute;
+  left: -9999px;
+}
+
+.contact__turnstile:empty {
+  display: none;
+}
+.contact__erreur {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 4px solid var(--corail);
+  background: rgb(255 107 110 / 0.1);
+  color: var(--texte);
+  font-size: 16px;
+}
+
+.contact__pied {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+.contact__pied .btn {
+  flex: 1 1 100%;
+  justify-content: center;
+}
+.contact__pied .btn[aria-busy="true"] {
+  opacity: 0.6;
+  cursor: progress;
+}
+.contact__mention {
+  margin: 0;
+  font-size: 14px;
+  color: var(--texte-discret);
+}
+
+.contact__merci {
+  padding-top: 12px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--texte-doux);
+}
+.contact__merci:focus {
+  outline: none;
+}
+.contact__merci-titre {
+  margin: 0 0 12px;
+  font-family: var(--f-affiche);
+  font-size: 52px;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--jaune);
+}
+.contact__merci strong {
+  color: var(--texte);
+}
+.contact__merci .btn {
+  margin-top: 16px;
+}
+
+@container (min-width: 480px) {
+  .contact__choix {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .contact__ligne {
+    grid-template-columns: 1fr 1fr;
+  }
+  .contact__pied .btn {
+    flex: 0 0 auto;
+  }
+}
