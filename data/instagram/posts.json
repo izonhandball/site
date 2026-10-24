@@ -1,7 +1,19 @@
 {
-  "updatedAt": "2026-10-22T02:17:30.628Z",
+  "updatedAt": "2026-10-24T02:16:35.692Z",
   "source": "api",
   "posts": [
+    {
+      "id": "18009559848003182",
+      "permalink": "https://www.instagram.com/reel/De1i4B2tL1i/",
+      "timestamp": "2026-10-23T12:23:13+0000",
+      "media_type": "VIDEO",
+      "caption": "Ils font semblant…ce sont les premiers à demander des photos 🫣👀 #handball #hbcizon #sport #trend",
+      "media": [
+        {
+          "src": "/instagram/18009559848003182-1.webp"
+        }
+      ]
+    },
     {
       "id": "17917415490461881",
       "permalink": "https://www.instagram.com/p/Dev-7KMDf7d/",
@@ -122,18 +134,6 @@
       "media": [
         {
           "src": "/instagram/18131256865795159-1.webp"
-        }
-      ]
-    },
-    {
-      "id": "18202759651337931",
-      "permalink": "https://www.instagram.com/reel/DeQ-G9MxYqa/",
-      "timestamp": "2026-10-09T07:27:50+0000",
-      "media_type": "VIDEO",
-      "caption": "🚨 NOUVELLE SAISON, NOUVEL ÉQUIPEMENTIER, NOUVELLE BOUTIQUE !\n\nCette année, place au changement : nous avons choisi de faire confiance à un nouvel équipementier, SPORTS SERVICES CONSEILS.\n\nRetrouvez dès maintenant tous les équipements du club sur la boutique en ligne.\n\n👉 Le lien est disponible dans notre bio.\n\n🔥",
-      "media": [
-        {
-          "src": "/instagram/18202759651337931-1.webp"
         }
       ]
     },
