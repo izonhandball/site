@@ -1,7 +1,22 @@
 {
-  "updatedAt": "2026-10-31T07:38:02.739Z",
+  "updatedAt": "2026-11-02T08:30:16.479Z",
   "source": "api",
   "posts": [
+    {
+      "id": "18132408724815027",
+      "permalink": "https://www.instagram.com/p/DfO2epMkWrD/",
+      "timestamp": "2026-11-02T08:13:19+0000",
+      "media_type": "CAROUSEL_ALBUM",
+      "caption": "🤾 Résultats du week-end !\n\nSeniors filles sont toujours invaincues ! Les filles décrochent leur 4ᵉ victoire consécutive en s’imposant 37-21 face à Carbon-Blanc. Bravo à elles ! 👏\n\nSeniors garçons : l’équipe 1 s’incline 31-27 face à Atlantique Seudre Handball, au terme d’un match sous haute tension. De son côté, l’équipe 2 arrache le match nul 31-31 face aux Girondins de Bordeaux Bastide Handball. \n\nMerci à tous les supporters pour votre soutien, et rendez-vous au prochain match ! 🧡 #hbciresultats #handball #hbcizon",
+      "media": [
+        {
+          "src": "/instagram/18132408724815027-1.webp"
+        },
+        {
+          "src": "/instagram/18132408724815027-2.webp"
+        }
+      ]
+    },
     {
       "id": "18186400666419991",
       "permalink": "https://www.instagram.com/p/DfHudA9FXD8/",
@@ -41,18 +56,6 @@
         },
         {
           "src": "/instagram/18186400666419991-11.webp"
-        }
-      ]
-    },
-    {
-      "id": "18033550508896141",
-      "permalink": "https://www.instagram.com/p/DfEjrI8Rn17/",
-      "timestamp": "2026-10-29T08:29:02+0000",
-      "media_type": "IMAGE",
-      "caption": "🧛 SANG POUR SANG HAND ! 🧛\n\nCe samedi, ce ne sont pas que les fantômes qui feront du bruit : nos équipes aussi ! 🤾\n\n📅 Samedi 31/10\n🦇 19h : Seniors Filles\n🕷️ 21h : Seniors Garçons 2\n\n🎃 Déguisements bienvenus !\n🍻 Buvette ouverte, ambiance garantie ❤️💛🖤 #hbcimatchday",
-      "media": [
-        {
-          "src": "/instagram/18033550508896141-1.webp"
         }
       ]
     },
@@ -134,30 +137,6 @@
       "media": [
         {
           "src": "/instagram/18094996106671126-1.webp"
-        }
-      ]
-    },
-    {
-      "id": "18120158006033190",
-      "permalink": "https://www.instagram.com/p/DeqyASljYYf/",
-      "timestamp": "2026-10-19T08:01:34+0000",
-      "media_type": "CAROUSEL_ALBUM",
-      "caption": "COUPE DE FRANCE – 1er tour : C’EST QUALIFIÉ ! 🔥\n\nBelle victoire de nos seniors garçons 30 à 24 lors du premier tour de la Coupe de France ! 💪\nUn match solide, un vrai état d’esprit d’équipe et un score qui valide le ticket pour la suite de la compétition. \n\n📅 Rendez-vous le week-end du 21 novembre pour le deuxième tour !\nOn compte sur vous pour venir nombreux les soutenir ! ❤️💛🖤\n\n#CoupeDeFrance #Handball #hbciresultats",
-      "media": [
-        {
-          "src": "/instagram/18120158006033190-1.webp"
-        },
-        {
-          "src": "/instagram/18120158006033190-2.webp"
-        },
-        {
-          "src": "/instagram/18120158006033190-3.webp"
-        },
-        {
-          "src": "/instagram/18120158006033190-4.webp"
-        },
-        {
-          "src": "/instagram/18120158006033190-5.webp"
         }
       ]
     },
