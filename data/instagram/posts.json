@@ -1,7 +1,19 @@
 {
-  "updatedAt": "2026-11-06T08:38:39.710Z",
+  "updatedAt": "2026-11-07T07:53:58.987Z",
   "source": "api",
   "posts": [
+    {
+      "id": "18116941268037696",
+      "permalink": "https://www.instagram.com/reel/DfZob4gtOUd/",
+      "timestamp": "2026-11-06T12:44:10+0000",
+      "media_type": "VIDEO",
+      "caption": "Désolé coach…on a failli en perdre au passage 👩🏼‍🦯🫣#handball #hbcizon #sport #trend",
+      "media": [
+        {
+          "src": "/instagram/18116941268037696-1.webp"
+        }
+      ]
+    },
     {
       "id": "17924798493244608",
       "permalink": "https://www.instagram.com/p/DfXBfWYjdgC/",
@@ -149,30 +161,6 @@
       "media": [
         {
           "src": "/instagram/18009559848003182-1.webp"
-        }
-      ]
-    },
-    {
-      "id": "17917415490461881",
-      "permalink": "https://www.instagram.com/p/Dev-7KMDf7d/",
-      "timestamp": "2026-10-21T08:30:40+0000",
-      "media_type": "CAROUSEL_ALBUM",
-      "caption": "🚨 LE NOUVEAU SITE DU HBC IZON EST EN LIGNE !\n\nNouvelle saison, nouvel équipementier… et nouveau site ! 🔥\n\nLe Handball Club Izonnais passe à la vitesse supérieure avec un site pensé pour toute la famille du club 🖤💛❤️\n\n👉 Retrouvez-y :\n📰 Toute l’actualité et la vie du club\n📊 Les résultats et classements\n👥 Nos équipes, des Baby-hand aux Séniors, avec les horaires d’entraînement\n📍 Les infos pratiques de la Salle Les Costauds\n🕰️ L’histoire du club, depuis 1973\n\nEnvie de nous rejoindre ? 🤾\n\n🌐 Rendez-vous sur hbc-izon.fr (lien en bio) \n#HBCIzon #Handball #Izon #NouveauSite #HandballClubIzonnais",
-      "media": [
-        {
-          "src": "/instagram/17917415490461881-1.webp"
-        },
-        {
-          "src": "/instagram/17917415490461881-2.webp"
-        },
-        {
-          "src": "/instagram/17917415490461881-3.webp"
-        },
-        {
-          "src": "/instagram/17917415490461881-4.webp"
-        },
-        {
-          "src": "/instagram/17917415490461881-5.webp"
         }
       ]
     },
