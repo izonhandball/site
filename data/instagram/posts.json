@@ -1,7 +1,34 @@
 {
-  "updatedAt": "2026-11-18T09:21:40.575Z",
+  "updatedAt": "2026-11-19T09:35:26.830Z",
   "source": "api",
   "posts": [
+    {
+      "id": "18074830913785637",
+      "permalink": "https://www.instagram.com/p/Df6sJddkWfr/",
+      "timestamp": "2026-11-19T08:49:38+0000",
+      "media_type": "CAROUSEL_ALBUM",
+      "caption": "MATCH DAY // 21 NOVEMBRE 🔥\n\nUn nouveau week-end de handball se prépare à l’HBC Izon !\n\nÀ 17h15, nos U18 G reçoivent HBC Coutras à la salle Les Costauds, avec restauration sur place 🍔. \n\nÀ 19h00, nos Seniors Garçons se déplacent à Montpon pour le 2ème tour de Coupe de France 🏆 \n\nVenez nombreux et envoyez de la force à toute l’équipe ! 💛🖤❤️\n\n#HBCIzon #Handball #CoupeDeFrance #AllezIzon #hbcimatchday",
+      "media": [
+        {
+          "src": "/instagram/18074830913785637-1.webp"
+        },
+        {
+          "src": "/instagram/18074830913785637-2.webp"
+        }
+      ]
+    },
+    {
+      "id": "18117107347855587",
+      "permalink": "https://www.instagram.com/reel/Df4umB-xqun/",
+      "timestamp": "2026-11-18T14:33:20+0000",
+      "media_type": "VIDEO",
+      "caption": "La CM finit toujours par trouver une solution 🤣👀#handball #hbcizon #sport #trend",
+      "media": [
+        {
+          "src": "/instagram/18117107347855587-1.webp"
+        }
+      ]
+    },
     {
       "id": "18111123347294953",
       "permalink": "https://www.instagram.com/p/Df4DnXyS25m/",
@@ -140,27 +167,6 @@
       "media": [
         {
           "src": "/instagram/18095895845154307-1.webp"
-        }
-      ]
-    },
-    {
-      "id": "18079206614429872",
-      "permalink": "https://www.instagram.com/p/De9I1YHDaoX/",
-      "timestamp": "2026-10-26T11:07:23+0000",
-      "media_type": "CAROUSEL_ALBUM",
-      "caption": "📸 Nouvelle semaine, nouvelle énergie ! 💛❤️🖤\n\nToute l’équipe du HBC Izon vous souhaite un bon lundi et une excellente semaine à tous ! 💪\n\n#HBCIzon #TeamIzon #Handball\n\n🫶🏻",
-      "media": [
-        {
-          "src": "/instagram/18079206614429872-1.webp"
-        },
-        {
-          "src": "/instagram/18079206614429872-2.webp"
-        },
-        {
-          "src": "/instagram/18079206614429872-3.webp"
-        },
-        {
-          "src": "/instagram/18079206614429872-4.webp"
         }
       ]
     },
